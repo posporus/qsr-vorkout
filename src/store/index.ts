@@ -6,10 +6,10 @@ import {
   useStore as vuexUseStore,
 } from 'vuex'
 
-import workout from './workout-module'
-import { Workout } from './../models/workout-model'
-import timer from './timer-module'
-import { Timer } from './../models/timer-model'
+//import workout from './workout-module'
+//import { Workout } from './../models/workout-model'
+//import timer from './timer-module'
+//import { Timer } from './../models/timer-model'
 // import example from './module-example'
 // import { ExampleStateInterface } from './module-example/state';
 
@@ -26,9 +26,9 @@ export interface StateInterface {
   // Define your own store structure, using submodules if needed
   // example: ExampleStateInterface;
   // Declared as unknown to avoid linting issue. Best to strongly type as per the line above.
-  //example: unknown
-  timer: Timer
-  workout: Workout
+  example: unknown
+  //timer: Timer
+  //workout: Workout
 }
 
 // provide typings for `this.$store`
@@ -45,8 +45,8 @@ export default store(function (/* { ssrContext } */) {
   const Store = createStore<StateInterface>({
     modules: {
       // example
-      workout,
-      timer
+      //workout,
+      //timer
     },
 
     // enable strict mode (adds overhead!)

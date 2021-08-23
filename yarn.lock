@@ -6439,6 +6439,11 @@ vendors@^1.0.3:
   resolved "https://registry.yarnpkg.com/vendors/-/vendors-1.0.4.tgz#e2b800a53e7a29b93506c3cf41100d16c4c4ad8e"
   integrity sha512-/juG65kTL4Cy2su4P8HjtkTxk6VmJDiOPBufWniqQ6wknac6jNiXS9vU+hO3wgusiyqWlzTbVHi0dyJqRONg3w==
 
+vue-dndrop@^1.0.1:
+  version "1.0.1"
+  resolved "https://registry.yarnpkg.com/vue-dndrop/-/vue-dndrop-1.0.1.tgz#89bf16f6c47598eadec5734beb975b8809b1851f"
+  integrity sha512-ZJI6dAVmniaYBzQNm1ogeEW6xzrFFHK+jAni4hy8qElhIVk1zOzaLHRUpYSAXJchCCA/bp642bXJCmI/GEgmyQ==
+
 vue-eslint-parser@^7.10.0:
   version "7.10.0"
   resolved "https://registry.yarnpkg.com/vue-eslint-parser/-/vue-eslint-parser-7.10.0.tgz#ea4e4b10fd10aa35c8a79ac783488d8abcd29be8"

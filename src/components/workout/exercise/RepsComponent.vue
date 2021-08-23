@@ -14,7 +14,7 @@ import { defineComponent } from 'vue'
 export default defineComponent({
     data(){
       return {
-        base: 8 as number,
+        //base: 8 as number,
         //buttonList: []
       }
     },
@@ -37,8 +37,15 @@ export default defineComponent({
     },
     beforeMount() {
 
-        this.base = this.reps > 2 ? this.reps : 2
+        //this.base = this.reps > 2 ? this.reps : 2
         
+    },
+    setup(props) {
+      let base = 8
+      if(props.reps) base = props.reps > 2 ? props.reps : 2
+      return {
+        base
+      }
     }
     
 })

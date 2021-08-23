@@ -6,7 +6,7 @@
         :exercise="exercises[index]"
         :status="exercises[index].status"
         :timerActive="exercises[index].timerActive && !userBusy"
-        @next="!userBusy ? next() : false"
+        @next="!userBusy ? next(index) : false"
         @focusActive="!userBusy ? focusActive() : false"
         @repResponse="(reps) => whenRepResponse(reps,index)"
         :key="exercise.id"
@@ -87,15 +87,14 @@ export default defineComponent({
          */
     },
     methods: {
-        next() {
-    
-            this.exercisePointer++
-            this.currentExercise.startTimer()
-                        
+        next(index:number) {
+            this.exercisePointer = index + 1
+            this.currentExercise.startTimer()                   
         },
         focusActive() {
             this.exercises[this.exercisePointer].status = 'running'
             this.exercisePointer > 0 ? this.exercises[this.exercisePointer-1].status = 'past' : false
+            this.exercisePointer > 1 ? this.exercises[this.exercisePointer-2].status = 'past' : false
             this.exercisePointer <= this.exercises.length ? this.exercises[this.exercisePointer+1].status = 'next' : false
         },
         
