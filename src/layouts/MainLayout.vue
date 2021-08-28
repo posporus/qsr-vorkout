@@ -38,6 +38,11 @@
           :key="link.title"
           v-bind="link"
         />
+        <q-item>
+          <router-link to="/my-workouts">
+            My Workouts
+          </router-link>
+        </q-item>
       </q-list>
     </q-drawer>
 

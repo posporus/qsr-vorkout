@@ -14,6 +14,8 @@
         <div class="text-h5">
             Exercise:
             {{ exercisePointer }}
+            Active:
+            {{ active }}
         </div>
         <!--
       <q-btn class="forward-button" @click="forward">forward</q-btn>-->
@@ -31,14 +33,6 @@ import { defineComponent } from 'vue'
 export default defineComponent({
     data() {
         return {
-            //workout:{} as WorkoutController
-            /*
-            exercisePointer: 0,
-            exercises: [] as Array<Exercise>,
-            activeTimers: [] as Array<boolean>,
-            responses: [] as Array<number>,
-            */
-            //exerciseStatus:[] as Array<ExerciseStatus>
             active:false,
             exercises:[] as Array<ExerciseStatus>,
             exercisePointer: -1 as number,
@@ -50,10 +44,12 @@ export default defineComponent({
     components: {
         ExerciseComponent
     },
-    beforeMount() {
+    
+    mounted() {
         const workout = new Workout
         //workout = new WorkoutController
-        workout.importWorkout(JSON.parse(this.data))
+        console.log(this.data)
+        workout.importWorkout(this.data)
         
 
         this.exercises = workout.unwrapped.map((_exercise:Exercise) => {
@@ -63,29 +59,17 @@ export default defineComponent({
             exercise.importExercise(_exercise.exportExercise())
             return exercise
         })
-        //console.log(this.exercises)
-    },
-    mounted() {
+
+
         this.exercisePointer = 0;
+        console.log('current Exercise:',this.currentExercise)
         this.run()
         this.focusActive()
         this.currentExercise.startTimer()
-        console.log('userbusy',this.userBusy)
-        //this.activeTimers[0] = true
-        /*
-        this.$watch('exercisePointer',(pointer:number) => {
-            console.log('watscher',pointer,this.exercises)
-            console.log(this.exercises[pointer])
-            if(pointer >= 0) {
-                this.exercises[pointer].status = 'running'
-                pointer > 0 ? this.exercises[pointer-1].status = 'past' : false
-                pointer <= this.exercises.length ? this.exercises[pointer+1].status = 'next' : false
-            }
-            
-        })
-         this.showNextExercise()
-         */
+        //console.log('userbusy',this.userBusy)
+        
     },
+
     methods: {
         next(index:number) {
             this.exercisePointer = index + 1
@@ -135,12 +119,15 @@ export default defineComponent({
         lastExercise():ExerciseStatus {
             return this.exercises[this.exercisePointer-1]
         },*/
+        
         currentExercise():ExerciseStatus {
             return this.exercises[this.exercisePointer]
         },
+        /*
         nextExercise():ExerciseStatus {
             return this.exercises[this.exercisePointer+1]
         }
+        */
     }
 })
 </script>

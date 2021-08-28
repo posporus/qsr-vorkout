@@ -26,7 +26,7 @@
 //type Status = 'inqueue' | 'next' | 'running' | 'past'
 import RepsComponent from './exercise/RepsComponent.vue'
 import TimerComponent from './exercise/TimerComponent.vue'
-import Exercise from './../../classes/Exercise'
+import { ExerciseStatus } from './../../classes/ExerciseStatus'
 //import { Status } from '../../classes/ExerciseStatus'
 import { defineComponent } from 'vue'
 export default defineComponent({
@@ -39,7 +39,10 @@ export default defineComponent({
     },
     
     props: {
-        exercise:Exercise,
+        exercise: {
+            type: ExerciseStatus,
+            required: true
+        },
         status:String,
         timerActive:Boolean,
     },

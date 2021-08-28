@@ -5,13 +5,15 @@ import {
   Store as VuexStore,
   useStore as vuexUseStore,
 } from 'vuex'
-
+import persist from './workout-collection-module/persist'
 //import workout from './workout-module'
 //import { Workout } from './../models/workout-model'
 //import timer from './timer-module'
 //import { Timer } from './../models/timer-model'
 // import example from './module-example'
 // import { ExampleStateInterface } from './module-example/state';
+import workoutCollection from './workout-collection-module'
+import { WorkoutCollection } from './workout-collection-module/state'
 
 /*
  * If not building with SSR mode, you can
@@ -26,7 +28,8 @@ export interface StateInterface {
   // Define your own store structure, using submodules if needed
   // example: ExampleStateInterface;
   // Declared as unknown to avoid linting issue. Best to strongly type as per the line above.
-  example: unknown
+  //example: unknown
+  workoutCollection:WorkoutCollection
   //timer: Timer
   //workout: Workout
 }
@@ -47,7 +50,10 @@ export default store(function (/* { ssrContext } */) {
       // example
       //workout,
       //timer
+      workoutCollection
+      
     },
+    plugins: [persist],
 
     // enable strict mode (adds overhead!)
     // for dev mode and --debug builds only

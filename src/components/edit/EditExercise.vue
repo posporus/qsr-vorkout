@@ -1,29 +1,59 @@
 <template>
-  <q-card class="q-pa-md">
-      <q-card-section class="q-gutter-md">
-          <q-input label="Exercise Name" v-model="exercise.name" />
-          <q-toggle label="Reps" v-model="exercise.hasReps" />
-          <q-input v-if="exercise.hasReps" label="Reps" v-model="exercise.reps" />
-          <q-toggle label="Timer" v-model="exercise.hasTimer" />
-          <q-input v-if="exercise.hasTimer" type="time" label="Timer" v-model="exercise.time.timeString" />
-          <p>{{exercise.time.seconds}}</p>
-      </q-card-section>
-      <q-card-section>
-          
-      </q-card-section>
-     <!--{{exercise}}-->
-     
-  </q-card>
+    <q-expansion-item
+        :header-inset-level="0"
+        :content-inset-level="0"
+        expand-separator
+    >
+        <template v-slot:header>
+            <q-item-section avatar>
+                <q-avatar
+                size="sm"
+                :icon="exercise.preset.icon"
+                :color="exercise.preset.color"
+                text-color="white"
+                />
+            </q-item-section>
+            <q-item-section>
+                <q-input label="New Exercise" v-model="exercise.name" dense/>
+            </q-item-section>
+        </template>
+        <q-item>
+            <preset-select v-model="vPreset" v-slot="{preset}">
+
+                <q-item v-if="preset.timer">
+                    <q-item-section>
+                        <q-input label="Timer" fill-mask mask="##:##" v-model="exercise.time.timeString" />
+                    </q-item-section>
+                </q-item>
+            
+                <q-item v-if="preset.reps">
+                    <q-item-section>
+                        <q-input label="Reps" v-model="exercise.reps" />
+                    </q-item-section>
+                </q-item>
+                     
+            </preset-select>
+        </q-item>
+               
+        
+    </q-expansion-item>
+  
 </template>
 
 <script lang="ts">
+import { preset } from '../../classes/PresetController'
 import Exercise from './../../classes/Exercise'
+import PresetSelect from './PresetSelect.vue'
 import { defineComponent } from 'vue'
 export default defineComponent({
     data(){
         return {
             //exercise: {} as Exercise
+            vPreset:'timer'
         }
+    },
+    components: {
+        PresetSelect
     },
     props: {
         _exercise:Exercise
@@ -31,9 +61,14 @@ export default defineComponent({
     beforeCreate() {
         this.exercise = this._exercise as Exercise
     },
+    mounted(){
+        this.$watch('vPreset',(preset:preset) => {
+            this.exercise.preset.name = preset
+           
+        })
+    },
     setup(props) {
         const exercise = props._exercise as Exercise
-        //console.log(props._set,set)
         return {
             exercise
         }

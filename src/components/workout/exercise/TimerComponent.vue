@@ -1,6 +1,6 @@
 <template>
   <div>
-    {{time}}
+    {{timer}}
     <q-knob
       readonly
       v-model="timer.percentage"
@@ -31,19 +31,28 @@ export default defineComponent({
       active:Boolean,
       //status:String,
     },
-    beforeMount() {
+   
+    mounted() {
+
       this.timer = new Timer
       this.timer.seconds = this.time?.seconds || 0
-    },
-    mounted() {
+
+      this.run(this.active)
+
       this.$watch('active',(active:boolean) => {
-        active ? void this.timer.run().then(() => {
-          this.$emit('timeisup')
-        }) : false
+        console.log('watch timer ', active)
+        this.run(active)
       })
     },
     beforeUnmount() {
       this.timer.stop()
+    },
+    methods: {
+      run(active:boolean) {
+        active ? void this.timer.run().then(() => {
+          this.$emit('timeisup')
+        }) : false
+      }
     }
 })
 </script>

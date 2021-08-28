@@ -24,7 +24,7 @@ export class ExerciseStatus extends Exercise {
     }
     
     public set repResponse(v:number | false) {
-        console.log(v)
+        //console.log(v)
         this._repResponse = v;
     }
     
