@@ -1,3 +1,4 @@
+
 import Time from './Time';
 export default class Timer extends Time {
     _countdown:number
@@ -25,6 +26,11 @@ export default class Timer extends Time {
         this.countdown = v;
     }
     
+    public get seconds():number {
+        return this._seconds
+    }
+    
+    
 
     public get countdownString():string {
         return this.secondsToString(this.countdown)
@@ -32,7 +38,9 @@ export default class Timer extends Time {
     
     public get percentage():number {
         const remaining = this.seconds - this.countdown
-        return 100*remaining/this.seconds 
+        const percentage = 100*remaining/this.seconds 
+        console.log(remaining,this.seconds,this.countdown,percentage)
+        return percentage
     }
     /**
      * methods
