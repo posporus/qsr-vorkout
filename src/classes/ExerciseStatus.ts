@@ -1,5 +1,6 @@
 import Exercise from './Exercise'
 export type Status =  'inqueue' | 'next' | 'running' | 'past'
+//export class Status = ''
 export class ExerciseStatus extends Exercise {
     _status:Status
     _timerActive:boolean
