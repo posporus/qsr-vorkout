@@ -39,7 +39,7 @@ export default class Timer extends Time {
     public get percentage():number {
         const remaining = this.seconds - this.countdown
         const percentage = 100*remaining/this.seconds 
-        console.log(remaining,this.seconds,this.countdown,percentage)
+        //console.log(remaining,this.seconds,this.countdown,percentage)
         return percentage
     }
     /**
