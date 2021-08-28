@@ -1,10 +1,9 @@
 <template>
-  <div>
+  <div class="reps self-center" :class="status">
     <q-btn-group spread rounded>
-
-        <q-btn :disable="disable || base < 3" color="orange" rounded v-on:click="(base--)">&lsaquo;</q-btn>
-        <q-btn :disable="disable" color="amber" rounded @click="$emit('repResponse',input)" v-for="input in buttonList" :key="input">{{ input }}</q-btn>
-        <q-btn :disable="disable" color="orange" rounded v-on:click="(base++)">&rsaquo;</q-btn>
+        <q-btn :disable="disable || base < 3" color="black" rounded v-on:click="(base--)" icon="arrow_left"></q-btn>
+        <q-btn :disable="disable" color="black" rounded @click="$emit('repResponse',input)" v-for="input in buttonList" :key="input">{{ input }}</q-btn>
+        <q-btn :disable="disable" color="black" rounded v-on:click="(base++)" icon="arrow_right"></q-btn>
     </q-btn-group>
   </div>
 </template>
@@ -14,14 +13,23 @@ import { defineComponent } from 'vue'
 export default defineComponent({
     data(){
       return {
-        //base: 8 as number,
+        base: 8 as number,
         //buttonList: []
       }
     },
     props: {
-      reps:Number,
-      status:String,
-      disable:Boolean
+      reps: {
+        type: Number,
+        required: true,
+      },
+      status:{
+        type: String,
+        default: 'inqueue',
+      },
+      disable: {
+        type: Boolean,
+        default: true,
+      }
       //status:String,
     },
     computed: {
@@ -35,11 +43,10 @@ export default defineComponent({
             return list
         },        
     },
-    beforeMount() {
-
-        //this.base = this.reps > 2 ? this.reps : 2
-        
+    mounted() {
+      this.base = this.reps > 2 ? this.reps : 2
     },
+    /*
     setup(props) {
       let base = 8
       if(props.reps) base = props.reps > 2 ? props.reps : 2
@@ -47,10 +54,25 @@ export default defineComponent({
         base
       }
     }
+    */
     
 })
 </script>
 
-<style>
+<style lang="scss">
+  .reps {
+    transition: all 0.2s ease;
+    transition-delay: .3s;
+  }
+  .reps.next {
+    width: 90%;
+    opacity: 0;
+    transition-delay: 0s;
+  }
+  
+  .reps.running {
+    width: 100%;
+    opacity: 1;
+  }
 
 </style>

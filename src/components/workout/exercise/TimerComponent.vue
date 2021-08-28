@@ -1,24 +1,26 @@
 <template>
   <div>
-    {{timer}}
-    <q-knob
-      readonly
-      v-model="timer.percentage"
+
+    <q-circular-progress
       show-value
-      size="90px"
-      :thickness="0.1"
-      color="orange"
-      track-color="orange-3"
-      class="text-orange q-ma-md"
+      font-size="40px"
+      :value="timer.percentage"
+      :size="status === 'running' ? '20vh' : '10vh'"
+      :thickness="1"
+      color="grey-4"
+      track-color="white"
+      class="q-ma-md"
     >
-    {{ timer.countdownString }}
-    </q-knob>
+      {{ timer.countdownString }}
+    </q-circular-progress>
+
   </div>
 </template>
 
 <script lang="ts">
 import Timer from './../../../classes/Timer'
 import Time from '../../../classes/Time'
+//import { Status } from '../../../classes/ExerciseStatus'
 import { defineComponent } from 'vue'
 export default defineComponent({
     data(){
@@ -29,6 +31,10 @@ export default defineComponent({
     props: {
       time:Time,
       active:Boolean,
+      status:{
+        type:String,
+        default: 'inqueue'
+      }
       //status:String,
     },
    

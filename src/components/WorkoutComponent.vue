@@ -11,12 +11,14 @@
         @repResponse="(reps) => whenRepResponse(reps,index)"
         :key="exercise.id"
         />
+        <!--
         <div class="text-h5">
             Exercise:
             {{ exercisePointer }}
             Active:
             {{ active }}
         </div>
+        -->
         <!--
       <q-btn class="forward-button" @click="forward">forward</q-btn>-->
   </q-page>
@@ -134,7 +136,11 @@ export default defineComponent({
 
 <style lang="scss">
     .workout {
-        background-color: rgb(0, 129, 214);
+        //background-color: rgb(0, 129, 214);
+        position: fixed;
+        overflow: hidden;
+        width: 100%;
+        height: 100%;
     }
     .forward-button {
         position: fixed;
