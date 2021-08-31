@@ -9,7 +9,8 @@ const routes: RouteRecordRaw[] = [
       //{ path: '', component: () => import('pages/Index.vue') },
       //{ path: '', component: () => import('src/pages/_WorkoutPage.vue') },
       { path: 'edit/:id', name:'edit', component: () => import('pages/EditWorkout.vue'),props:true },
-      { path: 'my-workouts', component: () => import('pages/MyWorkouts.vue') }
+      { path: 'my-workouts', component: () => import('pages/MyWorkouts.vue') },
+      { path: 'test', component: () => import('pages/Test.vue') }
     ],
   },
   {

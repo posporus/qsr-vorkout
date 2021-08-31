@@ -1,3 +1,5 @@
+import VuexORM from '@vuex-orm/core'
+import database from 'src/database'
 import { store } from 'quasar/wrappers'
 import { InjectionKey } from 'vue'
 import {
@@ -53,7 +55,10 @@ export default store(function (/* { ssrContext } */) {
       workoutCollection
       
     },
-    plugins: [persist],
+    plugins: [
+      persist,
+      VuexORM.install(database)
+    ],
 
     // enable strict mode (adds overhead!)
     // for dev mode and --debug builds only
