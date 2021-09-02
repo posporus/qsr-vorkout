@@ -1,6 +1,6 @@
 import { Database } from '@vuex-orm/core'
 
-import WorkoutModel from 'src/models/WorkoutModel'
+import WorkoutModel from 'src/store/models/WorkoutModel'
 
 const database = new Database()
 

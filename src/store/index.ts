@@ -1,21 +1,17 @@
 import VuexORM from '@vuex-orm/core'
-import database from 'src/database'
+import database from 'src/store/database'
 import { store } from 'quasar/wrappers'
 import { InjectionKey } from 'vue'
+import WorkoutModel from 'src/store/models/WorkoutModel'
+import { Item } from '@vuex-orm/core'
 import {
   createStore,
   Store as VuexStore,
   useStore as vuexUseStore,
 } from 'vuex'
-import persist from './workout-collection-module/persist'
-//import workout from './workout-module'
-//import { Workout } from './../models/workout-model'
-//import timer from './timer-module'
-//import { Timer } from './../models/timer-model'
-// import example from './module-example'
-// import { ExampleStateInterface } from './module-example/state';
 import workoutCollection from './workout-collection-module'
 import { WorkoutCollection } from './workout-collection-module/state'
+import PersistedState from 'src/store/plugins/persist'
 
 /*
  * If not building with SSR mode, you can
@@ -26,14 +22,17 @@ import { WorkoutCollection } from './workout-collection-module/state'
  * with the Store instance.
  */
 
+export interface EntitiesInterface {
+  $name:string
+  workouts: Item<WorkoutModel>
+}
 export interface StateInterface {
   // Define your own store structure, using submodules if needed
   // example: ExampleStateInterface;
   // Declared as unknown to avoid linting issue. Best to strongly type as per the line above.
   //example: unknown
   workoutCollection:WorkoutCollection
-  //timer: Timer
-  //workout: Workout
+  entities:EntitiesInterface
 }
 
 // provide typings for `this.$store`
@@ -49,15 +48,11 @@ export const storeKey: InjectionKey<VuexStore<StateInterface>> = Symbol('vuex-ke
 export default store(function (/* { ssrContext } */) {
   const Store = createStore<StateInterface>({
     modules: {
-      // example
-      //workout,
-      //timer
       workoutCollection
-      
     },
     plugins: [
-      persist,
-      VuexORM.install(database)
+      VuexORM.install(database),
+      PersistedState,
     ],
 
     // enable strict mode (adds overhead!)

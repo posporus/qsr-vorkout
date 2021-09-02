@@ -2,12 +2,12 @@
   <q-page padding>
     <!-- content -->
     <li>
-      <ul v-for="workout in workouts" :key="workout.id">
+      <ul v-for="workout in workouts" :key="workout.$id">
         {{
           workout.name
         }},
         {{
-          workout.id
+          workout.$id
         }}
       </ul>
     </li>
@@ -18,7 +18,7 @@
 
 <script lang="ts">
 import { defineComponent } from 'vue';
-import WorkoutModel from 'src/models/WorkoutModel';
+import WorkoutModel from 'src/store/models/WorkoutModel'
 export default defineComponent({
   data() {
     return {
@@ -31,11 +31,11 @@ export default defineComponent({
         data: {
           name: name,
         },
-      }).then(
-        () => {
-          this.clearInput()
-        }
-      ).catch(err => console.error(err));
+      })
+        .then(() => {
+          this.clearInput();
+        })
+        .catch((err) => console.error(err));
     },
     clearInput() {
       this.name = '';
