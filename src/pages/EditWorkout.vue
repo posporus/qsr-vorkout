@@ -29,8 +29,8 @@
 
 <script lang="ts">
 import { defineComponent } from 'vue';
-import Workout from './../classes/Workout';
-import EditSet from './../components/edit/EditSet.vue';
+import Workout from 'src/classes/Workout';
+import EditSet from 'src/components/edit-workout/EditSet.vue';
 import WorkoutModel from 'src/store/models/WorkoutModel'
 import { useQuasar } from 'quasar';
 

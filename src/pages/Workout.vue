@@ -1,14 +1,13 @@
 <template>
     <q-layout>
-        <q-page-container>
-            
+        <q-page-container>            
             <workout-component :data="workoutData" />
         </q-page-container>
     </q-layout>
 </template>
 
 <script lang="ts">
-import WorkoutComponent from './../components/WorkoutComponent.vue'
+import WorkoutComponent from '../components/WorkoutComponent.vue'
 import { defineComponent } from 'vue'
 //import { mapGetters } from 'vuex'
 import { WorkoutNeat } from '../classes/Workout'

@@ -51,7 +51,7 @@ import RepsComponent from './exercise/RepsComponent.vue';
 import TimerComponent from './exercise/TimerComponent.vue';
 import NextLabel from './exercise/NextLabel.vue'
 import BackgroundComponent from './exercise/Background.vue'
-import { ExerciseStatus } from './../../classes/ExerciseStatus';
+import { ExerciseStatus } from '../../classes/ExerciseStatus';
 //import { Status } from '../../classes/ExerciseStatus'
 import { defineComponent } from 'vue';
 export default defineComponent({

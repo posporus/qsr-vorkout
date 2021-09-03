@@ -14,10 +14,13 @@ const routes: RouteRecordRaw[] = [
     ],
   },
   {
-    path: '/workout/:id',
+    path: '/workout/',
     name: 'workout',
-    component: () => import('layouts/WorkoutLayout.vue'),
-    props:true,
+    component: () => import('src/layouts/FullscreenLayout.vue'),
+    children: [
+      { path: ':id', component: () => import('pages/Workout.vue'),props:true, }
+    ],
+    //props:true,
     /*
     children: [
       //{ path: '', component: () => import('pages/Index.vue') },
