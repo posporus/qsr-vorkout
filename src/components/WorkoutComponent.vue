@@ -28,7 +28,7 @@
 import Exercise from '../classes/Exercise'
 import Workout from '../classes/Workout'
 import { ExerciseStatus } from '../classes/ExerciseStatus'
-import ExerciseComponent from './../components/workout/ExerciseComponent.vue'
+import ExerciseComponent from './workout/ExerciseComponent.vue'
 import { defineComponent } from 'vue'
 
 

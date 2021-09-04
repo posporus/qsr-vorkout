@@ -1,17 +1,17 @@
 <template>
     <q-layout>
-        <q-page-container>
-            
+        <q-page-container>            
             <workout-component :data="workoutData" />
         </q-page-container>
     </q-layout>
 </template>
 
 <script lang="ts">
-import WorkoutComponent from './../components/WorkoutComponent.vue'
+import WorkoutComponent from '../components/WorkoutComponent.vue'
 import { defineComponent } from 'vue'
-import { mapGetters } from 'vuex'
+//import { mapGetters } from 'vuex'
 import { WorkoutNeat } from '../classes/Workout'
+import WorkoutModel from 'src/store/models/WorkoutModel'
 export default defineComponent({
     data() {
         return {
@@ -23,16 +23,27 @@ export default defineComponent({
     },
     beforeMount() {
         console.log(this.id)
-        const id:number = parseInt(this.id || '-1')
+        //const id:number = parseInt(this.id || '-1')
         // eslint-disable-next-line @typescript-eslint/no-unsafe-call
-        this.workoutData = this.getWorkout(id) as WorkoutNeat
+        //this.workoutData = this.getWorkout(id) as WorkoutNeat
+        const workout = WorkoutModel.find(this.id || '')
+        if(workout) {
+            this.workoutData = {
+            id:workout.$id || '',
+            name:workout?.name || '',
+            sets:workout?.sets || '',
+        }
+        }
+        
         console.log('workout data:',this.workoutData)
     },
     components: {
         WorkoutComponent
     },
     computed: {
-        ...mapGetters('workoutCollection',['getWorkout'])
+        //...mapGetters('workoutCollection',['getWorkout']),
+        
+
     },
     
 })

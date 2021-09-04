@@ -18,18 +18,18 @@ interface Exercise {
     timer:number | false
 }*/
 export interface WorkoutNeat {
-    id:number | null
+    id:string
     name:string
     sets:Array<SetNeat>
 }
 export default class Workout {
-    id:number | null
+    id:string
     _name:string
     _sets:Array<Set>
     //addSet:void
 
     constructor() {
-        this.id = null
+        this.id = ''
         this._name = ''
         this._sets = []
     }

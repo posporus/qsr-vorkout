@@ -9,14 +9,18 @@ const routes: RouteRecordRaw[] = [
       //{ path: '', component: () => import('pages/Index.vue') },
       //{ path: '', component: () => import('src/pages/_WorkoutPage.vue') },
       { path: 'edit/:id', name:'edit', component: () => import('pages/EditWorkout.vue'),props:true },
-      { path: 'my-workouts', component: () => import('pages/MyWorkouts.vue') }
+      { path: 'my-workouts', component: () => import('pages/MyWorkouts.vue') },
+      { path: 'test', component: () => import('pages/Test.vue') }
     ],
   },
   {
-    path: '/workout/:id',
-    name: 'workout',
-    component: () => import('layouts/WorkoutLayout.vue'),
-    props:true,
+    path: '/workout/',
+    
+    component: () => import('src/layouts/FullscreenLayout.vue'),
+    children: [
+      { name: 'workout',path: ':id', component: () => import('pages/Workout.vue'), props:true, }
+    ],
+    //props:true,
     /*
     children: [
       //{ path: '', component: () => import('pages/Index.vue') },
