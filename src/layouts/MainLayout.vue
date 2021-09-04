@@ -10,7 +10,7 @@
           aria-label="Menu"
           @click="toggleLeftDrawer"
         />
-
+        
         <q-toolbar-title>
           Quasar App
         </q-toolbar-title>
@@ -41,7 +41,6 @@
 </template>
 
 <script lang="ts">
-
 
 import { defineComponent, ref } from 'vue'
 

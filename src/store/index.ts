@@ -9,8 +9,6 @@ import {
   Store as VuexStore,
   useStore as vuexUseStore,
 } from 'vuex'
-import workoutCollection from './workout-collection-module'
-import { WorkoutCollection } from './workout-collection-module/state'
 import PersistedState from 'src/store/plugins/persist'
 
 /*
@@ -31,7 +29,7 @@ export interface StateInterface {
   // example: ExampleStateInterface;
   // Declared as unknown to avoid linting issue. Best to strongly type as per the line above.
   //example: unknown
-  workoutCollection:WorkoutCollection
+  
   entities:EntitiesInterface
 }
 
@@ -48,7 +46,7 @@ export const storeKey: InjectionKey<VuexStore<StateInterface>> = Symbol('vuex-ke
 export default store(function (/* { ssrContext } */) {
   const Store = createStore<StateInterface>({
     modules: {
-      workoutCollection
+      //
     },
     plugins: [
       VuexORM.install(database),
