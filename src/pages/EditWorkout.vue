@@ -33,6 +33,7 @@ import Workout from 'src/classes/Workout';
 import EditSet from 'src/components/edit-workout/EditSet.vue';
 import WorkoutModel from 'src/store/models/WorkoutModel'
 import { useQuasar } from 'quasar';
+import { nanoid } from 'nanoid'
 
 export default defineComponent({
   data() {
@@ -50,12 +51,19 @@ export default defineComponent({
     EditSet,
   },
   beforeMount() {
+    /**
+     * create new workout
+     */
     this.workout = new Workout();
     console.log('created workout!', this.workout);
   },
   mounted() {
     console.log('mounted!', this.workout);
 
+    /**
+     * when the workout already exists, load its data from Vuex ORM
+     * and import it to the workout object
+     */
     if (!this.isNew) {
       const workout = WorkoutModel.find(this.id);
       if (workout) {
@@ -68,6 +76,9 @@ export default defineComponent({
     }
   },
   computed: {
+    /**
+     * determines weather its a new workout or an existing one
+     */
     isNew() {
       if (this.id === 'new' || typeof this.id === undefined) {
         return true;
@@ -77,12 +88,27 @@ export default defineComponent({
     },
   },
   methods: {
+    /**
+     * saves the workout to Vuex ORM
+     */
     save() {
-      let id = null;
-      if (!this.isNew) {
-        id = this.id;
-      }
+      let id = null
+      /**
+       * uses weather the old id for updating
+       * or generates a new one.
+       */
+      if (!this.isNew) id = this.id
+      else id = nanoid()
+
+      /**
+       * export workout data in Neat Format
+       */
+
       const exported = this.workout.exportWorkout();
+
+      /**
+       * put it to the database
+       */
       WorkoutModel.insert({
         data: {
           id: id,
@@ -99,11 +125,19 @@ export default defineComponent({
         })
         .catch((err) => console.error(err));
     },
+
+    /**
+     * add a new set to the workout
+     */
     addSet() {
       this.workout.addSet();
     },
+
   },
   setup() {
+    /**
+     * setup notification toast
+     */
     const $q = useQuasar();
     return {
       showNotification(notification: string) {
