@@ -18,7 +18,7 @@ const PersistedState = createPersistedState({
     },
   },*/
   key: 'vorkout',
-  paths: ['entities']
+  //paths: ['entities']
 });
 
 export default PersistedState;
