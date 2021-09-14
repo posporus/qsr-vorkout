@@ -1,0 +1,1 @@
+export type status =  'inqueue' | 'next' | 'running' | 'past'
