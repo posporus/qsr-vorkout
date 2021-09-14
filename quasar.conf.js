@@ -9,6 +9,7 @@
 /* eslint-env node */
 /* eslint-disable @typescript-eslint/no-var-requires */
 const { configure } = require('quasar/wrappers');
+const path = require('path')
 
 module.exports = configure(function (ctx) {
   return {
@@ -53,6 +54,9 @@ module.exports = configure(function (ctx) {
     // Full list of options: https://v2.quasar.dev/quasar-cli/quasar-conf-js#Property%3A-build
     build: {
       vueRouterMode: 'hash', // available values: 'hash', 'history'
+      //scopeHoisting: true,
+      scopeHoisting: true,
+      //vueRouterMode: 'history',
 
       // transpile: false,
 
@@ -61,7 +65,7 @@ module.exports = configure(function (ctx) {
       // Applies only if "transpile" is set to true.
       // transpileDependencies: [],
 
-      // rtl: true, // https://v2.quasar.dev/options/rtl-support
+       rtl: true, // https://v2.quasar.dev/options/rtl-support
       // preloadChunks: true,
       // showProgress: false,
       // gzip: true,
@@ -72,9 +76,20 @@ module.exports = configure(function (ctx) {
 
       // https://v2.quasar.dev/quasar-cli/handling-webpack
       // "chain" is a webpack-chain object https://github.com/neutrinojs/webpack-chain
-      chainWebpack (/* chain */) {
-        //
-      },
+
+
+
+      
+      /*
+      chainWebpack (chain) {
+        chain.resolve.alias.set('classes', path.resolve(__dirname, './src/classes')),
+        chain.resolve.alias.set('models', path.resolve(__dirname, './src/store/models'))
+      }*/
+      
+      
+      
+      
+    
     },
 
     // Full list of options: https://v2.quasar.dev/quasar-cli/quasar-conf-js#Property%3A-devServer
