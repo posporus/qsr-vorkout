@@ -46,12 +46,12 @@
 
 <script lang="ts">
 //type Status = 'inqueue' | 'next' | 'running' | 'past'
-import TitleComponent from './exercise/TitleComponent.vue';
-import RepsComponent from './exercise/RepsComponent.vue';
-import TimerComponent from './exercise/TimerComponent.vue';
-import NextLabel from './exercise/NextLabel.vue'
-import BackgroundComponent from './exercise/Background.vue'
-import { ExerciseStatus } from '../../classes/ExerciseStatus';
+import TitleComponent from './WorkoutTitleComponent.vue';
+import RepsComponent from './DisplayRepsComponent.vue';
+import TimerComponent from 'components/DisplayTimerComponent.vue';
+import NextLabel from './NextExerciseLabel.vue'
+import BackgroundComponent from 'components/ui/BackgroundComponent.vue'
+import { ExerciseStatus } from 'src/classes';
 //import { Status } from '../../classes/ExerciseStatus'
 import { defineComponent } from 'vue';
 export default defineComponent({

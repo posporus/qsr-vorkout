@@ -28,18 +28,18 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from 'vue';
-import Workout from 'src/classes/Workout';
-import EditSet from 'src/components/edit-workout/EditSet.vue';
-import WorkoutModel from 'src/store/models/WorkoutModel'
-import { useQuasar } from 'quasar';
+import { defineComponent } from 'vue'
+import { Workout } from 'src/classes'
+import EditSet from 'components/EditSetComponent.vue'
+import { WorkoutModel } from 'src/store/models'
+import { useQuasar } from 'quasar'
 import { nanoid } from 'nanoid'
 
 export default defineComponent({
   data() {
     return {
       workout: {} as Workout,
-    };
+    }
   },
   props: {
     id: {
@@ -54,24 +54,24 @@ export default defineComponent({
     /**
      * create new workout
      */
-    this.workout = new Workout();
-    console.log('created workout!', this.workout);
+    this.workout = new Workout()
+    console.log('created workout!', this.workout)
   },
   mounted() {
-    console.log('mounted!', this.workout);
+    console.log('mounted!', this.workout)
 
     /**
      * when the workout already exists, load its data from Vuex ORM
      * and import it to the workout object
      */
     if (!this.isNew) {
-      const workout = WorkoutModel.find(this.id);
+      const workout = WorkoutModel.find(this.id)
       if (workout) {
         this.workout.importWorkout({
           id: this.id,
           name: workout.name,
           sets: workout.sets,
-        });
+        })
       }
     }
   },
@@ -81,9 +81,9 @@ export default defineComponent({
      */
     isNew() {
       if (this.id === 'new' || typeof this.id === undefined) {
-        return true;
+        return true
       } else {
-        return false;
+        return false
       }
     },
   },
@@ -104,7 +104,7 @@ export default defineComponent({
        * export workout data in Neat Format
        */
 
-      const exported = this.workout.exportWorkout();
+      const exported = this.workout.exportWorkout()
 
       /**
        * put it to the database
@@ -118,34 +118,34 @@ export default defineComponent({
       })
         .then((data) => {
           void this.$router.push({
-            name: 'edit', params: { id: data.workouts[0].$id || '' }
+            name: 'edit',
+            params: { id: data.workouts[0].$id || '' },
           })
-          this.showNotification('Workout Saved.');
-          console.log('after insert', data);
+          this.showNotification('Workout Saved.')
+          console.log('after insert', data)
         })
-        .catch((err) => console.error(err));
+        .catch((err) => console.error(err))
     },
 
     /**
      * add a new set to the workout
      */
     addSet() {
-      this.workout.addSet();
+      this.workout.addSet()
     },
-
   },
   setup() {
     /**
      * setup notification toast
      */
-    const $q = useQuasar();
+    const $q = useQuasar()
     return {
       showNotification(notification: string) {
-        $q.notify(notification);
+        $q.notify(notification)
       },
-    };
+    }
   },
-});
+})
 </script>
 
 <style lang="scss">

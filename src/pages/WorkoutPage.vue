@@ -7,7 +7,7 @@
 </template>
 
 <script lang="ts">
-import WorkoutComponent from '../components/WorkoutComponent.vue'
+import WorkoutComponent from '../components/DisplayWorkoutComponent.vue'
 import { defineComponent } from 'vue'
 //import { mapGetters } from 'vuex'
 import { WorkoutNeat } from '../classes/Workout'
@@ -27,12 +27,14 @@ export default defineComponent({
         // eslint-disable-next-line @typescript-eslint/no-unsafe-call
         //this.workoutData = this.getWorkout(id) as WorkoutNeat
         const workout = WorkoutModel.find(this.id || '')
+        //const workout = WorkoutModel.query().where('$id', this.id).first()
+        console.log('workout:', workout)
         if(workout) {
             this.workoutData = {
             id:workout.$id || '',
             name:workout?.name || '',
             sets:workout?.sets || '',
-        }
+            }
         }
         
         console.log('workout data:',this.workoutData)

@@ -11,7 +11,7 @@
   >
 
     <template v-slot:header>
-      <switchabel-panel v-model="expanded">
+      <switchable-panel v-model="expanded">
         <template v-slot:true >
           
             <q-item-section avatar>
@@ -63,7 +63,7 @@
                                                                     
          
         </template>
-      </switchabel-panel>
+      </switchable-panel>
       <!--
       <q-item-section avatar>
         
@@ -137,10 +137,10 @@
 
 <script lang="ts">
 import { defineComponent } from 'vue'
-import EditExercise from './EditExercise.vue'
-import Set from './../../classes/Set'
-import NumberSpinner from '../../components/elements/NumberSpinner.vue'
-import SwitchabelPanel from '../../components/elements/SwitchablePanel.vue'
+import EditExercise from './EditExerciseComponent.vue'
+import Set from 'src/classes/Set'
+import {NumberSpinner} from 'components/ui'
+import {SwitchablePanel} from 'components/ui'
 export default defineComponent({
   data(){
     return {
@@ -155,7 +155,7 @@ export default defineComponent({
   components: {
     EditExercise,
     NumberSpinner,
-    SwitchabelPanel
+    SwitchablePanel
 
   },
   methods: {

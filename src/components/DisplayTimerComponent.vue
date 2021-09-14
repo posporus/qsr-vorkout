@@ -18,8 +18,8 @@
 </template>
 
 <script lang="ts">
-import Timer from './../../../classes/Timer'
-import Time from '../../../classes/Time'
+import Timer from 'src/classes/Timer'
+import Time from 'src/classes/Time'
 //import { Status } from '../../../classes/ExerciseStatus'
 import { defineComponent } from 'vue'
 export default defineComponent({
