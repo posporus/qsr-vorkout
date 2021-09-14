@@ -1,8 +1,9 @@
 import Exercise from './Exercise'
-export type Status =  'inqueue' | 'next' | 'running' | 'past'
+import {status} from 'src/types'
+//export type Status =  'inqueue' | 'next' | 'running' | 'past'
 //export class Status = ''
-export class ExerciseStatus extends Exercise {
-    _status:Status
+export default class ExerciseStatus extends Exercise {
+    _status:status
     _timerActive:boolean
     _repResponse:number | false
     constructor(){
@@ -12,10 +13,10 @@ export class ExerciseStatus extends Exercise {
         this._repResponse= false
     }
     
-    public get status():Status {
+    public get status():status {
         return this._status
     }    
-    public set status(v:Status) {
+    public set status(v:status) {
         this._status = v;
     }  
 

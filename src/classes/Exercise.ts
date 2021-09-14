@@ -1,9 +1,11 @@
 import Time from './Time'
 
-import PresetController, {preset} from '../classes/PresetController'
+import PresetController from '../classes/PresetController'
+import { preset } from 'src/types'
 
 export interface ExerciseNeat {
-    name:string
+    //id:string
+    name?:string
     preset:preset
     //hasReps:boolean
     reps?:number
@@ -12,7 +14,7 @@ export interface ExerciseNeat {
 }
 
 export default class Exercise {
-    _id:number
+    _id:string
     _name:string
 
     //_hasReps:boolean
@@ -25,7 +27,7 @@ export default class Exercise {
     
 
     constructor() {
-        this._id = Math.round(Math.random() * 99999)
+        this._id = Math.round(Math.random() * 99999).toString()
         this._name = ''
 
         //this._hasReps = false
@@ -42,13 +44,22 @@ export default class Exercise {
      * getter/setter
      */
     
+    public get id():string {
+        return this._id
+    }
+    
+    public set id(v:string) {
+        this._id = v;
+    }
+    
+    
 
-    public get name():string {
+    public get name():string | undefined {
         return this._name
     }
     
-    public set name(v:string) {
-        this._name = v;
+    public set name(v:string | undefined) {
+        this._name = v || '';
     }
     
     
@@ -85,12 +96,6 @@ export default class Exercise {
     public set time(v:Time) {
         this._time = v;
     }
-    
-    
-    public get id():number {
-        return this._id
-    }
-    
     
     public get preset():PresetController {
         return this._preset

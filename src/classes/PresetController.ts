@@ -1,15 +1,5 @@
+import { Preset, preset } from 'src/types'
 
-export type preset = 'timer' | 'rest' | 'repCount' | 'repsInTime'
-export interface Preset {
-    name:preset
-    defaultName:string | false
-    label:string
-    description:string
-    icon:string
-    color:string
-    reps:boolean
-    timer:boolean
-}
 export const presets:Array<Preset> = [ 
     {
         name:'timer',
