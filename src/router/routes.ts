@@ -8,9 +8,12 @@ const routes: RouteRecordRaw[] = [
     children: [
       //{ path: '', component: () => import('pages/Index.vue') },
       //{ path: '', component: () => import('src/pages/_WorkoutPage.vue') },
-      { path: 'edit/:id', name:'edit', component: () => import('pages/EditWorkout.vue'),props:true },
-      { path: 'my-workouts', component: () => import('pages/MyWorkouts.vue') },
-      { path: 'test', component: () => import('pages/Test.vue') }
+      { path: 'edit/:id', name:'edit', component: () => import('src/pages/EditWorkoutPage.vue'),props:true },
+      { path: 'my-workouts', component: () => import('src/pages/MyWorkoutsPage.vue') },
+      { path: 'test', component: () => import('src/pages/TestPage.vue') },
+      { path: 'my-logs', component: () => import('src/pages/MyLogsPage.vue') },
+      { path: 'my-exercises', component: () => import('src/pages/MyExercisesPage.vue') },
+      { path: 'edit-exercise', name:'edit-exercise', component: () => import('src/pages/EditExercisePage.vue') }
     ],
   },
   {
@@ -18,7 +21,7 @@ const routes: RouteRecordRaw[] = [
     
     component: () => import('src/layouts/FullscreenLayout.vue'),
     children: [
-      { name: 'workout',path: ':id', component: () => import('pages/Workout.vue'), props:true, }
+      { name: 'workout',path: ':id', component: () => import('src/pages/WorkoutPage.vue'), props:true, }
     ],
     //props:true,
     /*
