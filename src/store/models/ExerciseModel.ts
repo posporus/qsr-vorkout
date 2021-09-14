@@ -12,7 +12,9 @@ export default class ExerciseModel extends Model {
   //$id!: string | null
   id!:string
   name!: string
+  countable!:boolean
   defaults!:ExerciseOptions
+  
 
   static entity = 'exercises'
   
@@ -20,6 +22,7 @@ export default class ExerciseModel extends Model {
     return {
       id:this.uid(() => nanoid()),
       name:this.string('').nullable(),
+      countable:this.boolean(true),
       defaults:this.attr(exercise_defaults),
     };
   }
