@@ -17,6 +17,11 @@
       </q-item-label>
     </q-item-section>
     <q-item-section>
+      <q-item-label>
+        {{ log.exercises }}
+      </q-item-label>
+    </q-item-section>
+    <q-item-section>
       <q-btn @click="removeLog(log.$id)" icon="delete" />
     </q-item-section>
   </q-item>

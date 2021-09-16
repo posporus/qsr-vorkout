@@ -101,6 +101,9 @@ export default defineComponent({
     this.$watch('vPreset', (preset: preset) => {
       this.exercise.preset.name = preset
     })
+    this.$watch('model', ((id:string) => {
+      this.exercise.id = id
+    }))
   },
   setup(props) {
     const exercise = props._exercise as Exercise

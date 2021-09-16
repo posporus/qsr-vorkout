@@ -5,6 +5,7 @@ import { preset } from 'src/types'
 
 export interface ExerciseNeat {
     //id:string
+    id:string
     name?:string
     preset:preset
     //hasReps:boolean
@@ -24,10 +25,15 @@ export default class Exercise {
     _time:Time
 
     _preset: PresetController
+
+    _meta: {
+        exerciseCount:number
+        setCount:number
+    }
     
 
     constructor() {
-        this._id = Math.round(Math.random() * 99999).toString()
+        this._id = '[no id]'//Math.round(Math.random() * 99999).toString()
         this._name = ''
 
         //this._hasReps = false
@@ -37,6 +43,10 @@ export default class Exercise {
         this._time = new Time
 
         this._preset = new PresetController
+        this._meta = {
+            exerciseCount:0,
+            setCount:0,
+        }
 
 
     }
@@ -44,20 +54,34 @@ export default class Exercise {
      * getter/setter
      */
     
+    public get exerciseCount():number {
+        return this._meta.exerciseCount
+    }
+    public set exerciseCount(v:number) {
+        this._meta.exerciseCount = v;
+    }
+
+    
+    public get setCount():number {
+        return this._meta.setCount
+    }
+    public set setCount(v:number) {
+        this._meta.setCount = v;
+    }
+
+    
     public get id():string {
         return this._id
-    }
-    
+    }    
     public set id(v:string) {
+        console.log('Exercise ID set!',v)
         this._id = v;
     }
-    
     
 
     public get name():string | undefined {
         return this._name
     }
-    
     public set name(v:string | undefined) {
         this._name = v || '';
     }
@@ -116,6 +140,7 @@ export default class Exercise {
     
     exportExercise():ExerciseNeat {
         return {
+            id:this.id,
             name:this.name,
             preset:this.preset.name,
             //hasReps:this.hasReps,
@@ -126,6 +151,7 @@ export default class Exercise {
         }
     }
     importExercise(exercise:ExerciseNeat) {
+        this.id = exercise.id,
         this.name = exercise.name,
         this.preset.name = exercise.preset,
         //this.hasReps = exercise.hasReps,

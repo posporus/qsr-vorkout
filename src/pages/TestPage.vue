@@ -1,49 +1,34 @@
 <template>
   <q-page padding>
     <!-- content -->
-    <li>
-      <ul v-for="workout in workouts" :key="workout.$id">
-        {{
-          workout.name
-        }},
-        {{
-          workout.$id
-        }}
-      </ul>
-    </li>
-    <q-input v-model="name"> </q-input>
-    <q-btn @click="newWorkout(name)"> neu </q-btn>
+    
+    <q-card>
+      <q-list bordered>
+        <exercise-log-item v-for="(log) in logs" :key="log.$id" :exercise-log="log" />
+      </q-list>
+    </q-card>
+    
   </q-page>
 </template>
 
 <script lang="ts">
 import { defineComponent } from 'vue';
-import WorkoutModel from 'src/store/models/WorkoutModel'
+import {ExerciseLogModel} from 'src/store/models'
+import ExerciseLogItem from 'components/ExerciseLogItem.vue'
 export default defineComponent({
   data() {
     return {
       name: '',
     };
   },
-  methods: {
-    newWorkout(name: string): void {
-      WorkoutModel.insert({
-        data: {
-          name: name,
-        },
-      })
-        .then(() => {
-          this.clearInput();
-        })
-        .catch((err) => console.error(err));
-    },
-    clearInput() {
-      this.name = '';
-    },
+  components: {
+    ExerciseLogItem
   },
+    
   computed: {
-    workouts(): Array<WorkoutModel> {
-      return WorkoutModel.query().orderBy('name', 'asc').get();
+
+    logs(): Array<ExerciseLogModel> {
+      return ExerciseLogModel.query().orderBy('started', 'asc').get();
     },
   },
   // name: 'PageName',

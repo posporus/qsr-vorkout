@@ -184,9 +184,6 @@ export default defineComponent({
     //border: 1px solid grey;
     background-color:grey;
   }
-  .set-header {
-    //background-color: $primary;
-  }
   .sets {
     padding:5px
   }

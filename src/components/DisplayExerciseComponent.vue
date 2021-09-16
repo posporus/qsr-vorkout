@@ -12,6 +12,10 @@
     </div>
 
     <div class="col-auto">
+      log-ID: {{ workoutLogId }}
+      setCount: {{ exercise.setCount }}
+      # {{ exercise.exerciseCount }}
+      ID: {{ exercise.id }}
       <timer-component
         v-if="exercise.hasTimer"
         :time="exercise.time"
@@ -37,6 +41,7 @@
           }
         "
         :status="status"
+        
       />
     </div>
 		<next-label :status="status"/>
@@ -51,7 +56,10 @@ import RepsComponent from './DisplayRepsComponent.vue';
 import TimerComponent from 'components/DisplayTimerComponent.vue';
 import NextLabel from './NextExerciseLabel.vue'
 import BackgroundComponent from 'components/ui/BackgroundComponent.vue'
+import { Collections } from '@vuex-orm/core'
+
 import { ExerciseStatus } from 'src/classes';
+import { ExerciseLogModel, ExerciseModel, WorkoutLogModel } from 'src/store/models'
 //import { Status } from '../../classes/ExerciseStatus'
 import { defineComponent } from 'vue';
 export default defineComponent({
@@ -59,17 +67,23 @@ export default defineComponent({
     return {
       //status: 'inqueue' as Status
       timeisup: false,
+      exerciseLogId: null as string | null
       //repResponse: false
     };
   },
 
   props: {
+    workoutLogId: {
+      type:String,
+      required:true
+    },
     exercise: {
       type: ExerciseStatus,
       required: true,
     },
     status: String,
     timerActive: Boolean,
+    
   },
 
   components: {
@@ -79,6 +93,18 @@ export default defineComponent({
 		NextLabel,
 		BackgroundComponent,
   },
+  mounted() {
+    
+    this.$watch('workoutLogId',(workoutLogId:string) => {
+      console.log('workout log id changed.',workoutLogId)
+      this.logAct(this.status || 'inqueue')
+    })
+    this.$watch('status',(currentStatus:string) => {
+      console.log('status changed',currentStatus)
+      this.logAct(currentStatus)
+    })
+  },
+  
   methods: {
     whenTimeisup() {
       this.timeisup = true;
@@ -92,6 +118,7 @@ export default defineComponent({
       console.log('whenRepResponse Exercise', reps);
       //this.repResponse = true
       this.$emit('repResponse', reps);
+      this.saveReps(reps)
       if (!this.exercise?.hasTimer) {
         this.next();
       }
@@ -103,6 +130,67 @@ export default defineComponent({
     focusActive() {
       this.$emit('focusActive');
     },
+    logAct(status:string) {
+      console.log('logAct!', status, this.workoutLogId)
+      if(status === 'running') {
+        this.startExerciseLog()
+      }
+      else if(status === 'past') {
+        //console.log('should stop this',this.exerciseLogId)
+        this.endExerciseLog(this.exerciseLogId || 'no log id')
+      }
+    },
+    startExerciseLog(){
+      console.log('exercise model(start log)',ExerciseModel.find(this.exercise.id))
+      ExerciseLogModel.insert({
+        data: {
+          workout_log: WorkoutLogModel.find(this.workoutLogId),
+          exercise: ExerciseModel.find(this.exercise.id),
+          exerciseCount:this.exercise.exerciseCount,
+          setCount:this.exercise.setCount,
+          started:Date.now()
+        },
+      })
+        .then((collections:Collections) => {
+            this.exerciseLogId = collections.exercise_logs[0].$id
+
+            console.log('exercise log id try:',collections.exercise_logs[0].$id)
+            //this.log = log.workout_log
+          //console.log('log started.', log);
+        })
+        .catch((err) => console.log(err));
+    },
+    endExerciseLog(exerciseLogId:string) {
+      console.log('end exercise log',exerciseLogId)
+      this.exerciseLogId
+        ? ExerciseLogModel.update({
+            where: this.exerciseLogId,
+            data: {
+              ended: Date.now(),
+            },
+          })
+            .then((log) => {
+              console.log('exercise log ended.', log)
+              
+            })
+            .catch((err) => console.log(err))
+        : false
+    },
+    saveReps(reps:number) {
+      this.exerciseLogId
+        ? ExerciseLogModel.update({
+            where: this.exerciseLogId,
+            data: {
+              reps: reps,
+            },
+          })
+            .then((log) => {
+              console.log('reps set.', log)
+              
+            })
+            .catch((err) => console.log(err))
+        : false
+    }
   },
 });
 </script>

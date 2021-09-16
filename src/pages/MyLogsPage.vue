@@ -3,7 +3,7 @@
     <div class="text-h4">My Logs</div>
     <q-card>
       <q-list bordered>
-        <log-entry-component v-for="(log) in myLogs" :key="log.$id" :log="log" />
+        <workout-log-item v-for="(log) in myLogs" :key="log.$id" :log="log" />
       </q-list>
     </q-card>
 
@@ -14,7 +14,7 @@
 import { defineComponent } from 'vue'
 import WorkoutLogModel from 'src/store/models/WorkoutLogModel'
 //import LogEntry from 'src/components/my-logs/LogEntry.vue'
-import  LogEntryComponent from 'components/LogEntryComponent.vue'
+import  WorkoutLogItem from 'src/components/WorkoutLogItem.vue'
 export default defineComponent({
   mounted() {
     //
@@ -23,11 +23,11 @@ export default defineComponent({
     myLogs() {
       //console.log(WorkoutModel.all())
       //return WorkoutLogModel.all()
-      return WorkoutLogModel.query().withAll().all()
+      return WorkoutLogModel.query().withAllRecursive().all()
     },
   },
   components: {
-    LogEntryComponent
+    WorkoutLogItem
   }
 })
 </script>

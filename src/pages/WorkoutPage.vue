@@ -9,7 +9,6 @@
 <script lang="ts">
 import WorkoutComponent from '../components/DisplayWorkoutComponent.vue'
 import { defineComponent } from 'vue'
-//import { mapGetters } from 'vuex'
 import { WorkoutNeat } from '../classes/Workout'
 import WorkoutModel from 'src/store/models/WorkoutModel'
 export default defineComponent({

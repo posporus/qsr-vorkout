@@ -1,5 +1,6 @@
 import Set, { SetNeat } from './Set'
 import Exercise from './Exercise'
+import _ from 'lodash'
 
 /*interface WorkoutModel {
     id:number
@@ -82,10 +83,28 @@ export default class Workout {
     }
     private unwrap() {
         const unwrapped:Array<Exercise> = []
+        let exerciseCount = 1
         this.sets.forEach((set) => {
             for(let i=0; i<set.sets; i++) {
-                set.exercises.forEach((exercise) => {
+                set.exercises.forEach((_exercise) => {
+                    /*
+                    const exercise = new Exercise
+
+                    exercise._id=_exercise._id,
+                    exercise._name=_exercise._name,
+                    exercise._reps=_exercise._reps,
+                    exercise._time=_exercise._time,
+                    exercise._preset=_exercise._preset,
+                    exercise._meta=_exercise._meta
+
+                    exercise.exerciseCount = index + 1
+                    exercise.setCount = i + 1
+                   */
+                  const exercise:Exercise = _.cloneDeep(_exercise)
+                  exercise.exerciseCount = exerciseCount
+                    exercise.setCount = i + 1
                     unwrapped.push(exercise)
+                    exerciseCount++
                 })
             }
         })
