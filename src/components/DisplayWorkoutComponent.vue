@@ -11,6 +11,7 @@
       :key="exercise.id"
       :workout-log-id="logId"
     />
+
     finished: {{ finished }}
     <!--
         <div class="text-h5">
@@ -68,9 +69,12 @@ export default defineComponent({
     this.startWorkoutLog()
     this.$watch('finished', (finished: boolean) => {
       //console.log('finished!')
-      if (finished) this.endWorkoutLog()
+      if (finished) {
+        this.endWorkoutLog()
+        console.log('finished. refs:', this.$refs)
+      }
     })
-    console.log('unwrappet exercises',this.workout.unwrapped)
+    console.log('unwrappet exercises', this.workout.unwrapped)
     this.exercises = this.workout.unwrapped.map((_exercise: Exercise) => {
       let exercise = new ExerciseStatus()
       //_exercise = ExerciseStatus()
@@ -78,16 +82,21 @@ export default defineComponent({
       //exercise.importExercise(_exercise.exportExercise())
       //exercise = _exercise as ExerciseStatus
       //Object.assign(exercise,_exercise)
-      console.log('exercise meta: ',_exercise._meta)
-      exercise._id=_exercise._id,
-      exercise._name=_exercise._name,
-      exercise._reps=_exercise._reps,
-      exercise._time=_exercise._time,
-      exercise._preset=_exercise._preset,
-      exercise._meta=_exercise._meta
+      console.log('exercise meta: ', _exercise._meta)
+      ;(exercise._id = _exercise._id),
+        (exercise._name = _exercise._name),
+        (exercise._reps = _exercise._reps),
+        (exercise._time = _exercise._time),
+        (exercise._preset = _exercise._preset),
+        (exercise._meta = _exercise._meta)
 
       return exercise
     })
+    /*
+    const lastDummy = new ExerciseStatus
+    lastDummy.isLast = true
+    this.exercises.push(lastDummy)
+    */
 
     this.exercisePointer = 0
     console.log('current Exercise:', this.currentExercise)
@@ -100,19 +109,28 @@ export default defineComponent({
   methods: {
     next(index: number) {
       this.exercisePointer = index + 1
-      this.currentExercise.startTimer()
+      if (this.finished) {
+        this.exercises.forEach((exercise) => {
+          exercise.status = 'past'
+        })
+      } else {
+        this.currentExercise.startTimer()
+      }
     },
     focusActive() {
-      this.exercises[this.exercisePointer].status = 'running'
+      !this.finished
+        ? (this.exercises[this.exercisePointer].status = 'running')
+        : false
       this.exercisePointer > 0
         ? (this.exercises[this.exercisePointer - 1].status = 'past')
         : false
       this.exercisePointer > 1
         ? (this.exercises[this.exercisePointer - 2].status = 'past')
         : false
-      this.exercisePointer <= this.exercises.length
+      this.exercisePointer < this.exercises.length - 1
         ? (this.exercises[this.exercisePointer + 1].status = 'next')
         : false
+
     },
 
     whenRepResponse(reps: number, index: number) {
@@ -197,9 +215,9 @@ export default defineComponent({
   setup() {
     const workout = new Workout()
     return {
-      workout
+      workout,
     }
-  }
+  },
 })
 </script>
 
