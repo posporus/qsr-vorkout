@@ -10,30 +10,15 @@
           aria-label="Menu"
           @click="toggleLeftDrawer"
         />
-        
-        <q-toolbar-title>
-          Quasar App
-        </q-toolbar-title>
+
+        <q-toolbar-title> Quasar App </q-toolbar-title>
 
         <div>Quasar v{{ $q.version }}</div>
       </q-toolbar>
     </q-header>
-
-    <q-drawer
-      v-model="leftDrawerOpen"
-      show-if-above
-      bordered
-      class="bg-grey-1"
-    >
-      <q-list>
-        <q-item>
-          <router-link to="/my-workouts">
-            My Workouts
-          </router-link>
-        </q-item>
-      </q-list>
+    <q-drawer v-model="leftDrawerOpen" show-if-above bordered class="white">
+      <main-menu v-model="leftDrawerOpen" />
     </q-drawer>
-
     <q-page-container>
       <router-view />
     </q-page-container>
@@ -41,25 +26,26 @@
 </template>
 
 <script lang="ts">
-
+import MainMenu from 'src/components/MainMenu.vue'
 import { defineComponent, ref } from 'vue'
 
 export default defineComponent({
   name: 'MainLayout',
 
   components: {
+    MainMenu,
     //
   },
 
-  setup () {
+  setup() {
     const leftDrawerOpen = ref(false)
 
     return {
       leftDrawerOpen,
-      toggleLeftDrawer () {
+      toggleLeftDrawer() {
         leftDrawerOpen.value = !leftDrawerOpen.value
-      }
+      },
     }
-  }
+  },
 })
 </script>
