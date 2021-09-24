@@ -2,6 +2,7 @@ import { Model } from '@vuex-orm/core'
 import ExerciseModel from './WorkoutModel'
 import WorkoutLogModel from './WorkoutLogModel'
 import { nanoid } from 'nanoid'
+import { duration } from 'src/utility'
 //import {WorkoutModel} from '.'
 //import { SetNeat } from 'src/classes/Set'
 
@@ -46,4 +47,9 @@ export default class ExerciseLogModel extends Model {
       exercise_id:this.string(null).nullable()
     };
   }
+
+  public get duration (): string | undefined {
+    return duration(this.started,this.ended)
+  }
+  
 }
