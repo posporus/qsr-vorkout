@@ -16,13 +16,18 @@
         {{ duration }}
       </q-item-label>
     </q-item-section>
+    <!--
     <q-item-section>
       <q-item-label>
         {{ log.exercises }}
       </q-item-label>
     </q-item-section>
+    -->
     <q-item-section>
       <q-btn @click="removeLog(log.$id)" icon="delete" />
+    </q-item-section>
+    <q-item-section>
+      <q-btn @click="$router.push({ name: 'workout-log-details', params: { workoutLogId: log.$id || '' } })" icon="info" />
     </q-item-section>
   </q-item>
 </template>

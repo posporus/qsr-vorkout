@@ -21,8 +21,6 @@ export default defineComponent({
   },
   computed: {
     myLogs() {
-      //console.log(WorkoutModel.all())
-      //return WorkoutLogModel.all()
       return WorkoutLogModel.query().withAllRecursive().all()
     },
   },

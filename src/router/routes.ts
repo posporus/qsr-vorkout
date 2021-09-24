@@ -13,7 +13,8 @@ const routes: RouteRecordRaw[] = [
       { path: 'test', component: () => import('src/pages/TestPage.vue') },
       { path: 'my-logs', component: () => import('src/pages/MyLogsPage.vue') },
       { path: 'my-exercises', component: () => import('src/pages/MyExercisesPage.vue') },
-      { path: 'edit-exercise', name:'edit-exercise', component: () => import('src/pages/EditExercisePage.vue') }
+      { path: 'edit-exercise', name:'edit-exercise', component: () => import('src/pages/EditExercisePage.vue') },
+      { path: 'workout-log-details/:workoutLogId', name:'workout-log-details', component: () => import('src/pages/WorkoutLogDetailsPage'),props: true }
     ],
   },
   {
