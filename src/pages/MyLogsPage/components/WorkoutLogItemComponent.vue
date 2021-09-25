@@ -50,7 +50,7 @@ export default defineComponent({
             
             const diff = ended.diff(started)
             const duration = moment.duration(diff,'milliseconds')
-            console.log(started,ended,diff,duration)
+            
             return duration.humanize()
 
         }
@@ -63,12 +63,10 @@ export default defineComponent({
     removeLog(id: string | null): void {
       WorkoutLogModel.delete(id || '')
         .then(() => {
-          console.log('deleted');
+          //notification
         })
         .catch((err) => console.error(err))
     },
   },
 });
 </script>
-
-<style lang="scss"></style>

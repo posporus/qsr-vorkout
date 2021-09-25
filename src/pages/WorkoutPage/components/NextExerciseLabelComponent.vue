@@ -29,18 +29,14 @@ export default defineComponent({
 	border-radius: 0px 0px 10px 0px;
     transition: all .3s ease;
     transition-delay: .25s;
-    //opacity: 0;
 }
 .next-exercise-label.running {
-    //opacity: 0;
     left:-100px;
 }
 .next-exercise-label.next {
-    //opacity: 1;
     left:0px;
 }
 .next-exercise-label.past {
-    //opacity: 0;
     left:-100px;
 }
 </style>

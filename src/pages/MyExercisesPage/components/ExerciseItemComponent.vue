@@ -27,7 +27,7 @@ export default defineComponent({
     removeExercise(id: string | null): void {
       ExerciseModel.delete(id || '')
         .then(() => {
-          console.log('deleted');
+          //notification
         })
         .catch((err) => console.error(err))
     },

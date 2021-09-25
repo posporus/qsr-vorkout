@@ -1,5 +1,4 @@
 <template>
-  
   <div
     class="exercise column items-center justify-evenly"
     :class="status + ' bg-' + exercise.preset.color"
@@ -48,7 +47,6 @@
       :color="exercise.preset.color"
     />
   </div>
-
 </template>
 
 <script lang="ts">
@@ -66,16 +64,13 @@ import {
   ExerciseModel,
   WorkoutLogModel,
 } from 'src/store/models'
-//import { Status } from '../../classes/ExerciseStatus'
 import { defineComponent } from 'vue'
 export default defineComponent({
-  name:'DisplayExerciseComponent',
+  name: 'DisplayExerciseComponent',
   data() {
     return {
-      //status: 'inqueue' as Status
       timeisup: false,
       exerciseLogId: null as string | null,
-      //repResponse: false
     }
   },
 
@@ -100,12 +95,10 @@ export default defineComponent({
     BackgroundComponent,
   },
   mounted() {
-    this.$watch('workoutLogId', (workoutLogId: string) => {
-      console.log('workout log id changed.', workoutLogId)
+    this.$watch('workoutLogId', () => {
       this.logAct(this.status || 'inqueue')
     })
     this.$watch('status', (currentStatus: string) => {
-      console.log('status changed', currentStatus)
       this.logAct(currentStatus)
     })
   },
@@ -114,14 +107,13 @@ export default defineComponent({
     whenTimeisup() {
       this.timeisup = true
       this.next()
-      //else
+
       if (!this.exercise?.hasReps) {
         this.focusActive()
       }
     },
     whenRepResponse(reps: number) {
       console.log('whenRepResponse Exercise', reps)
-      //this.repResponse = true
       this.$emit('repResponse', reps)
       this.saveReps(reps)
       if (!this.exercise?.hasTimer) {
@@ -140,7 +132,6 @@ export default defineComponent({
       if (status === 'running') {
         this.startExerciseLog()
       } else if (status === 'past') {
-        //console.log('should stop this',this.exerciseLogId)
         this.endExerciseLog(this.exerciseLogId || 'no log id')
       }
     },
@@ -160,24 +151,20 @@ export default defineComponent({
       })
         .then((collections: Collections) => {
           this.exerciseLogId = collections.exercise_logs[0].$id
-
-          console.log('exercise log id try:', collections.exercise_logs[0].$id)
-          //this.log = log.workout_log
-          //console.log('log started.', log);
         })
         .catch((err) => console.log(err))
     },
     endExerciseLog(exerciseLogId: string) {
-      console.log('end exercise log', exerciseLogId)
+
       this.exerciseLogId
         ? ExerciseLogModel.update({
-            where: this.exerciseLogId,
+            where: exerciseLogId,
             data: {
               ended: Date.now(),
             },
           })
-            .then((log) => {
-              console.log('exercise log ended.', log)
+            .then(() => {
+              //
             })
             .catch((err) => console.log(err))
         : false
@@ -190,8 +177,8 @@ export default defineComponent({
               reps: reps,
             },
           })
-            .then((log) => {
-              console.log('reps set.', log)
+            .then(() => {
+              //
             })
             .catch((err) => console.log(err))
         : false

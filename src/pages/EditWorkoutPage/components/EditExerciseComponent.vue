@@ -74,23 +74,6 @@ export default defineComponent({
     PresetSelectComponent,
     ExerciseSelect,
   },
-  computed: {
-    /*
-      options():{label:string,id:string}[] {
-          return this.myExercises.map((exercise:ExerciseModel) => {
-              return { 
-                  label:exercise.name,
-                  id:exercise.id
-                  }
-          })
-      },
-      myExercises() {
-      //console.log(WorkoutModel.all())
-      //return WorkoutLogModel.all()
-      return ExerciseModel.query().withAll().all()
-    },
-    */
-  },
   props: {
     _exercise: Exercise,
   },
@@ -98,7 +81,6 @@ export default defineComponent({
     this.exercise = this._exercise as Exercise
   },
   mounted() {
-    // console.log(this.myExercises)
     this.$watch('vPreset', (preset: preset) => {
       this.exercise.preset.name = preset
     })

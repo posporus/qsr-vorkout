@@ -56,11 +56,8 @@ export default defineComponent({
      * create new workout
      */
     this.workout = new Workout()
-    console.log('created workout!', this.workout)
   },
   mounted() {
-    console.log('mounted!', this.workout)
-
     /**
      * when the workout already exists, load its data from Vuex ORM
      * and import it to the workout object
@@ -123,7 +120,6 @@ export default defineComponent({
             params: { id: data.workouts[0].$id || '' },
           })
           this.showNotification('Workout Saved.')
-          console.log('after insert', data)
         })
         .catch((err) => console.error(err))
     },

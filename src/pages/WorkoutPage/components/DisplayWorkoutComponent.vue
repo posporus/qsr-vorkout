@@ -11,18 +11,6 @@
       :key="exercise.id"
       :workout-log-id="logId"
     />
-
-    finished: {{ finished }}
-    <!--
-        <div class="text-h5">
-            Exercise:
-            {{ exercisePointer }}
-            Active:
-            {{ active }}
-        </div>
-        -->
-    <!--
-      <q-btn class="forward-button" @click="forward">forward</q-btn>-->
   </q-page>
 </template>
 
@@ -34,22 +22,17 @@ import DisplayExerciseComponent from './DisplayExerciseComponent.vue'
 import { defineComponent } from 'vue'
 import { Collections } from '@vuex-orm/core'
 import WorkoutLogModel from 'src/store/models/WorkoutLogModel'
-//import { nanoid } from 'nanoid';
 
 export default defineComponent({
-  name:'DisplayWorkoutComponent',
+  name: 'DisplayWorkoutComponent',
   data() {
     return {
       active: false,
       exercises: [] as Array<ExerciseStatus>,
       exercisePointer: -1 as number,
-      //log: {} as Item<WorkoutLogModel>
       logId: 'null' as string | null,
-
-      //workout: new Workout()
     }
   },
-  //props: ['data'],
   props: {
     data: {
       type: Object,
@@ -61,29 +44,19 @@ export default defineComponent({
   },
 
   mounted() {
-    //const workout = new Workout()
-    //workout = new WorkoutController
-    //console.log('DADA', this.data)
     const data = this.data as WorkoutNeat
     this.workout.importWorkout(data)
 
     this.startWorkoutLog()
     this.$watch('finished', (finished: boolean) => {
-      //console.log('finished!')
       if (finished) {
         this.endWorkoutLog()
-        console.log('finished. refs:', this.$refs)
       }
     })
     console.log('unwrappet exercises', this.workout.unwrapped)
     this.exercises = this.workout.unwrapped.map((_exercise: Exercise) => {
       let exercise = new ExerciseStatus()
-      //_exercise = ExerciseStatus()
-      //exercise = _exercise as ExerciseStatus
-      //exercise.importExercise(_exercise.exportExercise())
-      //exercise = _exercise as ExerciseStatus
-      //Object.assign(exercise,_exercise)
-      console.log('exercise meta: ', _exercise._meta)
+
       ;(exercise._id = _exercise._id),
         (exercise._name = _exercise._name),
         (exercise._reps = _exercise._reps),
@@ -93,18 +66,11 @@ export default defineComponent({
 
       return exercise
     })
-    /*
-    const lastDummy = new ExerciseStatus
-    lastDummy.isLast = true
-    this.exercises.push(lastDummy)
-    */
 
     this.exercisePointer = 0
-    console.log('current Exercise:', this.currentExercise)
     this.run()
     this.focusActive()
     this.currentExercise.startTimer()
-    //console.log('userbusy',this.userBusy)
   },
 
   methods: {
@@ -131,12 +97,9 @@ export default defineComponent({
       this.exercisePointer < this.exercises.length - 1
         ? (this.exercises[this.exercisePointer + 1].status = 'next')
         : false
-
     },
 
     whenRepResponse(reps: number, index: number) {
-      console.log('whenRepResponse Workout', reps, index)
-      console.log(this.exercises[index])
       this.exercises[index].repResponse = reps
     },
     run() {
@@ -148,7 +111,6 @@ export default defineComponent({
     startWorkoutLog() {
       WorkoutLogModel.insert({
         data: {
-          //id: nanoid(),
           workout_id: this.data.id as string,
 
           started: Date.now(),
@@ -156,9 +118,6 @@ export default defineComponent({
       })
         .then((collections: Collections) => {
           this.logId = collections.workout_logs[0].$id
-          console.log('id try:', collections.workout_logs[0].$id)
-          //this.log = log.workout_log
-          //console.log('log started.', log);
         })
         .catch((err) => console.log(err))
     },
@@ -170,11 +129,8 @@ export default defineComponent({
               ended: Date.now(),
             },
           })
-            .then((log) => {
-              console.log('log started.', log)
-              if (this.finished) {
-                //log.end()
-              }
+            .then(() => {
+              //
             })
             .catch((err) => console.log(err))
         : false
@@ -187,17 +143,11 @@ export default defineComponent({
         this.exercises[this.exercisePointer - 2].status === 'running' &&
         !this.exercises[this.exercisePointer - 2].repResponse
       ) {
-        console.log('user busy')
         return true
       } else {
-        console.log('user not busy')
         return false
       }
     },
-    /*
-        lastExercise():ExerciseStatus {
-            return this.exercises[this.exercisePointer-1]
-        },*/
 
     currentExercise(): ExerciseStatus {
       return this.exercises[this.exercisePointer]
@@ -206,12 +156,6 @@ export default defineComponent({
     finished(): boolean {
       return this.exercisePointer >= this.exercises.length
     },
-
-    /*
-        nextExercise():ExerciseStatus {
-            return this.exercises[this.exercisePointer+1]
-        }
-        */
   },
   setup() {
     const workout = new Workout()
@@ -224,7 +168,6 @@ export default defineComponent({
 
 <style lang="scss">
 .workout {
-  //background-color: rgb(0, 129, 214);
   position: fixed;
   overflow: hidden;
   width: 100%;

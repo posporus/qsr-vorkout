@@ -14,7 +14,6 @@ export default defineComponent({
     data(){
       return {
         base: 8 as number,
-        //buttonList: []
       }
     },
     props: {
@@ -30,7 +29,6 @@ export default defineComponent({
         type: Boolean,
         default: true,
       }
-      //status:String,
     },
     computed: {
         
@@ -46,15 +44,6 @@ export default defineComponent({
     mounted() {
       this.base = this.reps > 2 ? this.reps : 2
     },
-    /*
-    setup(props) {
-      let base = 8
-      if(props.reps) base = props.reps > 2 ? props.reps : 2
-      return {
-        base
-      }
-    }
-    */
     
 })
 </script>

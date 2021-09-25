@@ -28,12 +28,10 @@ export default defineComponent({
     this.model = this.selected
 
     this.$watch('model', (selected: { label: string; value: string }) => {
-      console.log('model changed', this.model)
       this.$emit('update:modelValue', selected.value)
     })
 
-    this.$watch('modelValue', (id: string) => {
-      console.log('prop changed', id)
+    this.$watch('modelValue', () => {
       this.model = this.selected
     })
   },

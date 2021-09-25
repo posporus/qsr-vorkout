@@ -31,8 +31,7 @@ export default defineComponent({
           name: this.exercise.name,
         },
       })
-        .then((data) => {
-          console.log('exercise saved.', data)
+        .then(() => {
           void this.$router.push({ path: 'my-exercises' })
         })
         .catch((err) => console.error(err))

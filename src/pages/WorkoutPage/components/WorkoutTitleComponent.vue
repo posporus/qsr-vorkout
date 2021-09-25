@@ -29,7 +29,6 @@ export default defineComponent({
 .exercise-title {
   text-transform: uppercase;
   font-weight: 900;
-	//width: auto;
 	padding: 5px;
 	transition: all 0.3s ease;
 }

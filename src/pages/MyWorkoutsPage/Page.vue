@@ -47,14 +47,13 @@ export default defineComponent({
   name:'MyWorkoutsPage',
   computed: {
     myWorkouts() {
-      console.log(WorkoutModel.all())
       return WorkoutModel.all()
     },
   },
   methods: {
     removeWorkout(id:string | null): void {
       WorkoutModel.delete(id || '').then(() => {
-        console.log('deleted');
+        //notification
       }).catch((err) => console.error(err))
     },
   },

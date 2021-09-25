@@ -70,13 +70,11 @@ export default defineComponent({
   },
   mounted() {
     this.$watch('model', () => {
-      console.log('emit input');
       this.$emit('update:modelValue', this.model);
     });
   },
   setup(props) {
     const exercise = props._exercise as Exercise;
-    //console.log(props._set,set)
     return {
       exercise,
     };

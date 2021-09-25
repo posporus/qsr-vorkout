@@ -9,7 +9,6 @@ import { exercise_defaults } from 'src/static/defaults'
 import ExerciseOptions from 'src/types/ExerciseOptions'
 
 export default class ExerciseModel extends Model {
-  //$id!: string | null
   id!:string
   name!: string
   countable!:boolean

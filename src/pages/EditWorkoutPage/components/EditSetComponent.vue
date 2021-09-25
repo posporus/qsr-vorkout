@@ -117,12 +117,10 @@ export default defineComponent({
   methods: {
     addExercise() {
       this.set.addExercise()
-      console.log(this.set)
     },
   },
   setup(props) {
     const set = props._set as Set
-    console.log(props._set,set)
     return {
       set
     }

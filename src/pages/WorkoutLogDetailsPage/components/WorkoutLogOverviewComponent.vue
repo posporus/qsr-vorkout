@@ -30,8 +30,5 @@ export default defineComponent({
         required:true
     }
   },
-  computed: {
-    //
-  },
 })
 </script>

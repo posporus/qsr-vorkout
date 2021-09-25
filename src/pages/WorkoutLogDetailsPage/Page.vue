@@ -2,11 +2,9 @@
   <q-page class="q-pa-md">
     <q-list bordered>
       <q-item-label header> Workout Logg </q-item-label>
-        <workout-log-overview-component :workout-log-detail="workoutLogDetail" />
+      <workout-log-overview-component :workout-log-detail="workoutLogDetail" />
       <workout-log-timeline-component :workout-log-detail="workoutLogDetail" />
-      
     </q-list>
-    
 
     <q-item>
       <q-item-label>
@@ -33,8 +31,8 @@ export default defineComponent({
     },
   },
   components: {
-      WorkoutLogOverviewComponent,
-    WorkoutLogTimelineComponent
+    WorkoutLogOverviewComponent,
+    WorkoutLogTimelineComponent,
   },
   computed: {
     workoutLogDetail(): Item<WorkoutLogModel> {

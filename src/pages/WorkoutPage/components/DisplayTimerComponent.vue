@@ -20,7 +20,7 @@
 <script lang="ts">
 import Timer from 'src/classes/Timer'
 import Time from 'src/classes/Time'
-//import { Status } from '../../../classes/ExerciseStatus'
+
 import { defineComponent } from 'vue'
 export default defineComponent({
     data(){
@@ -35,7 +35,6 @@ export default defineComponent({
         type:String,
         default: 'inqueue'
       }
-      //status:String,
     },
    
     mounted() {
@@ -46,7 +45,6 @@ export default defineComponent({
       this.run(this.active)
 
       this.$watch('active',(active:boolean) => {
-        console.log('watch timer ', active)
         this.run(active)
       })
     },
@@ -62,7 +60,3 @@ export default defineComponent({
     }
 })
 </script>
-
-<style>
-
-</style>
