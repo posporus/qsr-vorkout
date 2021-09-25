@@ -1,7 +1,6 @@
 import Exercise from './Exercise'
 import {status} from 'src/types'
-//export type Status =  'inqueue' | 'next' | 'running' | 'past'
-//export class Status = ''
+
 export default class ExerciseStatus extends Exercise {
     _status:status
     _timerActive:boolean
@@ -26,7 +25,6 @@ export default class ExerciseStatus extends Exercise {
     }
     
     public set repResponse(v:number | false) {
-        //console.log(v)
         this._repResponse = v;
     }
     

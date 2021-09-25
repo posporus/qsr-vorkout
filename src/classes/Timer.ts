@@ -39,7 +39,6 @@ export default class Timer extends Time {
     public get percentage():number {
         const remaining = this.seconds - this.countdown
         const percentage = 100*remaining/this.seconds 
-        //console.log(remaining,this.seconds,this.countdown,percentage)
         return percentage
     }
     /**
@@ -59,7 +58,6 @@ export default class Timer extends Time {
     }
 
     run():Promise<this> {
-        //return 
         return new Promise((resolve) => {
             this._timerObject = setInterval(() => {
                 void this.countDown().then(() => {
