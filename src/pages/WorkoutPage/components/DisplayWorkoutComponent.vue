@@ -16,7 +16,8 @@
 
 <script lang="ts">
 import Exercise from 'src/classes/Exercise'
-import Workout, { WorkoutNeat } from 'src/classes/Workout'
+import Workout from 'src/classes/Workout'
+import { WorkoutNeat } from 'src/types'
 import { ExerciseStatus } from 'src/classes'
 import DisplayExerciseComponent from './DisplayExerciseComponent.vue'
 import { defineComponent } from 'vue'

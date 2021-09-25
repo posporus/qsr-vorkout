@@ -9,7 +9,7 @@
 <script lang="ts">
 import DisplayWorkoutComponent from './components/DisplayWorkoutComponent.vue'
 import { defineComponent } from 'vue'
-import { WorkoutNeat } from 'src/classes/Workout'
+import { WorkoutNeat } from 'src/types'
 import WorkoutModel from 'src/store/models/WorkoutModel'
 export default defineComponent({
   name: 'WorkoutPage',

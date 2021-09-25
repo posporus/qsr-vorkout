@@ -1,15 +1,6 @@
 import Time from './Time'
-
+import { ExerciseNeat } from 'src/types'
 import PresetController from '../classes/PresetController'
-import { preset } from 'src/types'
-
-export interface ExerciseNeat {
-    id:string
-    name?:string
-    preset:preset
-    reps?:number
-    time?:number
-}
 
 export default class Exercise {
     _id:string

@@ -21,8 +21,6 @@ export default class Time {
         this._seconds = v;
     }
     
-    
-
     secondsToString(seconds:number) {
         const m:number = Math.floor(seconds/60)
         const s:number = seconds - m * 60

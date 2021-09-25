@@ -2,7 +2,7 @@ import { Model } from '@vuex-orm/core'
 import { SetNeat } from 'src/classes/Set'
 import WorkoutLogModel from './WorkoutLogModel'
 import { nanoid } from 'nanoid'
-import { WorkoutNeat } from 'src/classes/Workout'
+import { WorkoutNeat } from 'src/types'
 
 export default class WorkoutModel extends Model implements WorkoutNeat {
   id!: string

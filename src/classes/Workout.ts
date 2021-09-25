@@ -1,12 +1,8 @@
 import Set, { SetNeat } from './Set'
+import { WorkoutNeat } from 'src/types'
 import Exercise from './Exercise'
 import _ from 'lodash'
 
-export interface WorkoutNeat {
-    id:string
-    name:string
-    sets:Array<SetNeat>
-}
 export default class Workout {
     id:string
     _name:string

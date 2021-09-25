@@ -51,7 +51,7 @@
 <script lang="ts">
 import Exercise from 'src/classes/Exercise';
 import { defineComponent } from 'vue';
-import { presets } from 'src/classes/PresetController';
+import presets from 'src/static/presets';
 
 export default defineComponent({
   data() {
@@ -79,7 +79,6 @@ export default defineComponent({
       exercise,
     };
   },
-  computed: {},
 });
 </script>
 
