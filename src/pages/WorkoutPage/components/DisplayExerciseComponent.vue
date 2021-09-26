@@ -136,10 +136,6 @@ export default defineComponent({
       }
     },
     startExerciseLog() {
-      console.log(
-        'exercise model(start log)',
-        ExerciseModel.find(this.exercise.id)
-      )
       ExerciseLogModel.insert({
         data: {
           workout_log: WorkoutLogModel.find(this.workoutLogId),
