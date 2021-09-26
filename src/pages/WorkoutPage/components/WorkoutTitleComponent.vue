@@ -33,7 +33,7 @@ export default defineComponent({
 	transition: all 0.3s ease;
 }
 .exercise-title.next {
-	font-size: 3vw;
+	font-size: 5vw;
 	text-align: start;
 }
 .exercise-title.running {

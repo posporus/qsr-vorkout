@@ -1,7 +1,12 @@
 <template>
-  <q-page class="workout">
+<!--
+  :class="'bg-'+currentExercise?.color" is a workaround cause i didnt managed to
+  make it properly work with backgroundComponent.
+-->
+  <q-page class="workout bg-red last-transition" :class="'bg-'+currentExercise?.color">
     <display-exercise-component
       v-for="(exercise, index) in exercises"
+      :index="index"
       :exercise="exercises[index]"
       :status="exercises[index].status"
       :timerActive="exercises[index].timerActive && !userBusy"
@@ -10,7 +15,9 @@
       @repResponse="(reps) => whenRepResponse(reps, index)"
       :key="exercise.id"
       :workout-log-id="logId"
+      
     />
+    <display-finish-component :workoutLogId="logId" :finished="finished" />
   </q-page>
 </template>
 
@@ -20,6 +27,7 @@ import { Workout } from 'src/classes'
 import { WorkoutNeat } from 'src/types'
 import { ExerciseStatus } from 'src/classes'
 import DisplayExerciseComponent from './DisplayExerciseComponent.vue'
+import DisplayFinishComponent from './DisplayFinishComonent.vue'
 import { defineComponent } from 'vue'
 import { Collections } from '@vuex-orm/core'
 import WorkoutLogModel from 'src/store/models/WorkoutLogModel'
@@ -42,6 +50,7 @@ export default defineComponent({
   },
   components: {
     DisplayExerciseComponent,
+    DisplayFinishComponent,
   },
 
   mounted() {
@@ -167,16 +176,20 @@ export default defineComponent({
 })
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
 .workout {
   position: fixed;
   overflow: hidden;
   width: 100%;
   height: 100%;
+  
 }
 .forward-button {
   position: fixed;
   top: 0px;
   left: 0px;
+}
+.last-transition {
+transition: all 0.5s;
 }
 </style>

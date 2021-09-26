@@ -1,20 +1,17 @@
 <template>
-  <div
-    class="exercise column items-center justify-evenly"
-    :class="status + ' bg-' + exercise.preset.color"
-  >
+  <div class="exercise column items-center justify-evenly" :class="status">
     <div class="col">
       <workout-title-component
+      class="layer1"
         :status="status"
-        :title="exercise.preset.defaultName || exercise.name"
+        :title="exercise.preset.defaultName || exerciseDetails?.name"
         :icon="exercise.preset.icon"
       />
     </div>
 
     <div class="col-auto">
-      log-ID: {{ workoutLogId }} setCount: {{ exercise.setCount }} #
-      {{ exercise.exerciseCount }} ID: {{ exercise.id }}
       <display-timer-component
+        class="layer1"
         v-if="exercise.hasTimer"
         :time="exercise.time"
         :active="timerActive"
@@ -26,6 +23,7 @@
 
     <div class="col column">
       <display-reps-component
+        class="layer1"
         v-if="exercise.hasReps"
         :reps="exercise.reps"
         :disable="
@@ -41,8 +39,10 @@
         :status="status"
       />
     </div>
-    <next-exercise-label-component :status="status" />
+    <next-exercise-label-component :status="status" class="layer1" />
     <background-component
+      class="background-layer"
+      :status="status"
       :icon="exercise.preset.icon"
       :color="exercise.preset.color"
     />
@@ -56,7 +56,7 @@ import DisplayRepsComponent from './DisplayRepsComponent.vue'
 import DisplayTimerComponent from './DisplayTimerComponent.vue'
 import NextExerciseLabelComponent from './NextExerciseLabelComponent.vue'
 import BackgroundComponent from 'components/BackgroundComponent.vue'
-import { Collections } from '@vuex-orm/core'
+import { Collections, Item } from '@vuex-orm/core'
 
 import { ExerciseStatus } from 'src/classes'
 import {
@@ -75,6 +75,7 @@ export default defineComponent({
   },
 
   props: {
+    index: Number,
     workoutLogId: {
       type: String,
       required: true,
@@ -94,7 +95,13 @@ export default defineComponent({
     NextExerciseLabelComponent,
     BackgroundComponent,
   },
+  computed: {
+    exerciseDetails(): Item<ExerciseModel> {
+      return ExerciseModel.find(this.exercise.id)
+    },
+  },
   mounted() {
+    console.log('exercise:', this.exercise)
     this.$watch('workoutLogId', () => {
       this.logAct(this.status || 'inqueue')
     })
@@ -151,7 +158,6 @@ export default defineComponent({
         .catch((err) => console.log(err))
     },
     endExerciseLog(exerciseLogId: string) {
-
       this.exerciseLogId
         ? ExerciseLogModel.update({
             where: exerciseLogId,
@@ -183,15 +189,17 @@ export default defineComponent({
 })
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
 .exercise {
-  z-index: 1;
+  
   position: absolute;
   //display: inline-block;
   padding: 20px;
   width: 100%;
   transition: all 0.5s;
-  border-bottom: 5px solid black;
+  border-Top: 5px solid black;
+  
+  //background-color: white;
 }
 .exercise.inqueue {
   height: 30vh;
@@ -208,6 +216,13 @@ export default defineComponent({
 }
 .exercise.past {
   height: 0vh;
-  top: 0vh;
+  top: -100vh;
+  //opacity:0;
+}
+.background-layer {
+  z-index: -99;
+}
+.layer1 {
+  z-index: 1;
 }
 </style>

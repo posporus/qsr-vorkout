@@ -1,6 +1,6 @@
 <template>
-  <div class="exercise-background">
-    <q-icon :name="icon"></q-icon>
+  <div class="exercise-background" :class="'bg-'+color">
+    <q-icon class="background-icon" :name="icon"></q-icon>
   </div>
 </template>
 
@@ -26,29 +26,23 @@ export default defineComponent({
 </script>
 
 <style lang="scss">
+.background-icon {
+  opacity: 0.1;
+  margin-top:-30vh;
+}
 .exercise-background {
-    z-index: -1;
+    //z-index: 0;
     position: absolute;
     width: 100%;
     height: 100%;
     font-size: 80vh;
+    //overflow: hidden;
     //background-color: tomato;
-    opacity: 0.1;
+    //opacity: 0.1;
     //top:-20vh;
-    margin-top: -30vh;
-    transition: all 1s ease;
-}
-.exercise-background.running {
-    margin-left: 0vw;
-    opacity: 0.1;
-}
-.exercise-background.inqueue {
-    margin-left: 30vw;
-    opacity: 0;
-}
-.exercise-background.next {
-    opacity: 0.1;
-    margin-left: 10vw ;
+    //padding-bottom: 40vh;
+    //transition: all 0.5s;
+    //transition-delay: 200ms;
 }
 
 </style>

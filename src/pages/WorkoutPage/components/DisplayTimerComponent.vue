@@ -5,11 +5,12 @@
       show-value
       font-size="40px"
       :value="timer.percentage"
-      :size="status === 'running' ? '20vh' : '10vh'"
+      size="20vh"
       :thickness="1"
       color="grey-4"
       track-color="white"
-      class="q-ma-md"
+      class="q-ma-md clock"
+      :class="status"
     >
       {{ timer.countdownString }}
     </q-circular-progress>
@@ -60,3 +61,15 @@ export default defineComponent({
     }
 })
 </script>
+<style lang="scss" scoped>
+.clock {
+  transition: all 0.3s;
+  transition-delay: 0.2s;
+}
+  .inqueue,.next {
+    opacity: 0;
+  }
+  .running {
+    opacity: 1;
+  }
+</style>
