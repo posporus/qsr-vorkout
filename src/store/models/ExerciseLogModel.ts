@@ -1,5 +1,5 @@
 import { Model } from '@vuex-orm/core'
-import ExerciseModel from './WorkoutModel'
+import ExerciseModel from './ExerciseModel'
 import WorkoutLogModel from './WorkoutLogModel'
 import { nanoid } from 'nanoid'
 import { duration } from 'src/utility'
