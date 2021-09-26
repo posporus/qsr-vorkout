@@ -15,8 +15,8 @@
 </template>
 
 <script lang="ts">
-import Exercise from 'src/classes/Exercise'
-import Workout from 'src/classes/Workout'
+import { Exercise } from 'src/classes'
+import { Workout } from 'src/classes'
 import { WorkoutNeat } from 'src/types'
 import { ExerciseStatus } from 'src/classes'
 import DisplayExerciseComponent from './DisplayExerciseComponent.vue'
