@@ -32,7 +32,7 @@
         },*/
       ]"
     />
-    <!--
+    
     <q-separator inset />
     <menu-section
       :menuSectionEntrys="[
@@ -43,7 +43,7 @@
         },
       ]"
     />
-    -->
+    
   </q-list>
 </template>
 

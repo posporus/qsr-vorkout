@@ -10,7 +10,8 @@ const routes: RouteRecordRaw[] = [
       { path: 'my-logs', component: () => import('src/pages/MyLogsPage') },
       { path: 'my-exercises', component: () => import('src/pages/MyExercisesPage') },
       { path: 'edit-exercise', name: 'edit-exercise', component: () => import('src/pages/EditExercisePage') },
-      { path: 'workout-log-details/:workoutLogId', name: 'workout-log-details', component: () => import('src/pages/WorkoutLogDetailsPage'), props: true }
+      { path: 'workout-log-details/:workoutLogId', name: 'workout-log-details', component: () => import('src/pages/WorkoutLogDetailsPage'), props: true },
+      { path: 'preferences', name: 'preferences', component: () => import('src/pages/PreferencesPage') }
     ],
   },
   {
