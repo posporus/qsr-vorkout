@@ -6,6 +6,11 @@ import Preset, { preset } from './Preset';
 import SelectInterface from './SelectInterface';
 import {status} from './status'
 
+import WorkoutInterface from './WorkoutInterface';
+import SetInterface from './SetInterface'
+import ExerciseInterface from './ExerciseInterface';
+
+
 export {
     ExerciseOptions,
     ExerciseNeat,
@@ -15,4 +20,7 @@ export {
     preset,
     SelectInterface,
     status,
+    WorkoutInterface,
+    SetInterface,
+    ExerciseInterface
 }
