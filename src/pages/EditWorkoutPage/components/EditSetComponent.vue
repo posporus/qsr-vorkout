@@ -1,144 +1,94 @@
 <template>
-  <div class="sets">
-  <q-expansion-item
-  :content-inset-level="0.3"
-  expand-separator
-  expand-icon-toggle
-  v-model="expanded"
-  class="set-expansion-item overflow-hidden"
-  dense
-  header-class="set-header"
-  >
+  <q-card class="set" bordered>
+    <q-card-section>
+      <q-input label="number of sets" v-model="set.sets" type="number" />
+    </q-card-section>
+    <q-card-section>
 
-    <template v-slot:header>
-      <switchable-panel v-model="expanded">
-        <template v-slot:true >
-          
-            <q-item-section avatar>
-              <number-spinner v-model="set.sets">
-                x
-              </number-spinner>
-            </q-item-section>
-
-            <q-item-section>
-              <q-input label="Name(optional)" v-model="set.name">
-
-              </q-input>
-            </q-item-section>
-
-       
-        </template>
-        <template v-slot:false >
-          
-            <q-item-section avatar>
-              <q-avatar size="lg" color="primary" text-color="white" >
-                {{set.sets}}x
-            
-              </q-avatar>
-            </q-item-section>
-
-            <q-item-section>
-              <div class="text-h5">
-                {{ set.name || 'Set' }}
-              </div>
-              
-            </q-item-section>
-
-            <q-item-section>
-              <q-item-label>
-                <q-btn-group dense rounded>
-                  <q-btn
-                  dense
-                  v-for="exercise in set.exercises"
-                  :key="exercise.id"
-                  text-color="white"
-                  :color="exercise.preset.color"
-                  :icon="exercise.preset.icon"
-                  size="sm"
-                  />
-                </q-btn-group>
-                
-              </q-item-label>
-            </q-item-section>                                                       
-                                                                    
-         
-        </template>
-      </switchable-panel>
-      
-    </template>
-
-    <q-card class="set-box">
-      
-        <edit-exercise-component v-for="(exercise,index) in set.exercises" :key="index" :_exercise="exercise" />
-      
-
-      <q-item>
-        <q-item-section avatar>
-          
-            <q-btn round  icon="add" @click="addExercise" />
-          
-          
-        </q-item-section>
-      </q-item>
-
-    </q-card>
     
-    
-  </q-expansion-item>
-  
-     
-  </div>
+    <draggable
+      :list="set.exercises"
+      item-key="id"
+      @start="drag = true"
+      @end="drag = false"
+      group="exercises"
+    >
+      <template #item="{ index }">
+        <edit-exercise-component
+        v-model="set.exercises[index]"
+        />
+      </template>
+    </draggable>
+    </q-card-section>
+    <q-card-section>
+      <!--<q-btn @click="addRest">Add Rest</q-btn>-->
+      <button-menu-component @click="preset => set.exercises.push({preset:preset})"/>
+    </q-card-section>
+  </q-card>
 </template>
 
 <script lang="ts">
+import { set_defaults } from 'src/static/defaults'
+import { SetInterface } from 'src/types'
 import { defineComponent } from 'vue'
+import draggable from 'vuedraggable'
+import _ from 'lodash'
 import EditExerciseComponent from './EditExerciseComponent.vue'
-import Set from 'src/classes/Set'
-import NumberSpinner from 'components/NumberSpinner.vue'
-import SwitchablePanel from 'components/SwitchablePanel.vue'
+import ButtonMenuComponent from './ButtonMenuComponent.vue'
+//import SelectDialogComponent from './SelectDialogComponent.vue'
+//import { Workout } from 'src/classes'
+
 export default defineComponent({
-  name:'EditSetComponent',
-  data(){
+  name: 'EditSetCompoenent',
+  data() {
     return {
-      //set:{} as Set
-      name: 'New Set',
-      expanded: false,
+      
+      set: {
+        ..._.cloneDeep(set_defaults)
+      } as SetInterface,
+      drag: false,
+      //showExerciseSelect: false
     }
   },
-  props: {
-    _set:Set
-  },
   components: {
+    draggable,
     EditExerciseComponent,
-    NumberSpinner,
-    SwitchablePanel
-
+    ButtonMenuComponent,
+  },
+  props: {
+    modelValue: {
+      type: Object,
+      required: true,
+    },
+  },
+  emits: ['update:modelValue'],
+  mounted() {
+    this.$watch('modelValue', (modelValue: SetInterface) => {
+      this.set = modelValue
+    },{deep:true})
+    this.$watch('set', (set: SetInterface) => {
+      this.$emit('update:modelValue', set)
+    },{deep:true})
   },
   methods: {
     addExercise() {
-      this.set.addExercise()
+      //
     },
-  },
-  setup(props) {
-    const set = props._set as Set
-    return {
-      set
-    }
+    addRest() {
+      this.set.exercises.push({
+        id:'',
+        isRest: true,
+        time: 30,
+      })
+    },
   },
   
 })
 </script>
 
-<style lang="scss">
-  .set-box {
-    background-color: $grey-3;
-  }
-  .set-expansion-item {
-    border-radius: 30px;
-    //border: 1px solid grey;
-    background-color:grey;
-  }
-  .sets {
-    padding:5px
-  }
+<style lang="scss" scoped>
+.set {
+  border-radius: 16px;
+  margin-bottom: 10px;
+}
 </style>

@@ -1,95 +1,85 @@
 <template>
-  <q-expansion-item
-    :header-inset-level="0"
-    :content-inset-level="0"
-    expand-separator
-  >
-    <template v-slot:header>
-      <q-item-section avatar>
-        <q-avatar
-          size="sm"
-          :icon="exercise.preset.icon"
-          :color="exercise.preset.color"
-          text-color="white"
-        />
-      </q-item-section>
-      <q-item-section>
-        <exercise-select v-model="model" />
-        {{ model }}
-      </q-item-section>
-      <!--
-      <q-item-section>
-          <q-select v-model="model" :options="options" label="Standard" />
-      </q-item-section>
-
-      <q-item-section>
-          {{ model }}
-        <q-input label="New Exercise" v-model="model" dense />
-      </q-item-section>
--->
-    </template>
+  <q-list class="edit-exercise-list" bordered>
+    <exercise-edit-header-component
+      :label="preset?.label"
+      :icon="preset?.icon"
+      :class="'bg-' + preset?.color"
+    />
     <q-item>
-      <preset-select-component v-model="vPreset" v-slot="{ preset }">
-        <q-item v-if="preset.timer">
-          <q-item-section>
-            <q-input
-              label="Timer"
-              fill-mask
-              mask="##:##"
-              v-model="exercise.time.timeString"
-            />
-          </q-item-section>
-        </q-item>
-
-        <q-item v-if="preset.reps">
-          <q-item-section>
-            <q-input label="Reps" v-model="exercise.reps" />
-          </q-item-section>
-        </q-item>
-      </preset-select-component>
+      <q-input v-model="exercise.time" />
     </q-item>
-  </q-expansion-item>
+    <select-dialog-component
+      v-model="exercise.id"
+      v-model:show="showExerciseSelect"
+    />
+  </q-list>
 </template>
 
 <script lang="ts">
-import { preset } from 'src/types'
-import Exercise from 'src/classes/Exercise'
-import PresetSelectComponent from './PresetSelectComponent.vue'
-//import ExerciseModel from 'src/store/models/ExerciseModel'
-import ExerciseSelect from 'src/components/ExerciseSelect.vue'
-
-import { defineComponent } from 'vue'
+import { ExerciseInterface } from 'src/types'
+import { defineComponent, ref, Ref } from 'vue'
+import ExerciseEditHeaderComponent from './EditExerciseHeaderComponent.vue'
+import SelectDialogComponent from './SelectDialogComponent.vue'
+import presets from 'src/static/presets'
+import { Preset } from 'src/types'
 
 export default defineComponent({
-  name:'EditExerciseComponent',
+  name: 'EditExerciseCompoenent',
   data() {
     return {
-      //exercise: {} as Exercise
-      model: 'k972J7TAy8exaIumavBt_',
-      //exercise: {},
-      vPreset: 'timer',
+      showExerciseSelect: false,
     }
   },
   components: {
-    PresetSelectComponent,
-    ExerciseSelect,
+    ExerciseEditHeaderComponent,
+    SelectDialogComponent,
   },
   props: {
-    _exercise: Exercise,
+    modelValue: {
+      type: Object,
+      required: true,
+    },
   },
-  beforeCreate() {
-    this.exercise = this._exercise as Exercise
-  },
+  emits: ['update:modelValue'],
   mounted() {
-    this.$watch('vPreset', (preset: preset) => {
-      this.exercise.preset.name = preset
-    })
-    this.$watch('model', ((id:string) => {
-      this.exercise.id = id
-    }))
+    if (this.exercise.preset !== 'rest' && this.exercise.id === undefined)
+      this.exercise.id = ''
+    if (this.exercise.id === '') this.showExerciseSelect = true
+
+    this.$watch(
+      'exercise.id',
+      () => {
+        console.log('exercise change')
+
+        this.showExerciseSelect = false
+      },
+      { deep: true }
+    )
+    this.$watch(
+      'modelValue',
+      (modelValue: ExerciseInterface) => {
+        this.exercise = modelValue
+      },
+      { deep: true }
+    )
+    this.$watch(
+      'set',
+      (exercise: ExerciseInterface) => {
+        this.$emit('update:modelValue', exercise)
+      },
+      { deep: true }
+    )
+  },
+  methods: {
+    //
+  },
+  computed: {
+    preset(): Preset | undefined {
+      return presets.find((el) => el.name === this.exercise.preset)
+    },
   },
   setup(props) {
-    const exercise = props._exercise as Exercise
+    const exercise: Ref<ExerciseInterface> = ref(props.modelValue)
     return {
       exercise,
     }
@@ -97,4 +87,4 @@ export default defineComponent({
 })
 </script>
 
-<style></style>
+<style lang="scss" scoped></style>
