@@ -5,6 +5,10 @@
         <q-input label="number of sets" v-model="set.sets" type="number" />
       </q-item-section>
       <q-item-section side>
+        <q-btn :disable="!removable" icon="delete" round flat size="sm" @click="$emit('remove')"/>
+      </q-item-section>
+      <q-space/>
+      <q-item-section side>
         <q-icon name="drag_handle" class="set-handle" />
       </q-item-section>
     </q-item>
@@ -70,8 +74,12 @@ export default defineComponent({
       type: Object,
       required: true,
     },
+    removable: {
+      type:Boolean,
+
+    }
   },
-  emits: ['update:modelValue'],
+  emits: ['update:modelValue','remove'],
   mounted() {
     this.$watch(
       'modelValue',
@@ -98,5 +106,4 @@ export default defineComponent({
 })
 </script>
 
-<style lang="scss" scoped>
-</style>
+<style lang="scss" scoped></style>

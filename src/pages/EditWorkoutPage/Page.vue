@@ -16,13 +16,15 @@
         >
           <template #item="{ index }">
             <div>
-              <edit-set-component v-model="workout.sets[index]" />
+              <edit-set-component
+                v-model="workout.sets[index]"
+                @remove="this.workout.sets.splice(index, 1)"
+                :removable="this.workout.sets.length > 1"
+              />
               <q-item>
                 <q-item-section class="items-center">
                   <q-btn
-                    @click="
-                      workout.sets.splice(1, 0, { ...set_defaults })
-                    "
+                    @click="workout.sets.splice(1, 0, { ...set_defaults })"
                     icon="add"
                     round
                   />
@@ -77,8 +79,7 @@ export default defineComponent({
       this.workout.name = workout?.name.toString() || ''
       this.workout.id = workout?.id.toString() || ''
       this.workout.sets = _.cloneDeep(workout?.sets) || []
-    }
-    else {
+    } else {
       this.workout = this.workout_defaults
     }
     this.$watch(
@@ -102,6 +103,10 @@ export default defineComponent({
         this.savedWorkout = true
       })
     },
+    /*
+    removeSet() {
+      if()
+    }*/
   },
   computed: {
     dynamicId(): string {
@@ -120,7 +125,7 @@ export default defineComponent({
     }
     return {
       set_defaults,
-      workout_defaults
+      workout_defaults,
     }
   },
 })
