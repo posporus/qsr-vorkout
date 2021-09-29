@@ -91,17 +91,24 @@ export default defineComponent({
     )
   },
   methods: {
-    saveWorkout() {
-      void WorkoutModel.insert({
-        data: {
-          id: this.dynamicId,
-          name: this.workout.name,
-          sets: this.workout.sets,
-        },
-      }).then(() => {
-        console.log('safed')
-        this.savedWorkout = true
-      })
+    saveWorkout() { 
+      if (WorkoutModel.query().where('name', this.workout.name).get().length > 0) {
+        this.$q.notify(
+          `Workout with name "${this.workout.name}" already exists.`
+        )
+      } else {
+        void WorkoutModel.insert({
+          data: {
+            id: this.dynamicId,
+            name: this.workout.name,
+            sets: this.workout.sets,
+          },
+        }).then(() => {
+          console.log('safed')
+          this.$q.notify('Workout saved.')
+          this.savedWorkout = true
+        })
+      }
     },
     /*
     removeSet() {
