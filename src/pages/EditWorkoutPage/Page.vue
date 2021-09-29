@@ -1,31 +1,47 @@
 <template>
   <q-page>
-
-    <div class="text-h4">Edit Workout</div>
-    <q-list>
-      <q-item>
-        <q-item-section>
-          <q-input label="Name" v-model="workout.name" />
-        </q-item-section>
-      </q-item>
-    </q-list>
-
-    <div class="q-pa-md q-gutter-md">
-      <draggable
-        :list="workout.sets"
-        item-key="id"
-        @start="drag = true"
-        @end="drag = false"
-        group="sets"
-      >
-        <template #item="{ index }">
-          <edit-set-component v-model="workout.sets[index]" />
-        </template>
-        <template #footer>
-          <q-btn @click="addSet">Add</q-btn>
-        </template>
-      </draggable>
-    </div>
+    <q-card>
+      <q-card-section>
+        <q-input label="Name" v-model="workout.name" />
+      </q-card-section>
+      <q-separator />
+      <q-card-section>
+        <draggable
+          :list="workout.sets"
+          item-key="id"
+          @start="drag = true"
+          @end="drag = false"
+          group="sets"
+          handle=".set-handle"
+        >
+          <template #item="{ index }">
+            <div>
+              <edit-set-component v-model="workout.sets[index]" />
+              <q-item>
+                <q-item-section class="items-center">
+                  <q-btn
+                    @click="
+                      workout.sets.splice(1, 0, { ...set_defaults })
+                    "
+                    icon="add"
+                    round
+                  />
+                </q-item-section>
+              </q-item>
+            </div>
+          </template>
+        </draggable>
+      </q-card-section>
+    </q-card>
+    <q-page-sticky position="bottom-right" :offset="[18, 18]">
+      <q-btn
+        @click="saveWorkout"
+        :disable="savedWorkout"
+        :icon="savedWorkout ? 'check' : 'save'"
+        round
+        :color="savedWorkout ? 'green' : 'red'"
+      />
+    </q-page-sticky>
   </q-page>
 </template>
 
@@ -35,13 +51,16 @@ import _ from 'lodash'
 import draggable from 'vuedraggable'
 //import {nanoid} from 'nanoid'
 import EditSetComponent from './components/EditSetComponent.vue'
-import { workout_defaults, set_defaults } from 'src/static/defaults'
+import { WorkoutModel } from 'src/store/models'
+import { nanoid } from 'nanoid'
+import { SetInterface, WorkoutInterface } from 'src/types'
 
 export default defineComponent({
   data() {
     return {
-      workout: workout_defaults,
+      workout: {} as WorkoutInterface,
       drag: false,
+      savedWorkout: false,
     }
   },
   components: { EditSetComponent, draggable },
@@ -52,16 +71,58 @@ export default defineComponent({
       default: 'new',
     },
   },
-
+  mounted() {
+    if (this.id !== 'new') {
+      const workout = WorkoutModel.find(this.dynamicId)
+      this.workout.name = workout?.name.toString() || ''
+      this.workout.id = workout?.id.toString() || ''
+      this.workout.sets = _.cloneDeep(workout?.sets) || []
+    }
+    else {
+      this.workout = this.workout_defaults
+    }
+    this.$watch(
+      'workout',
+      () => {
+        this.savedWorkout = false
+      },
+      { deep: true }
+    )
+  },
   methods: {
-    addSet() {
-      this.workout.sets.push({
-        ..._.cloneDeep(set_defaults)
+    saveWorkout() {
+      void WorkoutModel.insert({
+        data: {
+          id: this.dynamicId,
+          name: this.workout.name,
+          sets: this.workout.sets,
+        },
+      }).then(() => {
+        console.log('safed')
+        this.savedWorkout = true
       })
-      console.log(this.workout)
     },
   },
-  
+  computed: {
+    dynamicId(): string {
+      if (this.id === 'new') return nanoid()
+      else return this.id
+    },
+  },
+  setup() {
+    const set_defaults: SetInterface = {
+      sets: 3,
+      exercises: [],
+    }
+    const workout_defaults: WorkoutInterface = {
+      name: 'Unnamed Workout',
+      sets: [{ sets: 3, exercises: [{ preset: 'rest' }] }],
+    }
+    return {
+      set_defaults,
+      workout_defaults
+    }
+  },
 })
 </script>
 

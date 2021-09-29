@@ -1,5 +1,5 @@
 <template>
-  <q-list bordered>
+  <q-list bordered separator>
     <q-item
       v-for="exercise in exercises"
       :key="exercise.id"
@@ -8,21 +8,33 @@
       @click="selectedExercise = exercise.id"
     >
       <q-item-section>
-        {{ exercise.name }}
+        <q-item-label>
+          {{ exercise.name }}
+        </q-item-label>
+        <q-item-label caption>
+          {{ exercise.dateString }}
+        </q-item-label>
       </q-item-section>
     </q-item>
+    <q-page-sticky position="bottom-right" :offset="[18, 18]">
+      <q-btn fab icon="add" color="accent" @click="openEditExercise = true" />
+    </q-page-sticky>
+    <edit-exercise-dialog v-model="openEditExercise" />
   </q-list>
 </template>
 
 <script lang="ts">
+import EditExerciseDialog from 'src/components/EditExerciseDialog.vue'
 import { ExerciseModel } from 'src/store/models'
 import { defineComponent } from 'vue'
 
 export default defineComponent({
+  components: { EditExerciseDialog },
   name: 'SelectExerciseComponent',
   data() {
     return {
       selectedExercise: '',
+      openEditExercise: false,
     }
   },
   props: {

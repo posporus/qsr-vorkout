@@ -1,13 +1,15 @@
 <template>
-  <q-btn-group rounded>
+  <q-btn-group rounded spread>
     <q-btn
       v-for="preset in presets"
       :color="preset.color"
       rounded
       :icon="preset.icon"
       :key="preset.name"
-      @click="$emit('click',preset.name)"
-    />
+      @click="$emit('click', preset.name)"
+    >
+      <!--  <div class="text-caption">{{ preset.label}}</div>-->
+    </q-btn>
   </q-btn-group>
 </template>
 
@@ -19,7 +21,7 @@ import presets from 'src/static/presets'
 
 export default defineComponent({
   name: 'ButtonMenuCompoenent',
-  emits:['click'],
+  emits: ['click'],
   setup() {
     return {
       presets,

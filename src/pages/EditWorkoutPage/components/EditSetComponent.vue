@@ -1,28 +1,39 @@
 <template>
   <q-card class="set" bordered>
+    <q-item>
+      <q-item-section>
+        <q-input label="number of sets" v-model="set.sets" type="number" />
+      </q-item-section>
+      <q-item-section side>
+        <q-icon name="drag_handle" class="set-handle" />
+      </q-item-section>
+    </q-item>
+    <q-list>
+      <draggable
+        :list="set.exercises"
+        item-key="id"
+        @start="drag = true"
+        @end="drag = false"
+        group="exercises"
+        handle=".exercise-handle"
+      >
+        <template #item="{ index }">
+          <edit-exercise-component
+            v-model="set.exercises[index]"
+            @remove="removeExercise(index)"
+          />
+        </template>
+      </draggable>
+    </q-list>
+    <q-separator />
     <q-card-section>
-      <q-input label="number of sets" v-model="set.sets" type="number" />
-    </q-card-section>
-    <q-card-section>
-
-    
-    <draggable
-      :list="set.exercises"
-      item-key="id"
-      @start="drag = true"
-      @end="drag = false"
-      group="exercises"
-    >
-      <template #item="{ index }">
-        <edit-exercise-component
-        v-model="set.exercises[index]"
-        />
-      </template>
-    </draggable>
-    </q-card-section>
-    <q-card-section>
-      <!--<q-btn @click="addRest">Add Rest</q-btn>-->
-      <button-menu-component @click="preset => set.exercises.push({preset:preset})"/>
+      <q-item>
+        <q-item-section>
+          <button-menu-component
+            @click="(preset) => set.exercises.push({ preset: preset })"
+          />
+        </q-item-section>
+      </q-item>
     </q-card-section>
   </q-card>
 </template>
@@ -42,9 +53,8 @@ export default defineComponent({
   name: 'EditSetCompoenent',
   data() {
     return {
-      
       set: {
-        ..._.cloneDeep(set_defaults)
+        ..._.cloneDeep(set_defaults),
       } as SetInterface,
       drag: false,
       //showExerciseSelect: false
@@ -63,32 +73,30 @@ export default defineComponent({
   },
   emits: ['update:modelValue'],
   mounted() {
-    this.$watch('modelValue', (modelValue: SetInterface) => {
-      this.set = modelValue
-    },{deep:true})
-    this.$watch('set', (set: SetInterface) => {
-      this.$emit('update:modelValue', set)
-    },{deep:true})
+    this.$watch(
+      'modelValue',
+      (modelValue: SetInterface) => {
+        this.set = modelValue
+      },
+      { deep: true }
+    )
+    this.$watch(
+      'set',
+      (set: SetInterface) => {
+        console.log(JSON.stringify(set, null, 2))
+        this.$emit('update:modelValue', set)
+      },
+      { deep: true }
+    )
   },
   methods: {
-    addExercise() {
-      //
-    },
-    addRest() {
-      this.set.exercises.push({
-        id:'',
-        isRest: true,
-        time: 30,
-      })
+    removeExercise(index: number) {
+      this.set.exercises.splice(index, 1)
+      //delete this.set.exercises[index]
     },
   },
-  
 })
 </script>
 
 <style lang="scss" scoped>
-.set {
-  border-radius: 16px;
-  margin-bottom: 10px;
-}
 </style>
