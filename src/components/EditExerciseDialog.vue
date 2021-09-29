@@ -54,6 +54,7 @@ export default defineComponent({
       })
         .then(() => {
           this.dialogOpen = false
+          this.$q.notify('Exercise created.')
         })
         .catch((err) => console.error(err))
     },
