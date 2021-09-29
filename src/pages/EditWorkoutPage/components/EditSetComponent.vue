@@ -5,9 +5,16 @@
         <q-input label="number of sets" v-model="set.sets" type="number" />
       </q-item-section>
       <q-item-section side>
-        <q-btn :disable="!removable" icon="delete" round flat size="sm" @click="$emit('remove')"/>
+        <q-btn
+          :disable="!removable"
+          icon="delete"
+          round
+          flat
+          size="sm"
+          @click="$emit('remove')"
+        />
       </q-item-section>
-      <q-space/>
+      <q-space />
       <q-item-section side>
         <q-icon name="drag_handle" class="set-handle" />
       </q-item-section>
@@ -16,6 +23,7 @@
       <draggable
         :list="set.exercises"
         item-key="id"
+        tag="transition-group"
         @start="drag = true"
         @end="drag = false"
         group="exercises"
@@ -75,11 +83,10 @@ export default defineComponent({
       required: true,
     },
     removable: {
-      type:Boolean,
-
-    }
+      type: Boolean,
+    },
   },
-  emits: ['update:modelValue','remove'],
+  emits: ['update:modelValue', 'remove'],
   mounted() {
     this.$watch(
       'modelValue',
@@ -103,6 +110,7 @@ export default defineComponent({
       //delete this.set.exercises[index]
     },
   },
+  
 })
 </script>
 
