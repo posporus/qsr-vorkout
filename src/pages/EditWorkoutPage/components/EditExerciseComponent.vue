@@ -44,6 +44,8 @@ import { Item } from '@vuex-orm/core'
 import TimeInputComponent from 'src/components/TimeInputComponent.vue'
 import InputSpinnerComponent from 'components/InputSpinnerComponent.vue'
 import { QSlideItem } from 'quasar'
+import _ from 'lodash'
+import { nanoid } from 'nanoid'
 
 export default defineComponent({
   name: 'EditExerciseCompoenent',
@@ -73,7 +75,7 @@ export default defineComponent({
     ;(this.$refs.exerciseSlider as QSlideItem).reset()
   },
   mounted() {
-    //if this is a new exercise
+    //if this is a new exercise (cause exercises.push({preset:preset}))
     if (
       this.exercise.id === undefined &&
       this.exercise.reps === undefined &&
@@ -136,12 +138,15 @@ export default defineComponent({
           time: 30,
         },
       }
-      return exerciseDefaults[_preset]
+      return _.cloneDeepWith({
+        key:nanoid(6),
+        ...exerciseDefaults[_preset]
+        })
     },
   },
   computed: {
     preset(): Preset | undefined {
-      return presets.find((el) => el.name === this.exercise.preset)
+      return _.cloneDeepWith(presets.find((el) => el.name === this.exercise.preset))
     },
     exerciseDetails(): Item<ExerciseModel> {
       return ExerciseModel.find(this.exercise.id || '')

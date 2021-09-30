@@ -21,19 +21,22 @@
     </q-item>
     <q-list>
       <draggable
-        :list="set.exercises"
-        item-key="id"
-        tag="transition-group"
-        @start="drag = true"
-        @end="drag = false"
+        v-model="set.exercises"
+        item-key="key"
+        @start="dragThis = true"
+        @end="dragThis = false"
         group="exercises"
         handle=".exercise-handle"
+        animation="200"
+      
       >
-        <template #item="{ index }">
-          <edit-exercise-component
-            v-model="set.exercises[index]"
-            @remove="removeExercise(index)"
-          />
+        <template #item="{ element, index }">
+          <div :key="element.key">
+            <edit-exercise-component
+              v-model="set.exercises[index]"
+              @remove="removeExercise(index)"
+            />
+          </div>
         </template>
       </draggable>
     </q-list>
@@ -42,7 +45,9 @@
       <q-item>
         <q-item-section>
           <button-menu-component
-            @click="(preset) => set.exercises.push({ preset: preset })"
+            @click="
+              (preset) => set.exercises.push(this.loadExerciseDefaults(preset))
+            "
           />
         </q-item-section>
       </q-item>
@@ -51,13 +56,14 @@
 </template>
 
 <script lang="ts">
-import { set_defaults } from 'src/static/defaults'
-import { SetInterface } from 'src/types'
+import { SetInterface, ExerciseInterface, preset } from 'src/types'
 import { defineComponent } from 'vue'
 import draggable from 'vuedraggable'
 import _ from 'lodash'
 import EditExerciseComponent from './EditExerciseComponent.vue'
 import ButtonMenuComponent from './ButtonMenuComponent.vue'
+import { nanoid } from 'nanoid'
+
 //import SelectDialogComponent from './SelectDialogComponent.vue'
 //import { Workout } from 'src/classes'
 
@@ -65,10 +71,8 @@ export default defineComponent({
   name: 'EditSetCompoenent',
   data() {
     return {
-      set: {
-        ..._.cloneDeep(set_defaults),
-      } as SetInterface,
-      drag: false,
+      set: this.modelValue as SetInterface,
+      dragThis: false,
       //showExerciseSelect: false
     }
   },
@@ -85,9 +89,17 @@ export default defineComponent({
     removable: {
       type: Boolean,
     },
+    drag: Boolean
   },
-  emits: ['update:modelValue', 'remove'],
+  emits: ['update:modelValue', 'remove','update:drag'],
   mounted() {
+    console.log('inside set Edit', this.set)
+    this.$watch('dragThis',(dragThis:boolean) => {
+      this.$emit('update:drag',dragThis)
+    })
+    this.$watch('drag',(drag:boolean) => {
+      this.dragThis = drag
+    })
     this.$watch(
       'modelValue',
       (modelValue: SetInterface) => {
@@ -98,7 +110,7 @@ export default defineComponent({
     this.$watch(
       'set',
       (set: SetInterface) => {
-        console.log(JSON.stringify(set, null, 2))
+        //console.log(JSON.stringify(set, null, 2))
         this.$emit('update:modelValue', set)
       },
       { deep: true }
@@ -109,8 +121,13 @@ export default defineComponent({
       this.set.exercises.splice(index, 1)
       //delete this.set.exercises[index]
     },
+    loadExerciseDefaults(preset: preset): ExerciseInterface {
+      return _.cloneDeepWith({
+        preset: preset,
+        key: nanoid(6),
+      })
+    },
   },
-  
 })
 </script>
 

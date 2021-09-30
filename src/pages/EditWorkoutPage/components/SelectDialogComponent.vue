@@ -77,7 +77,7 @@ export default defineComponent({
       { deep: true }
     )
     this.$watch(
-      'set',
+      'exercise',
       (exercise: ExerciseInterface) => {
         this.$emit('update:modelValue', exercise)
       },
