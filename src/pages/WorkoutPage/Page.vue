@@ -9,13 +9,13 @@
 <script lang="ts">
 import DisplayWorkoutComponent from './components/DisplayWorkoutComponent.vue'
 import { defineComponent } from 'vue'
-import { WorkoutNeat } from 'src/types'
+import { WorkoutInterface } from 'src/types'
 import WorkoutModel from 'src/store/models/WorkoutModel'
 export default defineComponent({
   name: 'WorkoutPage',
   data() {
     return {
-      workoutData: {} as WorkoutNeat,
+      workoutData: {} as WorkoutInterface,
     }
   },
   props: {
