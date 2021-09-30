@@ -1,13 +1,12 @@
 import { Model } from '@vuex-orm/core'
-import { SetNeat } from 'src/classes/Set'
 //import WorkoutLogModel from './WorkoutLogModel'
 import { nanoid } from 'nanoid'
-import { WorkoutNeat } from 'src/types'
+import { SetInterface, WorkoutInterface } from 'src/types'
 
-export default class WorkoutModel extends Model implements WorkoutNeat {
+export default class WorkoutModel extends Model implements WorkoutInterface {
   id!: string
   name!: string
-  sets!: Array<SetNeat>
+  sets!: Array<SetInterface>
   //logs!: WorkoutLogModel
 
   static entity = 'workouts'

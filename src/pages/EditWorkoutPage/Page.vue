@@ -1,160 +1,188 @@
 <template>
-  <q-page padding class="edit-page">
-    is new: {{ isNew }} id: {{ id }}
-    <q-form>
-      <q-list bordered class="rounded-borders edit-box">
-        <q-item bordered>
-          <q-item-section>
-            <q-input
-              dense
-              label="Name your workout"
-              v-model="workout.name"
-            ></q-input>
-          </q-item-section>
-        </q-item>
-        <edit-set-component
-          v-for="(set, index) in workout.sets"
-          :workout="workout"
-          :_set="set"
-          :key="index"
-        />
-        <q-item>
-          <q-btn icon="add" v-on:click="addSet">add set</q-btn>
-        </q-item>
-      </q-list>
-    </q-form>
-    <q-btn @click="save"> save </q-btn>
+  <q-page>
+    <q-card>
+      <q-card-section>
+        <q-input label="Name" v-model="workout.name" />
+      </q-card-section>
+      <q-separator />
+      <q-card-section>
+        <draggable
+          v-model="workout.sets"
+          item-key="key"
+          @start="drag = true"
+          @end="drag = false"
+          animation="200"
+          group="sets"
+          handle=".set-handle"
+        >
+          <template #item="{ element,index }">
+            <div :key="element.key">
+              <edit-set-component
+                :drag="drag"
+                v-model="workout.sets[index]"
+                @remove="this.workout.sets.splice(index, 1)"
+                :removable="this.workout.sets.length > 1"
+              />
+              <q-item>
+                <q-item-section class="items-center">
+                  <q-btn
+                    @click="workout.sets.splice(index+1, 0, { ...loadSetDefaults() })"
+                    icon="add"
+                    round
+                  />
+                </q-item-section>
+              </q-item>
+              
+            </div>
+          </template>
+        </draggable>
+      </q-card-section>
+    </q-card>
+    <q-page-sticky position="bottom-right" :offset="[18, 18]">
+      <q-btn
+        @click="saveWorkout"
+        :disable="savedWorkout"
+        :icon="savedWorkout ? 'check' : 'save'"
+        round
+        :color="savedWorkout ? 'green' : 'red'"
+      />
+    </q-page-sticky>
   </q-page>
 </template>
 
 <script lang="ts">
 import { defineComponent } from 'vue'
-import { Workout } from 'src/classes'
+import _ from 'lodash'
+import draggable from 'vuedraggable'
 import EditSetComponent from './components/EditSetComponent.vue'
 import { WorkoutModel } from 'src/store/models'
-import { useQuasar } from 'quasar'
 import { nanoid } from 'nanoid'
+import { SetInterface, WorkoutInterface } from 'src/types'
 
 export default defineComponent({
-  name:'EditWorkoutPage',
   data() {
     return {
-      workout: {} as Workout,
+      workout: {} as WorkoutInterface,
+      drag: false,
+      savedWorkout: false,
     }
   },
+  components: { EditSetComponent, draggable },
+  name: 'EditWorkoutPage',
   props: {
     id: {
       type: String,
       default: 'new',
     },
   },
-  components: {
-    EditSetComponent,
-  },
-  beforeMount() {
-    /**
-     * create new workout
-     */
-    this.workout = new Workout()
-  },
   mounted() {
-    /**
-     * when the workout already exists, load its data from Vuex ORM
-     * and import it to the workout object
-     */
-    if (!this.isNew) {
-      const workout = WorkoutModel.find(this.id)
-      if (workout) {
-        this.workout.importWorkout({
-          id: this.id,
-          name: workout.name,
-          sets: workout.sets,
+    if (this.id !== 'new') {
+      const workout = WorkoutModel.find(this.dynamicId)
+      console.log('workout', workout?.sets)
+      this.workout.name = workout?.name.toString() || ''
+      this.workout.id = this.dynamicId
+      this.workout.sets = _.cloneDeep(workout?.sets || [])
+      console.log('this.workout', this.workout)
+    } else {
+      this.workout = this.loadWorkoutDefaults()
+    }
+    this.$watch(
+      'workout',
+      () => {
+        console.log('workout changed.', JSON.stringify(this.workout,null,2))
+        this.savedWorkout = false
+        this.drag = false
+      },
+      { deep: true }
+    )
+  },
+  methods: {
+    saveWorkout() {
+      /**
+       * if workout with id exists
+       */
+      if (WorkoutModel.query().where('id', this.dynamicId).get().length > 0) {
+        void WorkoutModel.update({
+          where: this.dynamicId,
+          data: {
+            name: this.workout.name,
+            sets: this.workout.sets,
+          },
+        }).then(() => {
+          console.log('safed')
+          this.$q.notify('Workout updated.')
+          this.savedWorkout = true
         })
       }
+      /**
+       * if workout with id doesnt exists
+       */
+      else {
+        /**
+         * if name is taken
+         */
+        if (
+          WorkoutModel.query().where('name', this.workout.name).get().length > 0
+        ) {
+          this.$q.notify(
+            `Workout with name "${this.workout.name}" already exists.`
+          )
+        }
+        /**
+         * if either name or id is taken
+         */
+        else {
+          void WorkoutModel.insert({
+            data: {
+              id: this.dynamicId,
+              name: this.workout.name,
+              sets: this.workout.sets,
+            },
+          }).then(() => {
+            console.log('safed')
+            this.$q.notify('Workout saved.')
+            this.savedWorkout = true
+          })
+        }
+      }
+    },
+    loadSetDefaults():SetInterface{
+      ///return _.cloneDeepWith(this.set_defaults)
+      return _.cloneDeepWith({
+        sets:3,
+        key:nanoid(6),
+        exercises:[]
+      })
+    },
+    loadWorkoutDefaults():WorkoutInterface{
+      return _.cloneDeepWith({
+        name:'Unnamed Workout',
+        sets: [this.loadSetDefaults()]
+      })
     }
   },
   computed: {
-    /**
-     * determines weather its a new workout or an existing one
-     */
-    isNew() {
-      if (this.id === 'new' || typeof this.id === undefined) {
-        return true
-      } else {
-        return false
-      }
+    dynamicId(): string {
+      if (this.id === 'new') return nanoid()
+      else return this.id
     },
   },
-  methods: {
-    /**
-     * saves the workout to Vuex ORM
-     */
-    save() {
-      let id = null
-      /**
-       * uses weather the old id for updating
-       * or generates a new one.
-       */
-      if (!this.isNew) id = this.id
-      else id = nanoid()
-
-      /**
-       * export workout data in Neat Format
-       */
-
-      const exported = this.workout.exportWorkout()
-
-      /**
-       * put it to the database
-       */
-      WorkoutModel.insert({
-        data: {
-          id: id,
-          name: exported.name,
-          sets: exported.sets,
-        },
-      })
-        .then((data) => {
-          void this.$router.push({
-            name: 'edit',
-            params: { id: data.workouts[0].$id || '' },
-          })
-          this.showNotification('Workout Saved.')
-        })
-        .catch((err) => console.error(err))
-    },
-
-    /**
-     * add a new set to the workout
-     */
-    addSet() {
-      this.workout.addSet()
-    },
-  },
+  /*
   setup() {
-    /**
-     * setup notification toast
-     */
-    const $q = useQuasar()
-    return {
-      showNotification(notification: string) {
-        $q.notify(notification)
-      },
+    const set_defaults: SetInterface = {
+      sets: 3,
+      exercises: [],
     }
-  },
+    const workout_defaults: WorkoutInterface = {
+      name: 'Unnamed Workout',
+      sets: [{ sets: 3, exercises: [{ preset: 'rest' }] }],
+    }
+    return {
+      set_defaults,
+      workout_defaults,
+    }
+  },*/
 })
 </script>
 
-<style lang="scss">
-.edit-page {
-  background: rgb(34, 193, 195);
-  background: linear-gradient(
-    0deg,
-    rgba(34, 193, 195, 1) 0%,
-    rgba(253, 187, 45, 1) 100%
-  );
-}
-.edit-box {
-  background: rgba(255, 255, 255, 0.7);
-}
-</style>
+<style lang="scss" scoped></style>

@@ -1,144 +1,134 @@
 <template>
-  <div class="sets">
-  <q-expansion-item
-  :content-inset-level="0.3"
-  expand-separator
-  expand-icon-toggle
-  v-model="expanded"
-  class="set-expansion-item overflow-hidden"
-  dense
-  header-class="set-header"
-  >
-
-    <template v-slot:header>
-      <switchable-panel v-model="expanded">
-        <template v-slot:true >
-          
-            <q-item-section avatar>
-              <number-spinner v-model="set.sets">
-                x
-              </number-spinner>
-            </q-item-section>
-
-            <q-item-section>
-              <q-input label="Name(optional)" v-model="set.name">
-
-              </q-input>
-            </q-item-section>
-
-       
+  <q-card class="set" bordered>
+    <q-item>
+      <q-item-section>
+        <q-input label="number of sets" v-model="set.sets" type="number" />
+      </q-item-section>
+      <q-item-section side>
+        <q-btn
+          :disable="!removable"
+          icon="delete"
+          round
+          flat
+          size="sm"
+          @click="$emit('remove')"
+        />
+      </q-item-section>
+      <q-space />
+      <q-item-section side>
+        <q-icon name="drag_handle" class="set-handle" />
+      </q-item-section>
+    </q-item>
+    <q-list>
+      <draggable
+        v-model="set.exercises"
+        item-key="key"
+        @start="dragThis = true"
+        @end="dragThis = false"
+        group="exercises"
+        handle=".exercise-handle"
+        animation="200"
+      
+      >
+        <template #item="{ element, index }">
+          <div :key="element.key">
+            <edit-exercise-component
+              v-model="set.exercises[index]"
+              @remove="removeExercise(index)"
+            />
+          </div>
         </template>
-        <template v-slot:false >
-          
-            <q-item-section avatar>
-              <q-avatar size="lg" color="primary" text-color="white" >
-                {{set.sets}}x
-            
-              </q-avatar>
-            </q-item-section>
-
-            <q-item-section>
-              <div class="text-h5">
-                {{ set.name || 'Set' }}
-              </div>
-              
-            </q-item-section>
-
-            <q-item-section>
-              <q-item-label>
-                <q-btn-group dense rounded>
-                  <q-btn
-                  dense
-                  v-for="exercise in set.exercises"
-                  :key="exercise.id"
-                  text-color="white"
-                  :color="exercise.preset.color"
-                  :icon="exercise.preset.icon"
-                  size="sm"
-                  />
-                </q-btn-group>
-                
-              </q-item-label>
-            </q-item-section>                                                       
-                                                                    
-         
-        </template>
-      </switchable-panel>
-      
-    </template>
-
-    <q-card class="set-box">
-      
-        <edit-exercise-component v-for="(exercise,index) in set.exercises" :key="index" :_exercise="exercise" />
-      
-
+      </draggable>
+    </q-list>
+    <q-separator />
+    <q-card-section>
       <q-item>
-        <q-item-section avatar>
-          
-            <q-btn round  icon="add" @click="addExercise" />
-          
-          
+        <q-item-section>
+          <button-menu-component
+            @click="
+              (preset) => set.exercises.push(this.loadExerciseDefaults(preset))
+            "
+          />
         </q-item-section>
       </q-item>
-
-    </q-card>
-    
-    
-  </q-expansion-item>
-  
-     
-  </div>
+    </q-card-section>
+  </q-card>
 </template>
 
 <script lang="ts">
+import { SetInterface, ExerciseInterface, preset } from 'src/types'
 import { defineComponent } from 'vue'
+import draggable from 'vuedraggable'
+import _ from 'lodash'
 import EditExerciseComponent from './EditExerciseComponent.vue'
-import Set from 'src/classes/Set'
-import NumberSpinner from 'components/NumberSpinner.vue'
-import SwitchablePanel from 'components/SwitchablePanel.vue'
+import ButtonMenuComponent from './ButtonMenuComponent.vue'
+import { nanoid } from 'nanoid'
+
+//import SelectDialogComponent from './SelectDialogComponent.vue'
+//import { Workout } from 'src/classes'
+
 export default defineComponent({
-  name:'EditSetComponent',
-  data(){
+  name: 'EditSetCompoenent',
+  data() {
     return {
-      //set:{} as Set
-      name: 'New Set',
-      expanded: false,
+      set: this.modelValue as SetInterface,
+      dragThis: false,
+      //showExerciseSelect: false
     }
-  },
-  props: {
-    _set:Set
   },
   components: {
+    draggable,
     EditExerciseComponent,
-    NumberSpinner,
-    SwitchablePanel
-
+    ButtonMenuComponent,
+  },
+  props: {
+    modelValue: {
+      type: Object,
+      required: true,
+    },
+    removable: {
+      type: Boolean,
+    },
+    drag: Boolean
+  },
+  emits: ['update:modelValue', 'remove','update:drag'],
+  mounted() {
+    console.log('inside set Edit', this.set)
+    this.$watch('dragThis',(dragThis:boolean) => {
+      this.$emit('update:drag',dragThis)
+    })
+    this.$watch('drag',(drag:boolean) => {
+      this.dragThis = drag
+    })
+    this.$watch(
+      'modelValue',
+      (modelValue: SetInterface) => {
+        this.set = modelValue
+      },
+      { deep: true }
+    )
+    this.$watch(
+      'set',
+      (set: SetInterface) => {
+        //console.log(JSON.stringify(set, null, 2))
+        this.$emit('update:modelValue', set)
+      },
+      { deep: true }
+    )
   },
   methods: {
-    addExercise() {
-      this.set.addExercise()
+    removeExercise(index: number) {
+      this.set.exercises.splice(index, 1)
+      //delete this.set.exercises[index]
+    },
+    loadExerciseDefaults(preset: preset): ExerciseInterface {
+      return _.cloneDeepWith({
+        preset: preset,
+        key: nanoid(6),
+      })
     },
   },
-  setup(props) {
-    const set = props._set as Set
-    return {
-      set
-    }
-  },
-  
 })
 </script>
 
-<style lang="scss">
-  .set-box {
-    background-color: $grey-3;
-  }
-  .set-expansion-item {
-    border-radius: 30px;
-    //border: 1px solid grey;
-    background-color:grey;
-  }
-  .sets {
-    padding:5px
-  }
-</style>
+<style lang="scss" scoped></style>
