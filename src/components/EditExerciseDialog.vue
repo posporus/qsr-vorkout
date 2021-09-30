@@ -15,7 +15,6 @@
 <script lang="ts">
 import { defineComponent } from 'vue'
 import ExerciseModel from 'src/store/models/ExerciseModel'
-import { Boolean } from '@vuex-orm/core'
 interface Exercise {
   name: string
 }
