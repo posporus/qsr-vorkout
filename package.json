@@ -10,6 +10,7 @@
     "test": "echo \"No test specified\" && exit 0"
   },
   "dependencies": {
+    "@capacitor-community/keep-awake": "^2.1.0",
     "@capacitor/android": "^3.2.4",
     "@capacitor/core": "^3.2.4",
     "@capacitor/status-bar": "^1.0.3",

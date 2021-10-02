@@ -950,6 +950,11 @@
     "@babel/helper-validator-identifier" "^7.14.9"
     to-fast-properties "^2.0.0"
 
+"@capacitor-community/keep-awake@^2.1.0":
+  version "2.1.0"
+  resolved "https://registry.yarnpkg.com/@capacitor-community/keep-awake/-/keep-awake-2.1.0.tgz#8bf6e92be29b6c511cc8648c051349c44f6af8ca"
+  integrity sha512-DBM1yDfPg29ptamQahWyR6EFAXMjY3Oj4nsI2K8u/ofiKLzFDKde1yn6ZBaL06AmK+9lWBRXC7bmbZRVQ1WzFg==
+
 "@capacitor/android@^3.2.4":
   version "3.2.4"
   resolved "https://registry.yarnpkg.com/@capacitor/android/-/android-3.2.4.tgz#4d65f6db0fb10472d20367a310cfe39d60f1001b"
