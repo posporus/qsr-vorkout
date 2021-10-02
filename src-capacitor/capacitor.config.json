@@ -1,7 +1,0 @@
-{
-  "appId": "de.posporus.vorkout.app",
-  "appName": "Vorkout",
-  "bundledWebRuntime": false,
-  "npmClient": "yarn",
-  "webDir": "www"
-}
