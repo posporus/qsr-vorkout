@@ -1,0 +1,6 @@
+{
+	"appId": "de.posporus.vorkout.app",
+	"appName": "qsr-vorkout",
+	"webDir": "dist\\spa",
+	"bundledWebRuntime": false
+}
