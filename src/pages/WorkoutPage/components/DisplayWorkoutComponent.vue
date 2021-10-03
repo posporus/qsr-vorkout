@@ -1,9 +1,12 @@
 <template>
-<!--
+  <!--
   :class="'bg-'+currentExercise?.color" is a workaround cause i didnt managed to
   make it properly work with backgroundComponent.
 -->
-  <q-page class="workout bg-red last-transition" :class="'bg-'+currentExercise?.color">
+  <q-page
+    class="workout bg-red last-transition"
+    :class="'bg-' + currentExercise?.color"
+  >
     <display-exercise-component
       v-for="(exercise, index) in exercises"
       :index="index"
@@ -15,7 +18,6 @@
       @repResponse="(reps) => whenRepResponse(reps, index)"
       :key="exercise.id"
       :workout-log-id="logId"
-      
     />
     <display-finish-component :workoutLogId="logId" :finished="finished" />
   </q-page>
@@ -64,6 +66,15 @@ export default defineComponent({
       }
     })
     console.log('unwrappet exercises', this.workout.unwrapped)
+
+    /**
+     * skip last workout
+     */
+    this.workout.unwrapped[this.workout.unwrapped.length - 1].preset.name ===
+      'rest' && this.$store.state.preferences.workout.skipLast
+      ? this.workout.unwrapped.pop()
+      : false
+
     this.exercises = this.workout.unwrapped.map((_exercise: Exercise) => {
       let exercise = new ExerciseStatus()
 
@@ -182,7 +193,6 @@ export default defineComponent({
   overflow: hidden;
   width: 100%;
   height: 100%;
-  
 }
 .forward-button {
   position: fixed;
@@ -190,6 +200,6 @@ export default defineComponent({
   left: 0px;
 }
 .last-transition {
-transition: all 0.5s;
+  transition: all 0.5s;
 }
 </style>

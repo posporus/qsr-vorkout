@@ -1,10 +1,14 @@
 export interface PreferencesInterface {
-  test: string;
+  workout: {
+    skipLast: boolean
+  }
 }
 
 function state(): PreferencesInterface {
   return {
-    test: 'hello world'
+    workout: {
+      skipLast: true
+    }
   }
 };
 
