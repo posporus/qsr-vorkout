@@ -70,12 +70,13 @@ export default defineComponent({
     /**
      * skip last workout
      */
-    this.workout.unwrapped[this.workout.unwrapped.length - 1].preset.name ===
+    const unwrapped = this.workout.unwrapped
+    unwrapped[unwrapped.length - 1].preset.name ===
       'rest' && this.$store.state.preferences.workout.skipLast
-      ? this.workout.unwrapped.pop()
+      ? unwrapped.pop()
       : false
 
-    this.exercises = this.workout.unwrapped.map((_exercise: Exercise) => {
+    this.exercises = unwrapped.map((_exercise: Exercise) => {
       let exercise = new ExerciseStatus()
 
       ;(exercise._id = _exercise._id),
