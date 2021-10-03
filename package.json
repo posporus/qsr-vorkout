@@ -15,6 +15,7 @@
     "@capacitor/app": "^1.0.3",
     "@capacitor/core": "^3.2.4",
     "@capacitor/status-bar": "^1.0.3",
+    "@capacitor/storage": "^1.2.0",
     "@quasar/extras": "^1.11.1",
     "@types/lodash": "^4.14.173",
     "@vuex-orm/core": "^0.36.4",
