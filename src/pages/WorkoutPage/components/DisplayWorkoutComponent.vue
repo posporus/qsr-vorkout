@@ -33,6 +33,7 @@ import DisplayFinishComponent from './DisplayFinishComonent.vue'
 import { defineComponent } from 'vue'
 import { Collections } from '@vuex-orm/core'
 import WorkoutLogModel from 'src/store/models/WorkoutLogModel'
+import { getSetting } from 'src/utility'
 
 export default defineComponent({
   name: 'DisplayWorkoutComponent',
@@ -71,10 +72,11 @@ export default defineComponent({
      * skip last workout
      */
     const unwrapped = this.workout.unwrapped
-    unwrapped[unwrapped.length - 1].preset.name ===
-      'rest' && this.$store.state.preferences.workout.skipLast
-      ? unwrapped.pop()
-      : false
+    if (getSetting('workout/skipLastRest')) {
+      unwrapped[unwrapped.length - 1].preset.name === 'rest'
+        ? unwrapped.pop()
+        : false
+    }
 
     this.exercises = unwrapped.map((_exercise: Exercise) => {
       let exercise = new ExerciseStatus()

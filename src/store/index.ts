@@ -10,8 +10,6 @@ import {
   useStore as vuexUseStore,
 } from 'vuex'
 import PersistedState from 'src/store/plugins/persist'
-import { PreferencesInterface } from './modules/preferences/state'
-import preferences from './modules/preferences'
 
 /*
  * If not building with SSR mode, you can
@@ -33,7 +31,6 @@ export interface StateInterface {
   //example: unknown
 
   entities: EntitiesInterface,
-  preferences: PreferencesInterface,
 }
 
 // provide typings for `this.$store`
@@ -49,7 +46,7 @@ export const storeKey: InjectionKey<VuexStore<StateInterface>> = Symbol('vuex-ke
 export default store(function (/* { ssrContext } */) {
   const Store = createStore<StateInterface>({
     modules: {
-      preferences
+      //
     },
     plugins: [
       VuexORM.install(database),

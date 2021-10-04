@@ -11,6 +11,7 @@ import SetInterface from './SetInterface'
 import ExerciseInterface from './ExerciseInterface';
 
 
+
 export {
     ExerciseOptions,
     ExerciseNeat,
@@ -22,5 +23,5 @@ export {
     status,
     WorkoutInterface,
     SetInterface,
-    ExerciseInterface
+    ExerciseInterface,
 }
