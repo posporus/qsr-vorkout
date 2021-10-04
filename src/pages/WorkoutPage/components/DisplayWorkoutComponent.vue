@@ -72,6 +72,8 @@ export default defineComponent({
      * skip last workout
      */
     const unwrapped = this.workout.unwrapped
+    //TODO: 
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-call
     if (getSetting('workout/skipLastRest')) {
       unwrapped[unwrapped.length - 1].preset.name === 'rest'
         ? unwrapped.pop()

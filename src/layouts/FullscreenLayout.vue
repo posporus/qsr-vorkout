@@ -14,6 +14,8 @@ import { getSetting } from 'src/utility'
 export default defineComponent({
   name: 'FullscreenLayout',
   mounted() {
+    //TODO
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-call
     getSetting('workout/hideStatusBar') ? void StatusBar.hide() : false
     void KeepAwake.keepAwake()
   },
