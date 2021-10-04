@@ -1,6 +1,6 @@
 <template>
   <q-page>
-    <div class="text-h4">Preferences</div>
+    <div class="text-h4">Settings</div>
     <q-list bordered>
       <settings-cathegory
         v-for="cathegory in cathegories"

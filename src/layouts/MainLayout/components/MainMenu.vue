@@ -37,8 +37,8 @@
     <menu-section
       :menuSectionEntrys="[
         {
-          label: 'Preferences',
-          path: '/preferences',
+          label: 'Settings',
+          path: '/settings',
           icon: 'settings',
         },
       ]"
