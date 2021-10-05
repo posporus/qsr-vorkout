@@ -23,6 +23,12 @@ const user_settings: Array<SettingDefault> = [
         label:'Hide status bar',
         default: true,
     },
+    {
+        cathegory: 'workout',
+        key: 'workout/countdownSound',
+        label:'Play sound on countdown',
+        default: true,
+    },
     /*
     {
         cathegory: 'appearance',
