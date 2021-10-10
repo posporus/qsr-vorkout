@@ -12,14 +12,22 @@
         />
 
         <q-toolbar-title> Vorkout </q-toolbar-title>
-
       </q-toolbar>
     </q-header>
     <q-drawer v-model="leftDrawerOpen" show-if-above bordered class="white">
       <main-menu v-model="leftDrawerOpen" />
     </q-drawer>
     <q-page-container>
-      <router-view />
+      <router-view v-slot="{ Component }">
+        <transition
+          enter-active-class="animated fadeIn"
+          leave-active-class="animated fadeOut"
+          appear
+          :duration="150"
+        >
+          <component :is="Component" />
+        </transition>
+      </router-view>
     </q-page-container>
   </q-layout>
 </template>
