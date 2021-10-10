@@ -33,7 +33,7 @@
 
 <script lang="ts">
 import { defineComponent, Ref, ref } from 'vue'
-import CalendarComponent from '../components/CalendarComponent.vue'
+import CalendarComponent from './components/CalendarComponent.vue'
 //import moment from 'moment'
 import WorkoutLogsList from 'src/components/WorkoutLogsList.vue'
 import SortByButton from 'components/SortByButton.vue'
