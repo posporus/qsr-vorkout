@@ -1,8 +1,8 @@
-import { Model } from '@vuex-orm/core'
+import { Model /*,Item*/ } from '@vuex-orm/core'
 import { WorkoutModel } from '.'
 import { ExerciseLogModel } from '.'
 import { nanoid } from 'nanoid'
-import moment from 'moment'
+import moment, {Moment} from 'moment'
 import { duration } from 'src/utility'
 
 
@@ -14,6 +14,9 @@ export default class WorkoutLogModel extends Model {
   started!: Date
   ended!: Date | false
 
+  _dateString!: string | undefined
+
+
   static entity = 'workout_logs'
 
   static fields () {
@@ -23,7 +26,9 @@ export default class WorkoutLogModel extends Model {
       workout: this.belongsTo(WorkoutModel, 'workout_id') || {},
       exercises: this.hasMany(ExerciseLogModel, 'workout_log_id'),
       started: this.attr(Date.now()),
-      ended: this.attr(false)
+      ended: this.attr(false),
+      _dateString: this.attr(undefined),
+
     };
   }
 
@@ -36,9 +41,38 @@ export default class WorkoutLogModel extends Model {
   }
 
 
-  public get exerciseCount (): number {
-    return this.exercises.length
+  
+
+  public get dateString (): string {
+
+    if (!this._dateString) {
+      const date = moment(this.started)
+      this._dateString = date.format('YYYY/MM/DD')
+    }
+
+    return this._dateString
   }
 
+  public get moment (): Moment {
+    return moment(this.started)
+  }
+  /**
+   * get only exercises without rests
+   */
+  public get onlyExercises(): Array<ExerciseLogModel> {
+    return this.exercises.filter(exercise => exercise.exercise !== null)
+  }
+  /**
+   * get only rests without exercises
+   */
+  public get onlyRests(): Array<ExerciseLogModel> {
+    return this.exercises.filter(exercise => exercise.exercise === null)
+  }
 
+  public get exerciseCount (): number {
+    return this.onlyExercises.length
+  }
+  public get restCount (): number {
+    return this.onlyRests.length
+  }
 }

@@ -24,6 +24,11 @@
           path: '/my-exercises',
           icon: 'fitness_center',
         },
+        {
+          label: 'Diary',
+          path: '/diary',
+          icon: 'date_range',
+        },
         /*
         {
           label: 'Statistics',

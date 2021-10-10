@@ -11,7 +11,8 @@ const routes: RouteRecordRaw[] = [
       { path: 'my-exercises', component: () => import('src/pages/MyExercisesPage') },
       { path: 'edit-exercise', name: 'edit-exercise', component: () => import('src/pages/EditExercisePage') },
       { path: 'workout-log-details/:workoutLogId', name: 'workout-log-details', component: () => import('src/pages/WorkoutLogDetailsPage'), props: true },
-      { path: 'settings', name: 'settings', component: () => import('src/pages/SettingsPage') }
+      { path: 'settings', name: 'settings', component: () => import('src/pages/SettingsPage') },
+      { path: 'diary', name: 'diray', component: () => import('src/pages/DiaryPage') }
     ],
   },
   {
