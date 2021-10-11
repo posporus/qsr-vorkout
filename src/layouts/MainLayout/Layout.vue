@@ -12,6 +12,7 @@
         />
 
         <q-toolbar-title> Vorkout </q-toolbar-title>
+        <display-version @click="$router.push({ path: 'changelog' })"/>
       </q-toolbar>
     </q-header>
     <q-drawer v-model="leftDrawerOpen" show-if-above bordered class="white">
@@ -34,6 +35,7 @@
 
 <script lang="ts">
 import MainMenu from './components/MainMenu.vue'
+import DisplayVersion from 'components/DisplayVersion.vue'
 import { defineComponent, ref } from 'vue'
 
 export default defineComponent({
@@ -41,6 +43,7 @@ export default defineComponent({
 
   components: {
     MainMenu,
+    DisplayVersion
     //
   },
 
