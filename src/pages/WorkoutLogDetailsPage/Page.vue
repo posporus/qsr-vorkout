@@ -3,14 +3,9 @@
     <q-list bordered>
       <q-item-label header> Workout Logg </q-item-label>
       <workout-log-overview-component :workout-log-detail="workoutLogDetail" />
+      <rest-exercise-ratio :workout-log-detail="workoutLogDetail"/>
       <workout-log-timeline-component :workout-log-detail="workoutLogDetail" />
     </q-list>
-
-    <q-item>
-      <q-item-label>
-        {{ workoutLogDetail?.workout.name }}
-      </q-item-label>
-    </q-item>
   </q-page>
 </template>
 
@@ -20,6 +15,7 @@ import { WorkoutLogModel } from 'src/store/models'
 import { Item } from '@vuex-orm/core'
 import WorkoutLogOverviewComponent from './components/WorkoutLogOverviewComponent.vue'
 import WorkoutLogTimelineComponent from './components/WorkoutLogTimelineComponent.vue'
+import RestExerciseRatio from './components/RestExerciseRatio.vue'
 
 export default defineComponent({
   name: 'WorkoutLogDetails',
@@ -33,6 +29,7 @@ export default defineComponent({
   components: {
     WorkoutLogOverviewComponent,
     WorkoutLogTimelineComponent,
+    RestExerciseRatio,
   },
   computed: {
     workoutLogDetail(): Item<WorkoutLogModel> {

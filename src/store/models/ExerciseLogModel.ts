@@ -2,10 +2,10 @@ import { Model } from '@vuex-orm/core'
 import ExerciseModel from './ExerciseModel'
 import WorkoutLogModel from './WorkoutLogModel'
 import { nanoid } from 'nanoid'
-import { duration } from 'src/utility'
-import moment, { Moment } from 'moment'
+import { preset } from 'src/types'
 //import {WorkoutModel} from '.'
 //import { SetNeat } from 'src/classes/Set'
+
 
 export default class ExerciseLogModel extends Model {
   //exercise_id!: string | null
@@ -17,13 +17,15 @@ export default class ExerciseLogModel extends Model {
   started!: Date
   ended!: Date | false
 
+  preset!: preset | null
+
   workout_log!: WorkoutLogModel | null
   workout_log_id!: string
 
   exercise!: ExerciseModel | null
   exercise_id!: string
 
-  _duration!: string | undefined
+  _duration!: number | null
   _dateString!: string | undefined
 
   static entity = 'exercise_logs'
@@ -38,6 +40,8 @@ export default class ExerciseLogModel extends Model {
       started: this.attr(Date.now()),
       ended: this.attr(false),
 
+      preset: this.string(''),
+
       workout_log: this.belongsTo(WorkoutLogModel, 'workout_log_id'),
       workout_log_id: this.string(null).nullable(),
 
@@ -51,16 +55,27 @@ export default class ExerciseLogModel extends Model {
     };
   }
 
-  public get duration (): string | undefined {
+  public get duration (): number | null {
     if (this.ended) {
       if (!this._duration) {
-        this._duration = duration(this.started, this.ended)
+        this._duration = +this.ended - +this.started
       }
       return this._duration
     }
 
-    return duration(this.started, this.ended)
+    return null
   }
+  
+  public get isRest() : boolean {
+    return this.preset === 'rest'
+  }
+
+  
+  /* public get durationMs() : number {
+    return (this.started - this.ended)
+  } */
+  
+  
 
 /*
   public get dateString (): string {
@@ -74,8 +89,5 @@ export default class ExerciseLogModel extends Model {
   }
 */
 
-  public get moment (): Moment {
-    return moment(this.started)
-  }
 
 }

@@ -150,6 +150,7 @@ export default defineComponent({
           exerciseCount: this.exercise.exerciseCount,
           setCount: this.exercise.setCount,
           started: Date.now(),
+          preset: this.exercise.preset.name
         },
       })
         .then((collections: Collections) => {

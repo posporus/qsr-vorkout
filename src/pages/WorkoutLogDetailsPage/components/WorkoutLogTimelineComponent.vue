@@ -7,7 +7,7 @@
   >
     <q-card>
       <q-card-section>
-        <q-timeline>
+        <q-timeline layout="loose">
           <timeline-entry-component
             v-for="exerciseLog in workoutLogDetail.exercises"
             :key="exerciseLog.$id"
@@ -17,7 +17,6 @@
       </q-card-section>
     </q-card>
     <q-card>
-      {{ workoutLogDetail.exercises }}
     </q-card>
   </q-expansion-item>
 </template>
