@@ -29,7 +29,7 @@ module.exports = configure(function (ctx) {
     // --> boot files are part of "main.js"
     // https://v2.quasar.dev/quasar-cli/boot-files
     boot: [
-      'dayjs'
+      'dayjs',
     ],
 
     // https://v2.quasar.dev/quasar-cli/quasar-conf-js#Property%3A-css
@@ -86,7 +86,12 @@ module.exports = configure(function (ctx) {
         chain.resolve.alias.set('models', path.resolve(__dirname, './src/store/models'))
       }*/
       
-      
+      extendWebpack (cfg) {
+        cfg.module.rules.push({
+          test: /\.md$/i,
+          loader: 'raw-loader'
+        })
+      }
       
       
     

@@ -1,25 +1,51 @@
 <template>
   <q-page>
-    
-    <q-markdown :src="changelog"/>
+    <q-card>
+      <q-card-section v-html="parse"/>
+    </q-card>
+  
   </q-page>
 </template>
 
 <script lang="ts">
 import { defineComponent } from 'vue'
-//import changelog from '../../../README.md'
+import changelog from '../../../CHANGELOG.md'
+import {Marked,Renderer} from '@ts-stack/markdown'
+
+Marked.setOptions
+({
+  renderer: new Renderer,
+  gfm: true,
+  tables: true,
+  breaks: false,
+  pedantic: false,
+  sanitize: false,
+  smartLists: true,
+  smartypants: false
+});
 
 export default defineComponent({
   
-  name: 'ChangeLogPage',
-  /* 
+  name: 'ChangelogPage',
+  computed: {
+    parse():string {
+      //console.log(this.changelog)
+      return Marked.parse(this.changelog)
+    }
+  },
+  
   setup() {
     const chglg:string = changelog
     return {
       changelog:chglg
+
     }
-  }, */
+  },
 })
 </script>
 
-<style lang="scss"></style>
+<style lang="scss" scoped>
+.q-card {
+  font-family: monospace;
+}
+</style>
