@@ -5,7 +5,9 @@
 import { Model } from '@vuex-orm/core'
 import { nanoid } from 'nanoid'
 import { exercise_defaults } from 'src/static/defaults'
-import moment from 'moment'
+import dayjs from 'dayjs'
+import calendar from 'dayjs/plugin/calendar'
+dayjs.extend(calendar)
 
 import ExerciseOptions from 'src/types/ExerciseOptions'
 
@@ -30,7 +32,7 @@ export default class ExerciseModel extends Model {
   }
   
   public get dateString() : string {
-    return moment(this.date).calendar()
+    return dayjs(this.date).calendar()
   }
   
 }

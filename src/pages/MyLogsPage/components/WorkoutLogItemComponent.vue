@@ -8,12 +8,12 @@
     </q-item-section>
       <q-item-section>
       <q-item-label>
-        {{ timeAgo }}
+        {{ log.fromNow }}
       </q-item-label>
     </q-item-section>
     <q-item-section>
       <q-item-label>
-        {{ duration }}
+        {{ $dayjs.duration(log.duration || 0).format('m[m]ss[s]') }}
       </q-item-label>
     </q-item-section>
     <q-item-section>
@@ -28,7 +28,6 @@
 <script lang="ts">
 import { defineComponent } from 'vue';
 import WorkoutLogModel from 'src/store/models/WorkoutLogModel';
-import moment from 'moment';
 
 export default defineComponent({
   name:'WorkoutLogItemComponent',
@@ -38,32 +37,11 @@ export default defineComponent({
           required: true,
       }
   },
-  computed: {
-    
-    timeAgo():string {
-        return moment(this.log.ended || this.log.started).fromNow()
-    },
-    duration():string {
-        if(this.log.ended) {
-            const started = moment(this.log.started)
-            const ended = moment(this.log.ended)
-            
-            const diff = ended.diff(started)
-            const duration = moment.duration(diff,'milliseconds')
-            
-            return duration.humanize()
-
-        }
-        else {
-            return 'running'
-        }
-    }
-  },
   methods: {
     removeLog(id: string | null): void {
       WorkoutLogModel.delete(id || '')
         .then(() => {
-          //notification
+          this.$q.notify('removed.')
         })
         .catch((err) => console.error(err))
     },

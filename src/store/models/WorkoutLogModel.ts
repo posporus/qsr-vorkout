@@ -2,9 +2,11 @@ import { Model /*,Item*/ } from '@vuex-orm/core'
 import { WorkoutModel } from '.'
 import { ExerciseLogModel } from '.'
 import { nanoid } from 'nanoid'
-import moment, {Moment} from 'moment'
-import { duration } from 'src/utility'
-
+import dayjs from 'dayjs'
+import duration from 'dayjs/plugin/duration'
+import relativeTime from 'dayjs/plugin/relativeTime'
+dayjs.extend(duration)
+dayjs.extend(relativeTime)
 
 export default class WorkoutLogModel extends Model {
 
@@ -32,40 +34,36 @@ export default class WorkoutLogModel extends Model {
     };
   }
 
-  public get duration (): string | undefined {
-    return duration(this.started, this.ended)
+  public get duration (): number | null {
+    return this.ended ? +this.ended - +this.started : 0
   }
 
   public get fromNow (): string {
-    return moment(this.ended || this.started).fromNow()
+    return dayjs(this.ended || this.started).fromNow()
   }
 
 
-  
+
 
   public get dateString (): string {
 
     if (!this._dateString) {
-      const date = moment(this.started)
-      this._dateString = date.format('YYYY/MM/DD')
+      this._dateString = dayjs(this.started).format('YYYY/MM/DD')
     }
 
     return this._dateString
   }
 
-  public get moment (): Moment {
-    return moment(this.started)
-  }
   /**
    * get only exercises without rests
    */
-  public get onlyExercises(): Array<ExerciseLogModel> {
+  public get onlyExercises (): Array<ExerciseLogModel> {
     return this.exercises.filter(exercise => exercise.exercise !== null)
   }
   /**
    * get only rests without exercises
    */
-  public get onlyRests(): Array<ExerciseLogModel> {
+  public get onlyRests (): Array<ExerciseLogModel> {
     return this.exercises.filter(exercise => exercise.exercise === null)
   }
 
@@ -75,4 +73,32 @@ export default class WorkoutLogModel extends Model {
   public get restCount (): number {
     return this.onlyRests.length
   }
+
+  get exerciseTotal (): number {
+    let total = 0
+    this.onlyExercises.forEach((exercise: ExerciseLogModel) => {
+      if (exercise.duration !== null) {
+        total+= exercise.duration
+      }
+    })
+    
+    return total || 0
+  }
+
+  get restTotal (): number {
+    let total = 0
+    this.onlyRests.forEach((exercise: ExerciseLogModel) => {
+      if (exercise.duration !== null) {
+        total+= exercise.duration
+      }
+    })
+   
+    return total || 0
+  }
+
+  
+  public get restExerciseRatio() : number {
+    return this.exerciseTotal / (this.exerciseTotal + this.restTotal)
+  }
+  
 }

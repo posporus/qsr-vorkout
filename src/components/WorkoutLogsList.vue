@@ -5,19 +5,20 @@
         <!-- <template #header="{groupLabel}">
           {{groupLabel}}
         </template> -->
-        <template #default="{groupedItems}">
+        <template #default="{ groupedItems }">
           <q-item class="bg-grey-2">
             <q-item-section avatar>
-              <q-avatar color="grey-8" text-color="white">{{groupedItems[0].moment.format('dd')}}</q-avatar>
+              <q-avatar color="grey-8" text-color="white">{{
+                $dayjs(groupedItems[0].started).format('dd')
+              }}</q-avatar>
             </q-item-section>
             <q-item-section>
               <q-item-label>
                 <h5 style="margin: 3px">
-              {{groupedItems[0].moment.format('DD.MM.YYYY')}}
-              </h5>
+                  {{ $dayjs(groupedItems[0].started).format('DD.MM.YYYY') }}
+                </h5>
               </q-item-label>
             </q-item-section>
-
           </q-item>
           <workout-log-item
             v-for="log in groupedItems"

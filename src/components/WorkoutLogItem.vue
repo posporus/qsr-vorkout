@@ -3,7 +3,7 @@
 
     <q-item-section side>
       <b>
-      {{ logItem?.moment.format('HH:mm') }}
+      {{ $dayjs(logItem?.started).format('HH:mm') }}
       </b>
     </q-item-section>
 
@@ -34,7 +34,7 @@
           <q-avatar color="grey-2">
             <q-icon name="timer" size="sm" /> 
           </q-avatar>
-          {{ logItem?.duration }}
+          {{ $dayjs.duration(logItem?.duration).format('MM:ss') }}
         </q-chip>
 
       </q-item-label>
