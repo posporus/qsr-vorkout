@@ -1,6 +1,7 @@
-import duration from './duration'
 import getSetting from './getSetting'
+import getPresetFromName from './getPresetFromName'
+
 export {
-    duration,
-    getSetting
+    getSetting,
+    getPresetFromName
 }
