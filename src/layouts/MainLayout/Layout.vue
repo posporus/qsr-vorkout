@@ -12,7 +12,7 @@
         />
 
         <q-toolbar-title> Vorkout </q-toolbar-title>
-        <display-version @click="$router.push({ path: 'changelog' })"/>
+        <display-version @click="$router.push({ path: '/changelog' })"/>
       </q-toolbar>
     </q-header>
     <q-drawer v-model="leftDrawerOpen" show-if-above bordered class="white">

@@ -5,7 +5,9 @@ import {
     ExerciseModel,
     WorkoutLogModel,
     ExerciseLogModel,
-    SettingsModel
+    SettingsModel,
+    CategoryModel,
+    CategoryExerciseRelationship,
 } from '../models'
 
 const database = new Database()
@@ -15,5 +17,7 @@ database.register(ExerciseModel)
 database.register(WorkoutLogModel)
 database.register(ExerciseLogModel)
 database.register(SettingsModel)
+database.register(CategoryModel)
+database.register(CategoryExerciseRelationship)
 
 export default database

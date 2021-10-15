@@ -29,12 +29,34 @@
             </template>
           </q-input>
           -->
-          <q-btn flat @click="showDialog = false" icon="clear"/>
+          <filter-by-button
+            :options="filterCategories"
+            v-model="shownCategories"
+            filter-title="Filter Categories"
+            >
+            <template #prepend>
+                <q-item clickable @click="favourites = !favourites">
+                  <q-item-section>
+                    Favourites
+                  </q-item-section>
+                  <q-item-section side>
+
+                    <q-btn icon="star" dense flat :color="favourites ? 'yellow' : 'grey'"/>
+
+                  </q-item-section>
+                </q-item>
+            </template>
+          </filter-by-button>
+          <q-btn dense flat @click="showDialog = false" icon="clear" />
         </q-toolbar>
       </q-header>
-
       <q-page-container>
-        <select-exercise-component v-model="exercise.id" />
+        <select-exercise-component
+          :filterBy="searchTerm"
+          :show-categories="shownCategories"
+          :filterFavouries="favourites"
+          v-model="exercise.id"
+        />
       </q-page-container>
     </q-layout>
   </q-dialog>
@@ -44,13 +66,18 @@
 import { defineComponent, ref, Ref } from 'vue'
 import SelectExerciseComponent from './SelectExerciseComponent.vue'
 import { ExerciseInterface } from 'src/types'
+import FilterByButton from 'src/components/FilterByButton.vue'
+import { CategoryModel } from 'src/store/models'
+import { FilterButtonOption } from 'src/types'
 export default defineComponent({
-  components: { SelectExerciseComponent },
+  components: { SelectExerciseComponent, FilterByButton },
   name: 'SelectDialogComponent',
   data() {
     return {
       searchTerm: '',
       showDialog: false,
+      shownCategories: [],
+      favourites: true,
     }
   },
   props: {
@@ -67,7 +94,23 @@ export default defineComponent({
       required: true,
     },
   },
-  emits: ['update:modelValue', 'update:show','remove'],
+  emits: ['update:modelValue', 'update:show', 'remove'],
+  computed: {
+    filterCategories(): FilterButtonOption[] {
+      return this.categories.map(
+        (category: CategoryModel): FilterButtonOption => {
+          return {
+            label: category.name || '',
+            value: category.$id || '',
+            selected: false,
+          }
+        }
+      )
+    },
+    categories() {
+      return CategoryModel.all()
+    },
+  },
   mounted() {
     this.$watch(
       'modelValue',
@@ -85,8 +128,8 @@ export default defineComponent({
     )
 
     this.$watch('showDialog', (showDialog: boolean) => {
-      console.log('exerciseID',this.exercise.id)
-      if(!showDialog && this.exercise.id === '') this.$emit('remove')
+      console.log('exerciseID', this.exercise.id)
+      if (!showDialog && this.exercise.id === '') this.$emit('remove')
       this.$emit('update:show', showDialog)
     })
     this.$watch('show', (show: boolean) => {

@@ -10,6 +10,9 @@ import WorkoutInterface from './WorkoutInterface';
 import SetInterface from './SetInterface'
 import ExerciseInterface from './ExerciseInterface';
 
+import CategoryOptionInterface from './CategoryOptionInterface';
+import FilterButtonOption from './FilterButtenOption';
+
 
 
 export {
@@ -24,4 +27,6 @@ export {
     WorkoutInterface,
     SetInterface,
     ExerciseInterface,
+    CategoryOptionInterface,
+    FilterButtonOption,
 }

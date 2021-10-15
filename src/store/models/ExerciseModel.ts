@@ -10,6 +10,7 @@ import calendar from 'dayjs/plugin/calendar'
 dayjs.extend(calendar)
 
 import ExerciseOptions from 'src/types/ExerciseOptions'
+import { CategoryExerciseRelationship, CategoryModel } from '.'
 
 export default class ExerciseModel extends Model {
   id!:string
@@ -17,7 +18,8 @@ export default class ExerciseModel extends Model {
   name!: string
   countable!:boolean
   defaults!:ExerciseOptions
-  
+  categories!:CategoryModel[]
+  isFavourite!:boolean
 
   static entity = 'exercises'
   
@@ -28,6 +30,8 @@ export default class ExerciseModel extends Model {
       name:this.string('').nullable(),
       countable:this.boolean(true),
       defaults:this.attr(exercise_defaults),
+      categories:this.belongsToMany(CategoryModel,CategoryExerciseRelationship, 'exercise_id','category_id'),
+      isFavourite:this.boolean(false)
     };
   }
   

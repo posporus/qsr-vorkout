@@ -1,19 +1,24 @@
 <template>
   <q-list bordered separator>
     <q-item
-      v-for="exercise in exercises"
+      v-for="exercise in filtered" 
       :key="exercise.id"
       clickable
-      v-ripple
-      @click="selectedExercise = exercise.id"
+      
+      
     >
-      <q-item-section>
+      <q-item-section @click="selectedExercise = exercise.id">
         <q-item-label>
           {{ exercise.name }}
         </q-item-label>
-        <q-item-label caption>
-          {{ exercise.dateString }}
+        <q-item-label caption lines="1">
+          <q-avatar size="sm" style="margin-left:3px" :color="category.color" v-for="category in exercise.categories" :key="category.name">
+            {{ category.name.substring(0,2).toUpperCase() }}
+          </q-avatar>
         </q-item-label>
+      </q-item-section>
+      <q-item-section side>
+        <q-btn flat dense icon="star" :color="exercise.isFavourite ? 'yellow' : 'grey'" @click="star(exercise?.$id || '',!exercise.isFavourite)"/>
       </q-item-section>
     </q-item>
     <q-page-sticky position="bottom-right" :offset="[18, 18]">
@@ -25,8 +30,10 @@
 
 <script lang="ts">
 import EditExerciseDialog from 'src/components/EditExerciseDialog.vue'
+import { FilterButtonOption } from 'src/types'
 import { ExerciseModel } from 'src/store/models'
-import { defineComponent } from 'vue'
+import { defineComponent, PropType } from 'vue'
+
 
 export default defineComponent({
   components: { EditExerciseDialog },
@@ -42,6 +49,17 @@ export default defineComponent({
       type: String,
       required: true,
     },
+    filterBy: {
+      type: String,
+      default: '',
+    },
+    showCategories: {
+      type: Array as PropType<FilterButtonOption[]>,
+    },
+    filterFavouries: {
+      type: Boolean,
+      default: true
+    }
   },
   emits: ['update:modelValue', 'update:show'],
   mounted() {
@@ -53,10 +71,33 @@ export default defineComponent({
     })
   },
   computed: {
+    filtered() {
+      const needle = this.filterBy.toLowerCase()
+      return this.exercises.filter(
+        (v) => v.name.toLowerCase().indexOf(needle) > -1
+      )
+    },
     exercises() {
-      return ExerciseModel.query().all()
+      const category_ids:string[] = this.showCategories?.map((category:FilterButtonOption) => category.value) || []
+      console.log('category_ids', category_ids)
+      return ExerciseModel.query().whereHas('categories',(query) => {
+        if(category_ids.length > 0)
+        {query.whereIdIn(
+          category_ids
+        )}
+      }).with('categories').orderBy(this.filterFavouries ? 'isFavourite':'','desc').all()
     },
   },
+  methods: {
+    star(exerciseId:string,fav:boolean) {
+      void ExerciseModel.update({
+        where:exerciseId,
+        data: {
+          isFavourite:fav
+        }
+      })
+    }
+  }
 })
 </script>
 
