@@ -1,6 +1,5 @@
 <template>
   <q-page>
-    <div class="text-h4">Edit Exercise</div>
     <q-card>
       <q-form>
         <q-input label="Name" v-model="exercise.name" />

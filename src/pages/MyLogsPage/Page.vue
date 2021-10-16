@@ -1,6 +1,5 @@
 <template>
   <q-page>
-    <div class="text-h4">My Logs</div>
     <q-card>
       <q-list bordered>
         <workout-log-item-component

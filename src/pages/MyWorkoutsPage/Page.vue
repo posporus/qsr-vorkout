@@ -1,6 +1,5 @@
 <template>
   <q-page class="q-gutter-xs">
-    <div class="text-h4">My Workouts</div>
     <q-card>
       <q-list bordered>
         <q-item v-for="(workout) in myWorkouts" :key="workout.$id">

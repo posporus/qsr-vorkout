@@ -1,6 +1,5 @@
 <template>
   <q-page>
-    <div class="text-h4">My Exercises</div>
     <q-card>
       <q-list bordered>
         <exercise-item-component v-for="(exercise) in myExercises" :key="exercise.$id" :exercise="exercise" />
