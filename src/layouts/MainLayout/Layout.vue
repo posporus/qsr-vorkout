@@ -10,8 +10,11 @@
           aria-label="Menu"
           @click="toggleLeftDrawer"
         />
-
-        <q-toolbar-title> Vorkout </q-toolbar-title>
+        
+          <q-toolbar-title>
+            {{ $route.meta?.title || 'Vorkout' }}
+          </q-toolbar-title>
+      
         <display-version @click="$router.push({ path: '/changelog' })"/>
       </q-toolbar>
     </q-header>
@@ -19,6 +22,7 @@
       <main-menu v-model="leftDrawerOpen" />
     </q-drawer>
     <q-page-container>
+
       <router-view v-slot="{ Component }">
         <transition
           enter-active-class="animated fadeIn"
@@ -49,6 +53,7 @@ export default defineComponent({
 
   setup() {
     const leftDrawerOpen = ref(false)
+   
 
     return {
       leftDrawerOpen,
