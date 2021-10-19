@@ -1,10 +1,13 @@
-import { Model /*,Item*/ } from '@vuex-orm/core'
+import { Model, Item } from '@vuex-orm/core'
 import { WorkoutModel } from '.'
 import { ExerciseLogModel } from '.'
 import { nanoid } from 'nanoid'
-import dayjs from 'dayjs'
-import duration from 'dayjs/plugin/duration'
+import dayjs, { Dayjs } from 'dayjs'
+import duration, { DurationUnitsObjectType } from 'dayjs/plugin/duration'
 import relativeTime from 'dayjs/plugin/relativeTime'
+import isBetween from 'dayjs/plugin/isBetween'
+
+dayjs.extend(isBetween)
 dayjs.extend(duration)
 dayjs.extend(relativeTime)
 
@@ -34,6 +37,10 @@ export default class WorkoutLogModel extends Model {
     };
   }
 
+  /**
+   * Getters/Setters
+   */
+
   public get duration (): number | null {
     return this.ended ? +this.ended - +this.started : 0
   }
@@ -41,7 +48,6 @@ export default class WorkoutLogModel extends Model {
   public get fromNow (): string {
     return dayjs(this.ended || this.started).fromNow()
   }
-
 
 
 
@@ -78,10 +84,10 @@ export default class WorkoutLogModel extends Model {
     let total = 0
     this.onlyExercises.forEach((exercise: ExerciseLogModel) => {
       if (exercise.duration !== null) {
-        total+= exercise.duration
+        total += exercise.duration
       }
     })
-    
+
     return total || 0
   }
 
@@ -89,16 +95,42 @@ export default class WorkoutLogModel extends Model {
     let total = 0
     this.onlyRests.forEach((exercise: ExerciseLogModel) => {
       if (exercise.duration !== null) {
-        total+= exercise.duration
+        total += exercise.duration
       }
     })
-   
+
     return total || 0
   }
 
-  
-  public get restExerciseRatio() : number {
+
+  public get restExerciseRatio (): number {
     return this.exerciseTotal / (this.exerciseTotal + this.restTotal)
   }
-  
+
+  /**
+   * Methods
+   */
+
+  /**
+   * 
+   * @param time as Dayjs time
+   * @param timespan Timespan in Milliseconds
+   * @returns Duration in Milliseconds
+   */
+  static totalDurationOverTime (time: Dayjs, timespan: DurationUnitsObjectType): number {
+
+    const logsInTime: WorkoutLogModel[] =
+      this.query().where((workoutLog: Item<WorkoutLogModel>) => {
+        const logTime: Dayjs = dayjs(workoutLog?.started)
+        return logTime.isBetween(time.subtract(dayjs.duration(timespan)), time, 'day', '(]')
+      }).get()
+
+    let duration = 0
+
+    logsInTime.forEach(log => {
+      duration += log.duration || 0
+    })
+
+    return duration
+  }
 }

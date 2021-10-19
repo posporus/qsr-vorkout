@@ -10,6 +10,11 @@
     <menu-section
       :menuSectionEntrys="[
         {
+          label: 'Overview',
+          path: '/',
+          icon: 'preview',
+        },
+        {
           label: 'My Workouts',
           path: '/my-workouts',
           icon: 'directions_run',
@@ -37,7 +42,7 @@
         },*/
       ]"
     />
-    
+
     <q-separator inset />
     <menu-section
       :menuSectionEntrys="[
@@ -48,7 +53,6 @@
         },
       ]"
     />
-    
   </q-list>
 </template>
 
