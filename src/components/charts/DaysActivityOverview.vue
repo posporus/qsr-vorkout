@@ -30,7 +30,7 @@ export default defineComponent({
         minutes: +(
           WorkoutLogModel.totalDurationOverTime(day, {
             days: 1,
-          }) / 60000
+          }) / 6e4
         ).toFixed(1),
       })
     }

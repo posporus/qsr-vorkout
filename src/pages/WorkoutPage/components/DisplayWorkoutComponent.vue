@@ -62,17 +62,19 @@ export default defineComponent({
 
     this.startWorkoutLog()
     this.$watch('finished', (finished: boolean) => {
-      if (finished) {
+      finished && this.endWorkoutLog()
+
+      /* if (finished) {
         this.endWorkoutLog()
-      }
+      } */
     })
-    console.log('unwrappet exercises', this.workout.unwrapped)
+    //console.log('unwrappet exercises', this.workout.unwrapped)
 
     /**
      * skip last workout
      */
     const unwrapped = this.workout.unwrapped
-    //TODO: 
+    //TODO:
     // eslint-disable-next-line @typescript-eslint/no-unsafe-call
     if (getSetting('workout/skipLastRest')) {
       unwrapped[unwrapped.length - 1].preset.name === 'rest'

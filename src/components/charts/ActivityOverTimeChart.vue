@@ -17,12 +17,9 @@ export interface WeekInterface {
 }
 
 export default defineComponent({
+
   name: 'AvtivityOverTimeChart',
-  data() {
-    return {
-      //
-    }
-  },
+ 
   props: {
     weeksToShow: {
       type: Number,
@@ -31,7 +28,8 @@ export default defineComponent({
   },
 
   setup(props) {
-    const series: { name: string; data: number[] }[] = []
+
+    
     const data: number[] = []
     const options: Ref<ApexOptions> = ref({})
 
@@ -42,17 +40,18 @@ export default defineComponent({
 
       data.push(
         +(
-          (WorkoutLogModel.totalDurationOverTime(time, { days: 7 }) || 0) / 60000
+          (WorkoutLogModel.totalDurationOverTime(time, { days: 7 }) || 0) / 6e4 // /60000ms = 6e4
         ).toFixed(1)
       )
 
       labels.push(time.toDate().toString())
     }
-    series.push({
+
+    const series: { name: string; data: number[] }[] = [{
       name: 'peter',
       data: data,
-    })
-
+    }]
+    
     options.value = {
       stroke: {
         curve: 'smooth',
