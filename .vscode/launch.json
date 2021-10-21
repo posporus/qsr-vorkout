@@ -3,6 +3,16 @@
     "configurations": [
         
         {
+            "type": "android-webview",
+            "request": "attach",
+            "name": "Attach to Android WebView",
+            "webRoot": "${workspaceFolder}/www",
+            "sourceMaps": true,
+            "sourceMapPathOverrides": {
+                "webpack:/*": "${workspaceFolder}/*"
+            }
+        },
+        {
             "name": "Launch Edge",
             "request": "launch",
             "type": "pwa-msedge",

@@ -4,7 +4,11 @@ const config: CapacitorConfig = {
   appId: 'de.posporus.vorkout.app',
   appName: 'qsr-vorkout',
   webDir: 'dist\\spa',
-  bundledWebRuntime: false
+  bundledWebRuntime: false,
+  server: {
+    'url': 'http://192.168.2.109:8080',
+    'cleartext': true
+  },
 };
 
 export default config;
