@@ -2,7 +2,7 @@ import { CapacitorConfig } from '@capacitor/cli';
 
 const config: CapacitorConfig = {
   appId: 'de.posporus.vorkout.app',
-  appName: 'qsr-vorkout',
+  appName: 'mamood',
   webDir: 'dist\\spa',
   bundledWebRuntime: false,
   server: {
