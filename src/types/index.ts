@@ -13,6 +13,8 @@ import ExerciseInterface from './ExerciseInterface';
 import CategoryOptionInterface from './CategoryOptionInterface';
 import FilterButtonOption from './FilterButtenOption';
 
+import MenuSectionEntry from './MenuSectionEntry';
+
 
 
 export {
@@ -29,4 +31,5 @@ export {
     ExerciseInterface,
     CategoryOptionInterface,
     FilterButtonOption,
+    MenuSectionEntry
 }
