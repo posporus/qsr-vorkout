@@ -1,12 +1,28 @@
 <template>
-  <q-page>
-    <q-list bordered>
-      <settings-cathegory
-        v-for="cathegory in cathegories"
-        :key="cathegory"
-        :cathegory="cathegory"
-      />
-    </q-list>
+  <q-page class="q-pa-md q-gutter-md">
+    <q-card>
+      <q-card-section>
+        <q-list bordered>
+          <settings-cathegory
+            v-for="cathegory in cathegories"
+            :key="cathegory"
+            :cathegory="cathegory"
+          />
+        </q-list>
+      </q-card-section>
+    </q-card>
+    <q-card>
+      <q-card-section>
+        You prabably want to Backup your Data before updating, since this is an early alpha.
+      </q-card-section>
+      <q-card-actions align="center">
+        <q-btn
+          label="Backup/Restore"
+          color="amber"
+          @click="$router.push({ path: '/backup' })"
+        />
+      </q-card-actions>
+    </q-card>
   </q-page>
 </template>
 

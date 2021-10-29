@@ -88,6 +88,13 @@ const routes: RouteRecordRaw[] = [
         },
         component: () => import('src/pages/ChangelogPage')
       },
+      {
+        path: 'backup',
+        meta: {
+          title: 'Backup/Restore'
+        },
+        component: () => import('src/pages/BackupPage')
+      },
 
     ],
   },
