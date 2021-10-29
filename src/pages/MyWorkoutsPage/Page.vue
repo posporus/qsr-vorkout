@@ -1,29 +1,8 @@
 <template>
-  <q-page class="q-gutter-xs">
+  <q-page class="q-pa-md q-gutter-md">
     <q-card>
       <q-list bordered>
-        <q-item v-for="(workout) in myWorkouts" :key="workout.$id">
-          <q-item-section>
-            <q-item-label>
-              {{ workout.name }}
-            </q-item-label>
-          </q-item-section>
-          <q-item-section>
-            <q-btn
-              @click="$router.push({ name: 'edit', params: { id: workout.$id || '' } })"
-              icon="edit"
-            />
-          </q-item-section>
-          <q-item-section>
-            <q-btn @click="removeWorkout(workout.$id)" icon="delete" />
-          </q-item-section>
-          <q-item-section>
-            <q-btn
-              @click="$router.push({ name: 'workout', params: { id: workout.$id || '' } })"
-              icon="run_circle"
-            />
-          </q-item-section>
-        </q-item>
+        <workout-item v-for="workoutItem in myWorkouts" :workout="workoutItem" :key="workoutItem.$id" separator/>
       </q-list>
     </q-card>
 
@@ -41,19 +20,15 @@
 <script lang="ts">
 import { defineComponent } from 'vue'
 import WorkoutModel from 'src/store/models/WorkoutModel'
+import WorkoutItem from './components/WorkoutItem.vue'
+import { Collection } from '@vuex-orm/core'
 
 export default defineComponent({
+  components: { WorkoutItem },
   name:'MyWorkoutsPage',
   computed: {
-    myWorkouts() {
-      return WorkoutModel.all()
-    },
-  },
-  methods: {
-    removeWorkout(id:string | null): void {
-      WorkoutModel.delete(id || '').then(() => {
-        //notification
-      }).catch((err) => console.error(err))
+    myWorkouts():Collection<WorkoutModel> {
+      return WorkoutModel.query().withAllRecursive().get()
     },
   },
 })

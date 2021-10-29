@@ -30,14 +30,14 @@ const routes: RouteRecordRaw[] = [
         },
         component: () => import('src/pages/MyWorkoutsPage')
       },
-      {
+      /* {
         path: 'my-logs',
         
         meta: {
           title: 'My Logs'
         },
         component: () => import('src/pages/MyLogsPage')
-      },
+      }, */
       {
         path: 'my-exercises',
         
