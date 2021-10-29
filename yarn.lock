@@ -994,6 +994,11 @@
   dependencies:
     tslib "^2.1.0"
 
+"@capacitor/filesystem@^1.0.5":
+  version "1.0.5"
+  resolved "https://registry.yarnpkg.com/@capacitor/filesystem/-/filesystem-1.0.5.tgz#74a87219ca0b815c5093bcce768868195b2a2e1a"
+  integrity sha512-NQNSCgSu6vXsStt+rcJlaLUGYSFH3zow3pAJR5T75uoSN1WhLV7M2FhsjHdWbk21mhokzF1b7foKLvTDfgH2mg==
+
 "@capacitor/status-bar@^1.0.3":
   version "1.0.3"
   resolved "https://registry.npmjs.org/@capacitor/status-bar/-/status-bar-1.0.3.tgz"
