@@ -1,13 +1,33 @@
 // app global css in SCSS form
 h1 {
-    font-size: 3rem;
+  font-size: 3rem;
 }
 h2 {
-    font-size: 2rem;
+  font-size: 2rem;
 }
 h3 {
-    font-size: 1.5rem;
+  font-size: 1.5rem;
 }
 h4 {
-    font-size: 1rem;
+  font-size: 1rem;
+}
+
+@font-face {
+  font-family: patrick;
+  src: url(./fonts/PatrickHand-Regular.ttf);
+}
+
+// declare a class which applies it
+.font-serif {
+  font-family: 'patrick';
+}
+
+@font-face {
+  font-family: Lato-Regular;
+  src: url(./fonts/Lato-Regular.ttf);
+}
+
+// declare a class which applies it
+body {
+  font-family: 'Lato-Regular';
 }
