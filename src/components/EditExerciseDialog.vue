@@ -5,7 +5,7 @@
         <div class="text-h4">Edit Exercise</div>
         <q-list>
           <q-item>
-            <q-input ref="exercise-name" label="Name" v-model="exercise.name" :rules="[val => !!val || 'Field is required']" />
+            <q-input ref="exercise-name" label="Name" v-model="exercise.name" :rules="[val => !!val || 'Field is required']" autofocus />
           </q-item>
           <q-item tag="label" v-ripple>
             <q-item-section>
