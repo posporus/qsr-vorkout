@@ -18,11 +18,18 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from 'vue'
+import { defineComponent, PropType } from 'vue'
+import { MenuSectionEntry } from 'src/types'
 
 export default defineComponent({
-  name:'MenuSection',
-  props: ['menuSectionEntrys'],
+  name: 'MenuSection',
+  //props: ['menuSectionEntrys'],
+  props: {
+    menuSectionEntrys: {
+      type: Object as PropType<MenuSectionEntry[]>,
+      required: true,
+    },
+  },
 })
 </script>
 
