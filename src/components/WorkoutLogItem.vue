@@ -1,7 +1,7 @@
 <template>
   <q-item clickable v-ripple @click="$router.push({ name: 'workout-log-details', params: { workoutLogId: logItem?.$id || '' } })">
 
-    <q-item-section side>
+    <q-item-section v-if="time" side>
       <b>
       {{ $dayjs(logItem?.started).format('HH:mm') }}
       </b>
@@ -9,32 +9,32 @@
 
 
     <q-item-section>
-      <q-item-label>
-        <div class="text-bold">
+      <q-item-label overline>
+        
         {{ logItem?.workout.name }}
-        </div>
+     
       </q-item-label>
       <q-item-label caption>
         
-        <q-chip dense color="white">
-          <q-avatar color="grey-2">
-            <q-icon name="done_all" size="sm" /> 
+        <q-chip dense color="pink-5">
+          <q-avatar text-color="white" color="grey-8">
+            <q-icon name="done_all" size="xs" /> 
           </q-avatar>
-          {{ logItem?.exerciseCount }}
+          {{ logItem?.exerciseCount }}x
         </q-chip>
 
-        <q-chip dense color="white">
-          <q-avatar color="green-2">
-          <q-icon name="hourglass_top" size="sm" />
+        <q-chip dense color="green-5">
+          <q-avatar text-color="white" color="grey-8">
+          <q-icon name="hourglass_top" size="xs" />
           </q-avatar>
-          {{ logItem?.restCount }}
+          {{ logItem?.restCount }}x
         </q-chip>
 
-        <q-chip dense color="white" v-if="logItem?.duration">
-          <q-avatar color="grey-2">
-            <q-icon name="timer" size="sm" /> 
+        <q-chip dense color="cyan-5" v-if="logItem?.duration">
+          <q-avatar text-color="white" color="grey-8">
+            <q-icon name="timer" size="xs" /> 
           </q-avatar>
-          {{ $dayjs.duration(logItem?.duration).format('MM:ss') }}
+          {{  minutes }}
         </q-chip>
 
       </q-item-label>
@@ -45,7 +45,7 @@
     
 
   </q-item>
-  <q-separator inset />
+  <q-separator v-if="separator" inset />
 </template>
 
 <script lang="ts">
@@ -63,7 +63,21 @@ export default defineComponent({
       type: Object as PropType<Item<WorkoutLogModel>>,
       required: true,
     },
+    separator: {
+        type: Boolean,
+        default: false
+    },
+    time: {
+        type: Boolean,
+        default: false
+    }
   },
+  computed: {
+    minutes():string {
+      const minutes:number = this.$dayjs.duration(this.logItem?.duration || 0).minutes()
+      return (minutes > 1 ? minutes.toString() : '<1')+'′'
+    }
+  }
 })
 </script>
 

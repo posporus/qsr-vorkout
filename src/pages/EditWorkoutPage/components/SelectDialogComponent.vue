@@ -4,6 +4,7 @@
       <q-header>
         <q-toolbar>
           <q-avatar :icon="preset.icon" :color="preset.color" />
+          <q-space/>
           <q-input
             dark
             dense
@@ -18,7 +19,7 @@
                 v-else
                 name="clear"
                 class="cursor-pointer"
-                @click="text = ''"
+                @click="searchTerm = ''"
               />
             </template>
           </q-input>
@@ -29,6 +30,7 @@
             </template>
           </q-input>
           -->
+          <q-space/>
           <filter-by-button
             :options="filterCategories"
             v-model="shownCategories"
@@ -47,6 +49,7 @@
                 </q-item>
             </template>
           </filter-by-button>
+      <q-space/>
           <q-btn dense flat @click="showDialog = false" icon="clear" />
         </q-toolbar>
       </q-header>

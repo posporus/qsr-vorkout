@@ -1,14 +1,21 @@
 <template>
   <q-page class="q-pa-md q-gutter-md">
-    <q-card>
+
+    <q-card v-if="lastWorkout">
       <q-card-section>
         Your last Workout
-        (
-          {{ $dayjs(lastWorkout?.started).calendar() }}
-        )
+        ({{ $dayjs(lastWorkout?.started).fromNow() }})
         <workout-log-item :logItem="lastWorkout"/>
       </q-card-section>
     </q-card>
+
+    <q-banner v-else rounded class="bg-orange text-white">
+      Do your first workout to see something here!
+
+      <template v-slot:action>
+        <q-btn label="My workouts" />
+      </template>
+    </q-banner>
 
     <q-card>
       <q-card-section>
@@ -39,7 +46,6 @@ export default defineComponent({
   name: 'OverviewPage',
   computed: {
     lastWorkout():Item<WorkoutLogModel> {
-
       return WorkoutLogModel.query().orderBy('started','desc').withAllRecursive(2).first()
     }
   }

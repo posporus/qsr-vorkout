@@ -1,11 +1,11 @@
 <template>
-  <q-page>
-    <q-card>
-      <q-card-section>
-        <q-input label="Name" v-model="workout.name" />
-      </q-card-section>
-      <q-separator />
-      <q-card-section>
+  <q-page class="q-pa-md q-gutter-md">
+    <q-input label="Name" v-model="workout.name" autofocus ref="self" @focus="$event.target.select()" />
+    <q-separator />
+
+    <q-list>
+     
+      <q-item-section>
         <draggable
           v-model="workout.sets"
           item-key="key"
@@ -15,7 +15,7 @@
           group="sets"
           handle=".set-handle"
         >
-          <template #item="{ element,index }">
+          <template #item="{ element, index }">
             <div :key="element.key">
               <edit-set-component
                 :drag="drag"
@@ -26,18 +26,21 @@
               <q-item>
                 <q-item-section class="items-center">
                   <q-btn
-                    @click="workout.sets.splice(index+1, 0, { ...loadSetDefaults() })"
+                    @click="
+                      workout.sets.splice(index + 1, 0, {
+                        ...loadSetDefaults(),
+                      })
+                    "
                     icon="add"
                     round
                   />
                 </q-item-section>
               </q-item>
-              
             </div>
           </template>
         </draggable>
-      </q-card-section>
-    </q-card>
+      </q-item-section>
+    </q-list>
     <q-page-sticky position="bottom-right" :offset="[18, 18]">
       <q-btn
         @click="saveWorkout"
@@ -89,7 +92,7 @@ export default defineComponent({
     this.$watch(
       'workout',
       () => {
-        console.log('workout changed.', JSON.stringify(this.workout,null,2))
+        console.log('workout changed.', JSON.stringify(this.workout, null, 2))
         this.savedWorkout = false
         this.drag = false
       },
@@ -97,6 +100,9 @@ export default defineComponent({
     )
   },
   methods: {
+    /* selectInputValue(event:EventListenerObject){
+      event.target.select()
+    }, */
     saveWorkout() {
       /**
        * if workout with id exists
@@ -109,15 +115,14 @@ export default defineComponent({
             sets: this.workout.sets,
           },
         }).then(() => {
-          console.log('safed')
+          console.log('saved.')
           this.$q.notify('Workout updated.')
           this.savedWorkout = true
         })
-      }
+      } else {
       /**
        * if workout with id doesnt exists
        */
-      else {
         /**
          * if name is taken
          */
@@ -127,11 +132,10 @@ export default defineComponent({
           this.$q.notify(
             `Workout with name "${this.workout.name}" already exists.`
           )
-        }
+        } else {
         /**
          * if either name or id is taken
          */
-        else {
           void WorkoutModel.insert({
             data: {
               id: this.dynamicId,
@@ -146,20 +150,20 @@ export default defineComponent({
         }
       }
     },
-    loadSetDefaults():SetInterface{
+    loadSetDefaults(): SetInterface {
       ///return _.cloneDeepWith(this.set_defaults)
       return _.cloneDeepWith({
-        sets:3,
-        key:nanoid(6),
-        exercises:[]
+        sets: 3,
+        key: nanoid(6),
+        exercises: [],
       })
     },
-    loadWorkoutDefaults():WorkoutInterface{
+    loadWorkoutDefaults(): WorkoutInterface {
       return _.cloneDeepWith({
-        name:'Unnamed Workout',
-        sets: [this.loadSetDefaults()]
+        name: 'Unnamed Workout',
+        sets: [this.loadSetDefaults()],
       })
-    }
+    },
   },
   computed: {
     dynamicId(): string {

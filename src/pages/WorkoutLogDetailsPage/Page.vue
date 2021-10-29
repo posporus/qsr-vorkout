@@ -1,11 +1,15 @@
 <template>
   <q-page class="q-pa-md">
+    <q-card>
     <q-list bordered>
-      <q-item-label header> Workout Logg </q-item-label>
-      <workout-log-overview-component :workout-log-detail="workoutLogDetail" />
+
+      <workout-log-item :log-item="workoutLogDetail"/>
+      <q-separator/>
       <rest-exercise-ratio :workout-log-detail="workoutLogDetail"/>
+      <q-separator/>
       <workout-log-timeline-component :workout-log-detail="workoutLogDetail" />
     </q-list>
+    </q-card>
   </q-page>
 </template>
 
@@ -13,9 +17,10 @@
 import { defineComponent } from 'vue'
 import { WorkoutLogModel } from 'src/store/models'
 import { Item } from '@vuex-orm/core'
-import WorkoutLogOverviewComponent from './components/WorkoutLogOverviewComponent.vue'
+//import WorkoutLogOverviewComponent from './components/WorkoutLogOverviewComponent.vue'
 import WorkoutLogTimelineComponent from './components/WorkoutLogTimelineComponent.vue'
 import RestExerciseRatio from './components/RestExerciseRatio.vue'
+import WorkoutLogItem from 'components/WorkoutLogItem.vue'
 
 export default defineComponent({
   name: 'WorkoutLogDetails',
@@ -27,9 +32,10 @@ export default defineComponent({
     },
   },
   components: {
-    WorkoutLogOverviewComponent,
+    //WorkoutLogOverviewComponent,
     WorkoutLogTimelineComponent,
     RestExerciseRatio,
+    WorkoutLogItem
   },
   computed: {
     workoutLogDetail(): Item<WorkoutLogModel> {

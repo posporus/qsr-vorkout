@@ -1,11 +1,14 @@
 <template>
   <q-page>
+
+
     
-    <q-card
+    <q-list
       class="column"
       style="position: absolute; top: 0px; bottom: 0px; width: 100%"
     >
-      <q-item class="justify-center">
+      <q-item>
+        
         <q-item-section>
           <calendar-component v-model="date" />
         </q-item-section>
@@ -25,9 +28,10 @@
         </q-item-section>
       </q-item>
 
-      <q-separator size="5px" />
+      <q-separator />
+
       <workout-logs-list :sort-by="sortBy" :day="date" />
-    </q-card>
+    </q-list>
   </q-page>
 </template>
 

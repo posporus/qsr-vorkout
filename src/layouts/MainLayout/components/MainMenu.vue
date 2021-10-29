@@ -1,9 +1,10 @@
 <template>
-  <q-list bordered>
-    <q-item>
+  <q-list>
+    <q-item class="bg-white text-black">
       <q-item-section>
-        <div class="text-h4">Workout App</div>
-        <div class="text-subtitle2">by Erik Siefken</div>
+        <div class="text-h4 font-serif">
+          Happy <img class="logo" src="./../../../assets/turtle.svg" /> Torture
+        </div>
       </q-item-section>
     </q-item>
     <q-separator />
@@ -19,11 +20,11 @@
           path: '/my-workouts',
           icon: 'directions_run',
         },
-        {
+        /**{
           label: 'My Logs',
           path: '/my-logs',
           icon: 'auto_stories',
-        },
+        },*/
         {
           label: 'My Exercises',
           path: '/my-exercises',
@@ -70,4 +71,10 @@ export default defineComponent({
 })
 </script>
 
-<style lang="scss"></style>
+<style lang="scss">
+.logo {
+  display: inline;
+  width: 1.8rem;
+  margin-left: 0.4rem;
+}
+</style>

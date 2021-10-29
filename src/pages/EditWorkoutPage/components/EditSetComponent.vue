@@ -1,9 +1,18 @@
 <template>
   <q-card class="set" bordered>
     <q-item>
-      <q-item-section>
-        <q-input label="number of sets" v-model="set.sets" type="number" />
+      <q-item-section avatar>
+        <q-avatar color="black" text-color="white" >
+          {{set.sets}}x
+          <q-popup-edit  v-model="set.sets" v-slot="scope" anchor="top left" buttons>
+            <q-input label="number of sets" v-model="scope.value" autofocus dense type="number" @focus="$event.target.select()" @keyup.enter="scope.set"/>
+          </q-popup-edit>
+        </q-avatar>
       </q-item-section>
+      <q-item-section>
+        <!-- <q-input label="number of sets" v-model="set.sets" type="number" /> -->
+      </q-item-section>
+   
       <q-item-section side>
         <q-btn
           :disable="!removable"

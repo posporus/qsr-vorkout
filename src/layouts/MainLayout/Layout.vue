@@ -1,7 +1,7 @@
 <template>
   <q-layout view="lHh Lpr lFf">
-    <q-header elevated>
-      <q-toolbar>
+    <q-header reveal bordered>
+      <q-toolbar class="white font-serif">
         <q-btn
           flat
           dense
@@ -10,19 +10,18 @@
           aria-label="Menu"
           @click="toggleLeftDrawer"
         />
-        
-          <q-toolbar-title>
-            {{ $route.meta?.title || 'Vorkout' }}
-          </q-toolbar-title>
-      
-        <display-version @click="$router.push({ path: '/changelog' })"/>
+
+        <q-toolbar-title>
+          {{ $route.meta?.title || 'mamood' }}
+        </q-toolbar-title>
+
+        <display-version @click="$router.push({ path: '/changelog' })" />
       </q-toolbar>
     </q-header>
     <q-drawer v-model="leftDrawerOpen" show-if-above bordered class="white">
       <main-menu v-model="leftDrawerOpen" />
     </q-drawer>
     <q-page-container>
-
       <router-view v-slot="{ Component }">
         <transition
           enter-active-class="animated fadeIn"
@@ -47,13 +46,12 @@ export default defineComponent({
 
   components: {
     MainMenu,
-    DisplayVersion
+    DisplayVersion,
     //
   },
 
   setup() {
     const leftDrawerOpen = ref(false)
-   
 
     return {
       leftDrawerOpen,

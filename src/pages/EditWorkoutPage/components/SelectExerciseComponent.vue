@@ -4,8 +4,6 @@
       v-for="exercise in filtered" 
       :key="exercise.id"
       clickable
-      
-      
     >
       <q-item-section @click="selectedExercise = exercise.id">
         <q-item-label>
