@@ -70,24 +70,4 @@ export default class ExerciseLogModel extends Model {
     return this.preset === 'rest'
   }
 
-  
-  /* public get durationMs() : number {
-    return (this.started - this.ended)
-  } */
-  
-  
-
-/*
-  public get dateString (): string {
-
-    if (!this._dateString) {
-      const date = moment(this.started)
-      this._dateString = date.format('YYYY/MM/DD')
-    }
-
-    return this._dateString
-  }
-*/
-
-
 }
