@@ -1,16 +1,24 @@
 <template>
   <q-page class="q-pa-md q-gutter-md">
     <q-card>
-      <q-card-section class="text-bold">
-        Backup
-      </q-card-section>
+      <q-card-section class="text-bold"> Backup </q-card-section>
       <q-separator />
       <q-card-section>
+        <p>
         You can save a backup file from all your data (workouts, exercises,
-        logs) to your local filesystem. Backup files are saved in your document
-        folder.
-        <span class="text-warning text-bold">Will overwrite existing filenames!</span>
-        <q-input v-model="backupName" label="Backup name" @focus="$event.target.select()">
+        logs) to your local filesystem. Backup files will be saved here:
+        </p>
+        <p class="text-grey" style="overflow-wrap: break-word">
+        {{ pathUri }}
+        </p>
+        <p class="text-warning text-italic"
+          >Existing files will be overwritten without asking!</p
+        >
+        <q-input
+          v-model="backupName"
+          label="Backup name"
+          @focus="$event.target.select()"
+        >
           <template #after>
             <q-btn icon="save" flat @click="saveBackup" />
           </template>
@@ -19,10 +27,14 @@
     </q-card>
 
     <q-card>
-      <q-card-section class="text-bold">
-        Restore
-      </q-card-section>
+      <q-card-section class="text-bold"> Restore </q-card-section>
       <q-separator />
+      <q-card-section>
+        Chose a backup from the list and hit the restore button.
+        <span class="text-warning text-italic"
+          >Beware that any data will be overwritten!</span
+        >
+      </q-card-section>
       <q-card-section>
         <q-list bordered>
           <q-item>
@@ -40,12 +52,20 @@
                 {{ backupItem.split('.')[0] }}
               </q-item-section>
               <q-item-section side>
-                
-                <q-btn icon="remove_circle" flat dense @click="confirmDelete(backupItem)" />
+                <q-btn
+                  icon="remove_circle"
+                  flat
+                  dense
+                  @click="confirmDelete(backupItem)"
+                />
               </q-item-section>
               <q-item-section side>
-                <q-btn icon="restore" flat dense @click="confirmRestore(backupItem)" />
-                
+                <q-btn
+                  icon="restore"
+                  flat
+                  dense
+                  @click="confirmRestore(backupItem)"
+                />
               </q-item-section>
             </q-item>
             <q-separator v-if="backupList.length > 1" inset />
@@ -55,29 +75,36 @@
           </q-item>
         </q-list>
       </q-card-section>
-    </q-card>
-
-    <!-- <q-card>
+      <q-separator />
+      <q-card-section class="text-bold">
+        Select backup file manually
+      </q-card-section>
       <q-card-section>
-        Select a backup file (*.json) to restore it. Restart needed to take
-        effect.
+        If your desired backup file is not listed above, you can manually select
+        a file from your filesystem.
       </q-card-section>
       <q-card-section>
         <q-file
           v-model="file"
           label="Pick Backup file (*.json)"
           outlined
-          @change="restore"
+          @change="restoreManually"
+          accept=".json"
         >
           <template #prepend>
             <q-icon name="attach_file" />
           </template>
           <template #append>
-            <q-btn :disable="!file" icon="restore" @click="restore" flat />
+            <q-btn
+              :disable="!file"
+              icon="restore"
+              @click="restoreManually"
+              flat
+            />
           </template>
         </q-file>
       </q-card-section>
-    </q-card> -->
+    </q-card>
   </q-page>
 </template>
 
@@ -90,6 +117,7 @@ import {
   Encoding,
   WriteFileResult,
   ReadFileResult,
+  GetUriResult,
 } from '@capacitor/filesystem'
 //import { QFile } from 'quasar'
 
@@ -101,6 +129,7 @@ export default defineComponent({
       file: null as Blob | null,
       backupList: [] as string[],
       backupName_: null as string | null,
+      pathUri: '',
     }
   },
 
@@ -117,39 +146,52 @@ export default defineComponent({
         this.backupName_ = backupName
       },
     },
+    /* pathUri():string {
+      this.getUri(this.key).then((uri:GetUriResult) => {
+        return uri
+      }).catch(console.error)
+    } */
   },
 
   mounted() {
     this.updateBackupList()
+    this.getUri(this.key)
+      .then((uriResult: GetUriResult) => {
+        this.pathUri = uriResult.uri
+      })
+      .catch(console.error)
   },
 
   methods: {
-    confirmRestore(filename:string) {
+    confirmRestore(filename: string) {
       this.$q.notify({
-        message:'Do you really want to restore this backup? It will completely overwrite any current data.',
-        color:'warning',
-        icon:'warning',
+        message:
+          'Do you really want to restore this backup? It will completely overwrite any current data.',
+        color: 'warning',
+        icon: 'warning',
         actions: [
           {
-            label:'confirm',
-            handler: () => {this.restoreBackup(filename)}
-          }
-        ]
-
+            label: 'confirm',
+            handler: () => {
+              this.restoreBackup(filename)
+            },
+          },
+        ],
       })
     },
-    confirmDelete(filename:string) {
+    confirmDelete(filename: string) {
       this.$q.notify({
-        message:'Do you really want to delete this backup?',
-        color:'warning',
-        icon:'warning',
+        message: 'Do you really want to delete this backup?',
+        color: 'warning',
+        icon: 'warning',
         actions: [
           {
-            label:'confirm',
-            handler: () => {this.deleteBackup(filename)}
-          }
-        ]
-
+            label: 'confirm',
+            handler: () => {
+              this.deleteBackup(filename)
+            },
+          },
+        ],
       })
     },
     restoreBackup(fileName: string) {
@@ -175,22 +217,34 @@ export default defineComponent({
           console.error(err)
           this.$q.notify('There was an error saving the file.')
         })
-      /* const blob = new Blob([backup], { type: 'application/json' })
-      const link = document.createElement('a')
-      link.href = URL.createObjectURL(blob)
-      link.download = label
-      link.click()
-      URL.revokeObjectURL(link.href) */
     },
 
-    restore() {
-      console.log('restore', this.file)
+    //the following three functions are for restoring data from the datapicker
+    confirmManual() {
+      this.$q.notify({
+        message:
+          'Do you really want to restore this backup? It will completely overwrite any current data.',
+        color: 'warning',
+        icon: 'warning',
+        actions: [
+          {
+            label: 'confirm',
+            handler: () => {
+              this.restoreManually()
+            },
+          },
+        ],
+      })
+    },
+    restoreManually() {
+      //console.log('restore', this.file)
       if (!this.file) throw new Error('file is null')
       this.loadFileToString(this.file)
         .then((fileString: string) => {
           localStorage.setItem(this.key, fileString)
-          console.log('filestring', fileString)
+          //console.log('filestring', fileString)
           this.$q.notify('Restored backup.')
+          this.$router.go(0)
         })
         .catch(console.error)
     },
@@ -207,6 +261,7 @@ export default defineComponent({
         fr.readAsText(file)
       })
     },
+    //
 
     updateBackupList() {
       //console.log(this.listFilesFromDirectory(this.key))
@@ -217,12 +272,14 @@ export default defineComponent({
         .catch(console.error)
     },
 
-    deleteBackup(filename:string) {
-      this.deleteFile(this.key + '/' + filename).then(result => {
-        console.log(result)
-        this.updateBackupList()
-      }).catch(console.error)
-    }
+    deleteBackup(filename: string) {
+      this.deleteFile(this.key + '/' + filename)
+        .then((result) => {
+          console.log(result)
+          this.updateBackupList()
+        })
+        .catch(console.error)
+    },
   },
 
   setup() {
@@ -251,9 +308,16 @@ export default defineComponent({
       })
     }
 
-    const deleteFile = async (path:string) => {
+    const deleteFile = async (path: string) => {
       return await Filesystem.deleteFile({
-        path:path,
+        path: path,
+        directory: Directory.Documents,
+      })
+    }
+
+    const getUri = async (path: string) => {
+      return await Filesystem.getUri({
+        path: path,
         directory: Directory.Documents,
       })
     }
@@ -262,6 +326,7 @@ export default defineComponent({
       writeFile,
       readFile,
       deleteFile,
+      getUri,
     }
   },
 })
