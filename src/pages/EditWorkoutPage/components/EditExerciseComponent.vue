@@ -71,10 +71,13 @@ export default defineComponent({
     /**
      * this is a workaround for the slide stuck bug (#WA-44)
      * it makes that the slide goes back
+     * 
+     * TOTO: obsolete since this bug is fixed.
      */
     ;(this.$refs.exerciseSlider as QSlideItem).reset()
   },
   mounted() {
+    console.log('mounted')
     //if this is a new exercise (cause exercises.push({preset:preset}))
     if (
       this.exercise.id === undefined &&
@@ -82,19 +85,21 @@ export default defineComponent({
       this.exercise.time === undefined
     ) {
       this.exercise = this.loadDefaults(this.exercise.preset || 'timer')
+      //console.log(this.loadDefaults(this.exercise.preset || 'timer'),this.exercise)
     }
     //if no id is yet set. (preset 'rest' id === undefined, so no selectDialog pops up)
-    if (this.exercise.id === '') this.showExerciseSelect = true
+    if (this.exercise.preset !== 'rest' && !this.exercise.id) this.showExerciseSelect = true
 
-    this.$watch(
-      'exercise.id',
+    /* this.$watch(
+      'exercise',
       () => {
         console.log('exercise change')
 
-        this.showExerciseSelect = false
+        //this.showExerciseSelect = false
       },
       { deep: true }
-    )
+    ) */
+    this.$emit('update:modelValue', this.exercise)
     this.$watch(
       'modelValue',
       (modelValue: ExerciseInterface) => {
@@ -106,6 +111,8 @@ export default defineComponent({
       'exercise',
       (exercise: ExerciseInterface) => {
         this.$emit('update:modelValue', exercise)
+        console.log('updated exercise.',exercise)
+        this.showExerciseSelect = false
       },
       { deep: true }
     )
@@ -121,7 +128,7 @@ export default defineComponent({
         },
         rest: {
           preset: 'rest',
-          id: undefined,
+          id: '',
           reps: undefined,
           time: 30,
         },
@@ -138,10 +145,13 @@ export default defineComponent({
           time: 30,
         },
       }
-      return _.cloneDeepWith({
-        key:nanoid(6),
+      
+      const defaults = {
+        key: this.exercise.key || nanoid(6),
         ...exerciseDefaults[_preset]
-        })
+        }
+        console.log('loadDefault', defaults)
+      return _.cloneDeepWith(defaults)
     },
   },
   computed: {
