@@ -1,15 +1,10 @@
 import { Model } from '@vuex-orm/core'
+import { settingValue } from 'src/static/userSettings'
 
 
-export type key=string
-export type value= boolean | number | undefined
-
-export const settings_defaults:{[key:string]:value} = {
-  'workout/skipLastRest':true,
-}
 export default class SettingsModel extends Model {
-  key!: key
-  value!: value
+  key!: string
+  value!: settingValue
 
   static primaryKey = 'key'
 
