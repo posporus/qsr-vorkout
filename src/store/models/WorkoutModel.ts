@@ -1,13 +1,13 @@
 import { Model } from '@vuex-orm/core'
 //import WorkoutLogModel from './WorkoutLogModel'
 import { nanoid } from 'nanoid'
-import { SetInterface, WorkoutInterface } from 'src/types'
+import { SetNeat } from 'src/types'
 import { WorkoutLogModel } from '.'
 
-export default class WorkoutModel extends Model implements WorkoutInterface {
+export default class WorkoutModel extends Model {
   id!: string
   name!: string
-  sets!: SetInterface[]
+  sets!: SetNeat[]
   workout_logs!: WorkoutLogModel[]
   //logs!: WorkoutLogModel
 

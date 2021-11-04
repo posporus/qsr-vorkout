@@ -6,9 +6,7 @@ import Preset, { preset } from './Preset';
 import SelectInterface from './SelectInterface';
 import {status} from './status'
 
-import WorkoutInterface from './WorkoutInterface';
-import SetInterface from './SetInterface'
-import ExerciseInterface from './ExerciseInterface';
+
 
 import CategoryOptionInterface from './CategoryOptionInterface';
 import FilterButtonOption from './FilterButtenOption';
@@ -26,9 +24,6 @@ export {
     preset,
     SelectInterface,
     status,
-    WorkoutInterface,
-    SetInterface,
-    ExerciseInterface,
     CategoryOptionInterface,
     FilterButtonOption,
     MenuSectionEntry

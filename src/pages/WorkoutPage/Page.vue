@@ -9,13 +9,13 @@
 <script lang="ts">
 import DisplayWorkoutComponent from './components/DisplayWorkoutComponent.vue'
 import { defineComponent } from 'vue'
-import { WorkoutInterface } from 'src/types'
 import WorkoutModel from 'src/store/models/WorkoutModel'
+import { WorkoutNeat } from 'src/types'
 export default defineComponent({
   name: 'WorkoutPage',
   data() {
     return {
-      workoutData: {} as WorkoutInterface,
+      workoutData: {} as WorkoutNeat,
     }
   },
   props: {
@@ -31,7 +31,7 @@ export default defineComponent({
       this.workoutData = {
         id: workout.$id || '',
         name: workout?.name || '',
-        sets: workout?.sets || '',
+        sets: workout?.sets || [],
       }
     }
   },

@@ -66,12 +66,11 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, ref, Ref } from 'vue'
+import { defineComponent, ref, Ref, PropType } from 'vue'
 import SelectExerciseComponent from './SelectExerciseComponent.vue'
-import { ExerciseInterface } from 'src/types'
 import FilterByButton from 'src/components/FilterByButton.vue'
 import { CategoryModel } from 'src/store/models'
-import { FilterButtonOption } from 'src/types'
+import { ExerciseNeat, FilterButtonOption } from 'src/types'
 export default defineComponent({
   components: { SelectExerciseComponent, FilterByButton },
   name: 'SelectDialogComponent',
@@ -85,7 +84,7 @@ export default defineComponent({
   },
   props: {
     modelValue: {
-      type: Object,
+      type: Object as PropType<ExerciseNeat>,
       required: true,
     },
     show: {
@@ -117,14 +116,14 @@ export default defineComponent({
   mounted() {
     this.$watch(
       'modelValue',
-      (modelValue: ExerciseInterface) => {
+      (modelValue: ExerciseNeat) => {
         this.exercise = modelValue
       },
       { deep: true }
     )
     this.$watch(
       'exercise',
-      (exercise: ExerciseInterface) => {
+      (exercise: ExerciseNeat) => {
         this.$emit('update:modelValue', exercise)
       },
       { deep: true }
@@ -140,7 +139,7 @@ export default defineComponent({
     })
   },
   setup(props) {
-    const exercise: Ref<ExerciseInterface> = ref(props.modelValue)
+    const exercise: Ref<ExerciseNeat> = ref(props.modelValue)
     return {
       exercise,
     }

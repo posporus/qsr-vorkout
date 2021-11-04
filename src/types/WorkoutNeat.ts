@@ -1,6 +1,6 @@
 import { SetNeat } from '.';
 export default interface WorkoutNeat {
-    id:string
+    id?:string
     name:string
     sets:Array<SetNeat>
 }

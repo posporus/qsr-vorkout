@@ -33,12 +33,11 @@
 </template>
 
 <script lang="ts">
-import { ExerciseInterface } from 'src/types'
-import { defineComponent, ref, Ref } from 'vue'
+import { defineComponent, ref, Ref, PropType } from 'vue'
 import ExerciseEditHeaderComponent from './EditExerciseHeaderComponent.vue'
 import SelectDialogComponent from './SelectDialogComponent.vue'
 import presets from 'src/static/presets'
-import { Preset, preset } from 'src/types'
+import { ExerciseNeat, Preset, preset } from 'src/types'
 import { ExerciseModel } from 'src/store/models'
 import { Item } from '@vuex-orm/core'
 import TimeInputComponent from 'src/components/TimeInputComponent.vue'
@@ -46,6 +45,7 @@ import InputSpinnerComponent from 'components/InputSpinnerComponent.vue'
 import { QSlideItem } from 'quasar'
 import _ from 'lodash'
 import { nanoid } from 'nanoid'
+
 
 export default defineComponent({
   name: 'EditExerciseCompoenent',
@@ -62,7 +62,7 @@ export default defineComponent({
   },
   props: {
     modelValue: {
-      type: Object,
+      type: Object as PropType<ExerciseNeat>,
       required: true,
     },
   },
@@ -80,7 +80,7 @@ export default defineComponent({
     console.log('mounted')
     //if this is a new exercise (cause exercises.push({preset:preset}))
     if (
-      this.exercise.id === undefined &&
+      this.exercise.id === '' &&
       this.exercise.reps === undefined &&
       this.exercise.time === undefined
     ) {
@@ -90,26 +90,17 @@ export default defineComponent({
     //if no id is yet set. (preset 'rest' id === undefined, so no selectDialog pops up)
     if (this.exercise.preset !== 'rest' && !this.exercise.id) this.showExerciseSelect = true
 
-    /* this.$watch(
-      'exercise',
-      () => {
-        console.log('exercise change')
-
-        //this.showExerciseSelect = false
-      },
-      { deep: true }
-    ) */
     this.$emit('update:modelValue', this.exercise)
     this.$watch(
       'modelValue',
-      (modelValue: ExerciseInterface) => {
+      (modelValue: ExerciseNeat) => {
         this.exercise = modelValue
       },
       { deep: true }
     )
     this.$watch(
       'exercise',
-      (exercise: ExerciseInterface) => {
+      (exercise: ExerciseNeat) => {
         this.$emit('update:modelValue', exercise)
         console.log('updated exercise.',exercise)
         this.showExerciseSelect = false
@@ -118,8 +109,8 @@ export default defineComponent({
     )
   },
   methods: {
-    loadDefaults(_preset: preset): ExerciseInterface {
-      const exerciseDefaults: { [key: string]: ExerciseInterface } = {
+    loadDefaults(_preset: preset): ExerciseNeat {
+      const exerciseDefaults: { [key: string]: ExerciseNeat } = {
         timer: {
           preset: 'timer',
           id: '',
@@ -146,7 +137,7 @@ export default defineComponent({
         },
       }
       
-      const defaults = {
+      const defaults:ExerciseNeat = {
         key: this.exercise.key || nanoid(6),
         ...exerciseDefaults[_preset]
         }
@@ -163,7 +154,7 @@ export default defineComponent({
     },
   },
   setup(props) {
-    const exercise: Ref<ExerciseInterface> = ref(props.modelValue)
+    const exercise: Ref<ExerciseNeat> = ref(props.modelValue)
     return {
       exercise,
     }

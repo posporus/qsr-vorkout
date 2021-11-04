@@ -60,12 +60,13 @@ import draggable from 'vuedraggable'
 import EditSetComponent from './components/EditSetComponent.vue'
 import { WorkoutModel } from 'src/store/models'
 import { nanoid } from 'nanoid'
-import { SetInterface, WorkoutInterface } from 'src/types'
+import { SetNeat, WorkoutNeat } from 'src/types'
+import { Workout } from 'src/classes'
 
 export default defineComponent({
   data() {
     return {
-      workout: {} as WorkoutInterface,
+      workout: {} as WorkoutNeat,
       drag: false,
       savedWorkout: false,
     }
@@ -100,9 +101,7 @@ export default defineComponent({
     )
   },
   methods: {
-    /* selectInputValue(event:EventListenerObject){
-      event.target.select()
-    }, */
+    
     saveWorkout() {
       /**
        * if workout with id exists
@@ -150,7 +149,7 @@ export default defineComponent({
         }
       }
     },
-    loadSetDefaults(): SetInterface {
+    loadSetDefaults(): SetNeat {
       ///return _.cloneDeepWith(this.set_defaults)
       return _.cloneDeepWith({
         sets: 3,
@@ -158,7 +157,7 @@ export default defineComponent({
         exercises: [],
       })
     },
-    loadWorkoutDefaults(): WorkoutInterface {
+    loadWorkoutDefaults(): WorkoutNeat {
       return _.cloneDeepWith({
         name: 'Unnamed Workout',
         sets: [this.loadSetDefaults()],
@@ -171,21 +170,13 @@ export default defineComponent({
       else return this.id
     },
   },
-  /*
   setup() {
-    const set_defaults: SetInterface = {
-      sets: 3,
-      exercises: [],
-    }
-    const workout_defaults: WorkoutInterface = {
-      name: 'Unnamed Workout',
-      sets: [{ sets: 3, exercises: [{ preset: 'rest' }] }],
-    }
+    const workoutClass = new Workout()
     return {
-      set_defaults,
-      workout_defaults,
+      workoutClass
     }
-  },*/
+  }
+  
 })
 </script>
 

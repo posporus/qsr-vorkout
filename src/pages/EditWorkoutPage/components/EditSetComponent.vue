@@ -65,7 +65,7 @@
 </template>
 
 <script lang="ts">
-import { SetInterface, ExerciseInterface, preset } from 'src/types'
+import { ExerciseNeat, preset, SetNeat } from 'src/types'
 import { defineComponent } from 'vue'
 import draggable from 'vuedraggable'
 import _ from 'lodash'
@@ -73,16 +73,12 @@ import EditExerciseComponent from './EditExerciseComponent.vue'
 import ButtonMenuComponent from './ButtonMenuComponent.vue'
 import { nanoid } from 'nanoid'
 
-//import SelectDialogComponent from './SelectDialogComponent.vue'
-//import { Workout } from 'src/classes'
-
 export default defineComponent({
   name: 'EditSetCompoenent',
   data() {
     return {
-      set: this.modelValue as SetInterface,
+      set: this.modelValue as SetNeat,
       dragThis: false,
-      //showExerciseSelect: false
     }
   },
   components: {
@@ -111,15 +107,14 @@ export default defineComponent({
     })
     this.$watch(
       'modelValue',
-      (modelValue: SetInterface) => {
+      (modelValue: SetNeat) => {
         this.set = modelValue
       },
       { deep: true }
     )
     this.$watch(
       'set',
-      (set: SetInterface) => {
-        //console.log(JSON.stringify(set, null, 2))
+      (set: SetNeat) => {
         this.$emit('update:modelValue', set)
       },
       { deep: true }
@@ -130,8 +125,9 @@ export default defineComponent({
       this.set.exercises.splice(index, 1)
       //delete this.set.exercises[index]
     },
-    loadExerciseDefaults(preset: preset): ExerciseInterface {
+    loadExerciseDefaults(preset: preset): ExerciseNeat {
       return _.cloneDeepWith({
+        id:'',
         preset: preset,
         key: nanoid(6),
       })
