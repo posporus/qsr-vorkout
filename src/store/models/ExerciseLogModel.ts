@@ -70,4 +70,9 @@ export default class ExerciseLogModel extends Model {
     return this.preset === 'rest'
   }
 
+  public get repDuration() : number | false {
+    return this.duration && this.reps ? this.duration / this.reps : false
+  }
+  
+
 }

@@ -3,6 +3,8 @@ import { WorkoutNeat } from 'src/types'
 import Exercise from './Exercise'
 import _ from 'lodash'
 
+import { ExerciseModel } from 'src/store/models'
+
 export default class Workout {
     id:string
     _name:string
@@ -31,6 +33,23 @@ export default class Workout {
     public get unwrapped():Array<Exercise> {
         return this.unwrap()
     }
+
+    
+    public get estimatedDuration() : {duration:number,estimated:boolean} {
+        //let duration = 0
+        console.log('estimatedDuration,unwrapped',this.unwrapped)
+        const estimated = {
+            duration:0,
+            estimated:false
+        }
+        this.unwrapped.forEach(exericse => {
+            console.log('exercise time', exericse.time.seconds)
+            const time:number | false = exericse.time.seconds > 0 ? exericse.time.seconds*1000 : false
+            estimated.duration += time || ExerciseModel.find(exericse.id)?.averageRepDuration(3) || 0
+            if(!time) estimated.estimated = true
+        })
+        return estimated
+    }
     
     /**
      * Methods
@@ -51,7 +70,7 @@ export default class Workout {
         }
     }
     importWorkout(workout:WorkoutNeat) {
-        this.id = workout.id,
+        this.id = workout.id || '',
         this.name = workout.name,
         workout.sets.forEach((neatSet) => {
             const set = new Set
