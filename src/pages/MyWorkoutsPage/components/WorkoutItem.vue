@@ -51,7 +51,6 @@ import WorkoutModel from 'src/store/models/WorkoutModel'
 import { Item } from '@vuex-orm/core'
 import { Workout } from 'src/classes'
 import { toRoundedMinutes } from 'src/utility'
-import { min } from 'lodash'
 
 export default defineComponent({
   name: 'WorkoutItem',
