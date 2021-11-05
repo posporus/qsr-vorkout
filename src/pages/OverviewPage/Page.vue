@@ -1,11 +1,12 @@
 <template>
   <q-page class="q-pa-md q-gutter-md">
-
+    <q-card>
+      <q-btn flat color="dark" icon="settings" @click="$router.push({name:'settings'})" />
+    </q-card>
     <q-card v-if="lastWorkout">
       <q-card-section>
-        Your last Workout
-        ({{ $dayjs(lastWorkout?.started).fromNow() }})
-        <workout-log-item :logItem="lastWorkout"/>
+        Your last Workout ({{ $dayjs(lastWorkout?.started).fromNow() }})
+        <workout-log-item :logItem="lastWorkout" />
       </q-card-section>
     </q-card>
 
@@ -45,10 +46,13 @@ export default defineComponent({
   components: { ActivityOverTimeChart, DaysActivityOverview, WorkoutLogItem },
   name: 'OverviewPage',
   computed: {
-    lastWorkout():Item<WorkoutLogModel> {
-      return WorkoutLogModel.query().orderBy('started','desc').withAllRecursive(2).first()
-    }
-  }
+    lastWorkout(): Item<WorkoutLogModel> {
+      return WorkoutLogModel.query()
+        .orderBy('started', 'desc')
+        .withAllRecursive(2)
+        .first()
+    },
+  },
 })
 </script>
 

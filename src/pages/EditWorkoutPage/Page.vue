@@ -1,6 +1,6 @@
 <template>
   <q-page class="q-pa-md q-gutter-md">
-    <q-input label="Name" v-model="workout.name" autofocus ref="self" @focus="$event.target.select()" />
+    <q-input label="Name" v-model="workout.name" ref="self" @focus="$event.target.select()" />
     <q-separator />
 
     <q-list>

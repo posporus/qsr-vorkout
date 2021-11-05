@@ -19,7 +19,7 @@
         <q-btn
           label="Backup/Restore"
           color="amber"
-          @click="$router.push({ path: '/backup' })"
+          @click="$router.push({ name: 'backup' })"
         />
       </q-card-actions>
     </q-card>

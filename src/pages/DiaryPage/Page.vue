@@ -1,8 +1,6 @@
 <template>
   <q-page>
 
-
-    
     <q-list
       class="column"
       style="position: absolute; top: 0px; bottom: 0px; width: 100%"

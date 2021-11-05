@@ -1,64 +1,47 @@
 <template>
   <q-layout view="lHh Lpr lFf">
-    <q-header reveal bordered>
-      <q-toolbar class="white font-serif">
-        <q-btn
-          flat
-          dense
-          round
-          icon="menu"
-          aria-label="Menu"
-          @click="toggleLeftDrawer"
-        />
-
-        <q-toolbar-title>
-          {{ $route.meta?.title || 'mamood' }}
-        </q-toolbar-title>
-
-        <display-version @click="$router.push({ path: '/changelog' })" />
-      </q-toolbar>
-    </q-header>
-    <q-drawer v-model="leftDrawerOpen" show-if-above bordered class="white">
-      <main-menu v-model="leftDrawerOpen" />
-    </q-drawer>
     <q-page-container>
-      <router-view v-slot="{ Component }">
-        <transition
-          enter-active-class="animated fadeIn"
-          leave-active-class="animated fadeOut"
-          appear
-          :duration="150"
-        >
-          <component :is="Component" />
-        </transition>
-      </router-view>
+      <q-page>
+        <q-tab-panels v-model="currentPanel" animated>
+          <q-tab-panel name="tab">
+            <tab-layout/>
+          </q-tab-panel>
+          <q-tab-panel name="sub">
+            <sub-layout/>
+          </q-tab-panel>
+        </q-tab-panels>
+      </q-page>
     </q-page-container>
   </q-layout>
 </template>
 
 <script lang="ts">
-import MainMenu from './components/MainMenu.vue'
-import DisplayVersion from 'components/DisplayVersion.vue'
-import { defineComponent, ref } from 'vue'
+import { defineComponent, watch, Ref, ref } from 'vue'
+import { useRoute } from 'vue-router'
+
+import SubLayout from 'src/layouts/SubLayout'
+import TabLayout from 'src/layouts/TabLayout'
 
 export default defineComponent({
   name: 'MainLayout',
-
   components: {
-    MainMenu,
-    DisplayVersion,
-    //
+    SubLayout,
+    TabLayout
   },
-
   setup() {
-    const leftDrawerOpen = ref(false)
+    const route = useRoute()
+    const currentPanel: Ref<'sub' | 'tab'> = ref('tab')
 
+    watch(
+      () => route.matched,
+      (matched) => {
+        currentPanel.value = matched[1]?.path === '/drawer/' ? 'sub' : 'tab'
+        console.log('route chna',currentPanel.value)
+      }
+    )
     return {
-      leftDrawerOpen,
-      toggleLeftDrawer() {
-        leftDrawerOpen.value = !leftDrawerOpen.value
-      },
+      currentPanel
     }
-  },
+  }
 })
 </script>
