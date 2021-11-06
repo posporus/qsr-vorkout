@@ -21,8 +21,8 @@ const routes: RouteRecordRaw[] = [
         component: {},
       },
       {
-        path: '/drawer/',
-        component: {},
+        path: '/sub/',
+        component: () => import('src/layouts/SubLayout'),
         children: [
           {
             path: 'edit/:id',

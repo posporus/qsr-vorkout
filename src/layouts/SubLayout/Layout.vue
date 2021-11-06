@@ -1,7 +1,7 @@
 <template>
-  <q-layout view="lHh Lpr lFf">
+  <q-layout view="hHh lpR fFf">
     <q-page-container>
-      <router-view/>
+      <router-view />
     </q-page-container>
     <q-footer>
       <q-toolbar>
@@ -18,6 +18,5 @@ import { defineComponent } from 'vue'
 
 export default defineComponent({
   name: 'SubLayout',
-  
 })
 </script>
