@@ -31,6 +31,8 @@ module.exports = configure(function (ctx) {
     boot: [
       'dayjs',
       'apexcharts',
+      'global-components',
+      'transitions',
     ],
 
     // https://v2.quasar.dev/quasar-cli/quasar-conf-js#Property%3A-css
@@ -60,7 +62,7 @@ module.exports = configure(function (ctx) {
       //vueRouterMode: 'history',
 
       // transpile: false,
-
+      devtool: 'source-map',
       // Add dependencies for transpiling with Babel (Array of string/regex)
       // (from node_modules, which are by default not transpiled).
       // Applies only if "transpile" is set to true.
