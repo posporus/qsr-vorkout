@@ -1,20 +1,23 @@
 <template>
-  <q-page class="q-pa-md q-gutter-md">
+  <g-page title="My Workouts">
     <q-card>
       <q-list bordered>
         <workout-item v-for="workoutItem in myWorkouts" :workout="workoutItem" :key="workoutItem.$id" separator/>
+        
       </q-list>
     </q-card>
-
-    <q-page-sticky position="bottom-right" :offset="[18, 18]">
+    <div v-if="myWorkouts.length < 1">
+          Create a workout!
+        </div>
+    <g-sticky position="bottom-right" :offset="[68, 18]">
       <q-btn
         @click="$router.push({ name: 'edit', params: { id: 'new' } })"
         fab
         icon="add"
         color="accent"
       />
-    </q-page-sticky>
-  </q-page>
+    </g-sticky>
+  </g-page>
 </template>
 
 <script lang="ts">

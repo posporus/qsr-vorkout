@@ -4,24 +4,25 @@ const routes: RouteRecordRaw[] = [
   {
     path: '/',
     component: () => import('src/layouts/MainLayout'),
+    redirect:'overview',
     children: [
       {
         path: 'my-workouts',
         name: 'workouts',
-        component: {},
-      },
-      {
-        path: 'diary',
-        name: 'diary',
-        component: {},
+        component: () => import('src/pages/MyWorkoutsPage'),
       },
       {
         path: 'overview',
         name: 'overview',
-        component: {},
+        component: () => import('src/pages/OverviewPage'),
       },
       {
-        path: '/sub/',
+        path: 'diary',
+        name: 'diary',
+        component: () => import('src/pages/DiaryPage'),
+      },
+      {
+        path: 'sub/',
         component: () => import('src/layouts/SubLayout'),
         children: [
           {
@@ -70,15 +71,16 @@ const routes: RouteRecordRaw[] = [
             props: true
           },
           {
-            path: 'settings',
+            path: 'settings/',
             name: 'settings',
             meta: {
               title: 'Settings'
             },
-            component: () => import('src/pages/SettingsPage')
+            component: () => import('src/pages/SettingsPage'),
+           
           },
           {
-            path: 'changelog',
+            path: 'changelog/',
             name: 'changelog',
             meta: {
               title: 'Changelog'
@@ -86,13 +88,14 @@ const routes: RouteRecordRaw[] = [
             component: () => import('src/pages/ChangelogPage')
           },
           {
-            path: 'backup',
+            path: 'backup/',
             name: 'backup',
             meta: {
               title: 'Backup/Restore'
             },
             component: () => import('src/pages/BackupPage')
           },
+          
      
         ],
       },

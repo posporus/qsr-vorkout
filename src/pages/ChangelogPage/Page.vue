@@ -1,10 +1,10 @@
 <template>
-  <q-page>
+  <g-page hideHeader>
     <q-card>
       <q-card-section v-html="parse"/>
     </q-card>
   
-  </q-page>
+  </g-page>
 </template>
 
 <script lang="ts">

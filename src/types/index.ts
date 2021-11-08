@@ -4,7 +4,10 @@ import SetNeat from './SetNeat';
 import WorkoutNeat from './WorkoutNeat';
 import Preset, { preset } from './Preset';
 import SelectInterface from './SelectInterface';
-import {status} from './status'
+import { status } from './status'
+
+import type { navigationDirection } from './navigationDirection.type'
+import { DotMenuItem } from './DotMenuItem.interface'
 
 
 
@@ -26,5 +29,7 @@ export {
     status,
     CategoryOptionInterface,
     FilterButtonOption,
-    MenuSectionEntry
+    MenuSectionEntry,
+    navigationDirection,
+    DotMenuItem
 }

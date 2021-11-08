@@ -1,5 +1,5 @@
 <template>
-  <q-page>
+  <g-page>
     <q-card>
       <q-list bordered>
         <exercise-item-component v-for="(exercise) in myExercises" :key="exercise.$id" :exercise="exercise" />
@@ -15,7 +15,7 @@
       />
     </q-page-sticky>
 
-  </q-page>
+  </g-page>
 </template>
 
 <script lang="ts">

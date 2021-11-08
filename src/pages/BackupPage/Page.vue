@@ -1,5 +1,5 @@
 <template>
-  <q-page class="q-pa-md q-gutter-md">
+  <g-page title="Backup/Restore">
     <q-card>
       <q-card-section class="text-bold"> Backup </q-card-section>
       <q-separator />
@@ -105,7 +105,7 @@
         </q-file>
       </q-card-section>
     </q-card>
-  </q-page>
+  </g-page>
 </template>
 
 <script lang="ts">

@@ -1,12 +1,12 @@
 <template>
-  <q-page>
+  <g-page>
     <q-card>
       <q-form>
         <q-input label="Name" v-model="exercise.name" />
       </q-form>
       <q-btn @click="saveExercise" type="submit">save</q-btn>
     </q-card>
-  </q-page>
+  </g-page>
 </template>
 
 <script lang="ts">

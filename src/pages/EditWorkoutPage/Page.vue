@@ -1,5 +1,5 @@
 <template>
-  <q-page class="q-pa-md q-gutter-md">
+  <g-page title="Edit Workout">
     <q-input label="Name" v-model="workout.name" ref="self" @focus="$event.target.select()" />
     <q-separator />
 
@@ -50,7 +50,7 @@
         :color="savedWorkout ? 'green' : 'red'"
       />
     </q-page-sticky>
-  </q-page>
+  </g-page>
 </template>
 
 <script lang="ts">

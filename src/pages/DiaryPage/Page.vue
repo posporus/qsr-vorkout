@@ -1,36 +1,33 @@
 <template>
-  <q-page>
-
-    <q-list
-      class="column"
-      style="position: absolute; top: 0px; bottom: 0px; width: 100%"
-    >
-      <q-item>
+  <g-page title="Diary">
+    <template #header>
+      <q-toolbar>
+        <calendar-component v-model="date" />
         
-        <q-item-section>
-          <calendar-component v-model="date" />
-        </q-item-section>
+        <q-space />
+        <q-toolbar-title>Diary</q-toolbar-title>
+        <q-space />
+        
 
-        <q-item-section side>
-          <sort-by-button :items="[
+        <sort-by-button
+          :items="[
             {
-              label:'Date',
-              condition:'started'
+              label: 'Date',
+              condition: 'started',
             },
             {
-              label:'Duration',
-              condition:'duration'
-            }
+              label: 'Duration',
+              condition: 'duration',
+            },
           ]"
-          v-model="sortBy"/>
-        </q-item-section>
-      </q-item>
+          v-model="sortBy"
+        />
+      </q-toolbar>
+    </template>
 
-      <q-separator />
 
-      <workout-logs-list :sort-by="sortBy" :day="date" />
-    </q-list>
-  </q-page>
+    <workout-logs-list :sort-by="sortBy" :day="date" />
+  </g-page>
 </template>
 
 <script lang="ts">
@@ -41,7 +38,7 @@ import WorkoutLogsList from 'src/components/WorkoutLogsList.vue'
 import SortByButton from 'components/SortByButton.vue'
 
 export default defineComponent({
-  components: { CalendarComponent, WorkoutLogsList,SortByButton },
+  components: { CalendarComponent, WorkoutLogsList, SortByButton },
   name: 'DiaryPage',
   data() {
     return {

@@ -1,5 +1,5 @@
 <template>
-  <q-page class="q-pa-md q-gutter-md">
+  <g-page title="Settings">
     <q-card>
       <q-card-section>
         <q-list bordered>
@@ -23,7 +23,7 @@
         />
       </q-card-actions>
     </q-card>
-  </q-page>
+  </g-page>
 </template>
 
 <script lang="ts">

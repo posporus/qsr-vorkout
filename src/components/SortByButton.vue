@@ -1,5 +1,5 @@
 <template>
-  <q-btn-dropdown flat icon="sort">
+  <q-btn-dropdown dense flat icon="sort">
     <q-list>
       <q-item dense>
         <q-item-section>
@@ -7,7 +7,6 @@
         </q-item-section>
       </q-item>
       <q-separator />
-      <!-- #ITEM -->
 
       <q-item
         v-for="item in items"
@@ -23,7 +22,7 @@
           </q-item-label>
         </q-item-section>
       </q-item>
-      
+    
     </q-list>
   </q-btn-dropdown>
 </template>

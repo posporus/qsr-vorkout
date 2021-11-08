@@ -1,5 +1,5 @@
 <template>
-  <q-page class="q-pa-md">
+  <g-page hideHeader>
     <q-card>
     <q-list bordered>
 
@@ -10,7 +10,7 @@
       <workout-log-timeline-component :workout-log-detail="workoutLogDetail" />
     </q-list>
     </q-card>
-  </q-page>
+  </g-page>
 </template>
 
 <script lang="ts">

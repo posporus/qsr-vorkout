@@ -1,8 +1,8 @@
 <template>
-  <q-page class="q-pa-md q-gutter-md">
-    <q-card>
+  <g-page title="Overview">
+    <!-- <q-card>
       <q-btn flat color="dark" icon="settings" @click="$router.push({name:'settings'})" />
-    </q-card>
+    </q-card> -->
     <q-card v-if="lastWorkout">
       <q-card-section>
         Your last Workout ({{ $dayjs(lastWorkout?.started).fromNow() }})
@@ -31,7 +31,7 @@
         <activity-over-time-chart :weeks-to-show="4" />
       </q-card-section>
     </q-card>
-  </q-page>
+  </g-page>
 </template>
 
 <script lang="ts">
