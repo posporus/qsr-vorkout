@@ -1,35 +1,53 @@
 {
-    "version": "0.1.0",
-    "configurations": [
-        
-        {
-            "type": "android-webview",
-            "request": "attach",
-            "name": "Attach to Android WebView",
-            "webRoot": "${workspaceFolder}/www",
-            "sourceMaps": true,
-            "sourceMapPathOverrides": {
-                "webpack:/*": "${workspaceFolder}/*"
-            }
-        },
-        {
-            "name": "Launch Edge",
-            "request": "launch",
-            "type": "pwa-msedge",
-            "url": "http://localhost:8080",
-            //"webRoot": "${workspaceFolder}"
-        },
-        {
+  "version": "0.1.0",
+  "configurations": [
+    {
+      "type": "android-webview",
+      "request": "attach",
+      "name": "Attach to Android WebView",
+      "webRoot": "${workspaceFolder}/www",
+      "sourceMaps": true,
+      "sourceMapPathOverrides": {
+        "webpack:/*": "${workspaceFolder}/*"
+      }
+    },
+    {
+      "name": "Launch Edge",
+      "request": "launch",
+      "type": "pwa-msedge",
+      "url": "http://localhost:8080"
+      //"webRoot": "${workspaceFolder}"
+    },
+    /* {
             "type": "vscode-edge-devtools.debug",
             "request": "launch",
             "name": "Launch Microsoft Edge and open the Edge DevTools",
             "url": "http://localhost:8080",
-        },
-        {
-            "name": "Launch Chrome",
-            "request": "launch",
-            "type": "pwa-chrome",
-            "url": "http://localhost:8080",
-        },
-    ]
+        }, */
+    {
+      "name": "Launch Chrome",
+      "request": "launch",
+      "type": "pwa-chrome",
+      "url": "http://localhost:8080",
+      /* "sourceMapPathOverrides": {
+                "webpack:/*": "${workspaceFolder}/*"
+            } */
+      "webRoot": "${workspaceFolder}/src/",
+      "breakOnLoad": true,
+      "sourceMapPathOverrides": {
+        "webpack:///src/*": "${webRoot}/*"
+      }
+    },
+    {
+        "type": "chrome",
+        "request": "launch",
+        "name": "Quasar App: chrome",
+        "url": "http://localhost:8080",
+        "webRoot": "${workspaceFolder}/src",
+        "breakOnLoad": true,
+        "sourceMapPathOverrides": {
+          "webpack:///./src/*": "${webRoot}/*"
+        }
+      }
+  ]
 }
